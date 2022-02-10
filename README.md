@@ -2,6 +2,8 @@
 
 A new Flutter project.
 
+Wala pa akong maisip na magandang app name hahaha
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
