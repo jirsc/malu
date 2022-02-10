@@ -149,8 +149,8 @@ class _SearchResultState extends State<SearchResult> {
               //Ads(),
               //const SizedBox(height: 40),
               //RecommendedVendor(),
-              TrendingVendor(
-                  trendingList: Vendor.generateTrendingVendor()
+              SearchList(
+                  list: Vendor.generateTrendingVendor()
                       .where(
                         (element) => element.name.toLowerCase().contains(
                               RegExp(

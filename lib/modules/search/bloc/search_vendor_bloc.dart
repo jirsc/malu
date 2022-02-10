@@ -71,11 +71,11 @@ class SearchVendorBloc extends Bloc<SearchVendorEvent, SearchVendorState> {
   void _onSearchDone(SearchDone event, Emitter<SearchVendorState> emit) async {
     emit(state.copyWith(status: SearchVendorStatus.loading));
     try {
-      final vendors = await repository.getVendors();
+      //final vendors = await repository.getVendors();
       emit(
         state.copyWith(
             status: SearchVendorStatus.searchDone,
-            vendors: vendors,
+            //vendors: vendors,
             searchText: event.text),
       );
     } catch (error, stacktrace) {

@@ -1,24 +1,26 @@
+import 'package:doeat/modules/search/widgets/search_filter.dart';
 import 'package:doeat/utils/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:doeat/models/models.dart';
 import 'package:doeat/modules/modules.dart';
 
 class SearchList extends StatelessWidget {
-  final trendingList = Vendor.generateVendorList();
-  SearchList({Key? key}) : super(key: key);
+  final List<Vendor> list;
+  const SearchList({Key? key, required this.list}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const CategoryTitle('Trending Vendor'),
+        SearchFilter(),
+        const SizedBox(height: 30),
         ListView.separated(
             padding: const EdgeInsets.all(20),
             primary: false,
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemBuilder: (_, index) {
-              final vendor = trendingList[index];
+              final vendor = list[index];
               return GestureDetector(
                 onTap: () {
                   Navigator.of(context).push(
@@ -41,7 +43,7 @@ class SearchList extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 20),
+                      const SizedBox(width: 12),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,7 +56,7 @@ class SearchList extends StatelessWidget {
                                     vendor.name,
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 12,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -66,21 +68,22 @@ class SearchList extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            Text(
-                              vendor.distance,
+                            /* Text(
+                              vendor.author,
                               style: const TextStyle(
                                 color: Colors.grey,
                               ),
-                            ),
-                            const SizedBox(height: 15),
+                            ), */
+                            const SizedBox(height: 7),
                             Text(
                               vendor.description,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
+                                fontSize: 11,
                                 color: Colors.grey,
                               ),
                             ),
-                            const SizedBox(height: 15),
+                            const SizedBox(height: 7),
                             Row(
                               children: [
                                 _buildIconText(
@@ -88,13 +91,13 @@ class SearchList extends StatelessWidget {
                                   Colors.orange[300]!,
                                   '${vendor.score}(${vendor.ratingCount}k)',
                                 ),
-                                const SizedBox(width: 10),
-                                _buildIconText(
-                                  Icons.visibility,
-                                  Colors.white,
-                                  '${vendor.weeklyOrderCount}K Orders this week',
-                                ),
                               ],
+                            ),
+                            const SizedBox(width: 10),
+                            _buildIconText(
+                              Icons.visibility,
+                              Colors.grey,
+                              '${vendor.weeklyOrderCount}K Orders this week',
                             ),
                           ],
                         ),
@@ -104,8 +107,8 @@ class SearchList extends StatelessWidget {
                 ),
               );
             },
-            separatorBuilder: (_, index) => const SizedBox(height: 10),
-            itemCount: trendingList.length),
+            separatorBuilder: (_, index) => const SizedBox(height: 7),
+            itemCount: list.length),
       ],
     );
   }
