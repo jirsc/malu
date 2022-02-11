@@ -53,10 +53,13 @@ class _VendorScreenState extends State<VendorScreen> {
                   iconTheme: IconThemeData(
                     opacity: isCollapsed ? 1 : 0,
                   ),
-                  leading: const Icon(
-                    FontAwesome4.angle_left,
-                    color: Colors.black87,
-                    size: 25,
+                  leading: GestureDetector(
+                    onTap: () => Navigator.of(context).pop(),
+                    child: const Icon(
+                      FontAwesome4.angle_left,
+                      color: Colors.black87,
+                      size: 25,
+                    ),
                   ),
                   pinned: isCollapsed,
                   //stretch: true,

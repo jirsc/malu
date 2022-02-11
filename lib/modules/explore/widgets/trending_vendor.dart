@@ -1,3 +1,4 @@
+import 'package:doeat/modules/order/views/vendor_screen.dart';
 import 'package:doeat/utils/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:doeat/models/models.dart';
@@ -24,7 +25,7 @@ class TrendingVendor extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => DetailPage(vendor),
+                      builder: (context) => VendorScreen(vendor: vendor),
                     ),
                   );
                 },
