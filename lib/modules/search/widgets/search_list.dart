@@ -1,3 +1,4 @@
+import 'package:doeat/modules/order/views/vendor_screen.dart';
 import 'package:doeat/modules/search/widgets/search_filter.dart';
 import 'package:doeat/utils/ui/ui.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +26,9 @@ class SearchList extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => DetailPage(vendor),
-                    ),
+                        builder: (context) =>
+                            VendorScreen(vendor: vendor) //DetailPage(vendor),
+                        ),
                   );
                 },
                 child: SizedBox(

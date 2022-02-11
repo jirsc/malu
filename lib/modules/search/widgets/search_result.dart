@@ -146,11 +146,8 @@ class _SearchResultState extends State<SearchResult> {
           print(state.searchText);
           return ListView(
             children: [
-              //Ads(),
-              //const SizedBox(height: 40),
-              //RecommendedVendor(),
               SearchList(
-                  list: Vendor.generateTrendingVendor()
+                  list: vendors //Vendor.generateTrendingVendor()
                       .where(
                         (element) => element.name.toLowerCase().contains(
                               RegExp(

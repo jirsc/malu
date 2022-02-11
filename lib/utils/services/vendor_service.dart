@@ -6,7 +6,7 @@ class VendorService {
       const Vendor(
           imageUrl: 'assets/images/food1.jpg',
           name: 'McDonald\'s',
-          distance: 'MCDO',
+          distance: '3.5 km',
           score: 4.9,
           ratingCount: 107.3,
           weeklyOrderCount: 2.7,
@@ -16,7 +16,7 @@ class VendorService {
       const Vendor(
           imageUrl: 'assets/images/food4.jpg',
           name: 'Coco Fresh',
-          distance: 'COCO FRESH',
+          distance: '3.5 km',
           score: 4.9,
           ratingCount: 107.3,
           weeklyOrderCount: 2.7,
@@ -26,7 +26,7 @@ class VendorService {
       const Vendor(
           imageUrl: 'assets/images/food3.jpg',
           name: 'Mary Grace',
-          distance: 'MARY GRACE',
+          distance: '3.5 km',
           score: 4.9,
           ratingCount: 107.3,
           weeklyOrderCount: 2.7,
@@ -36,7 +36,7 @@ class VendorService {
       const Vendor(
           imageUrl: 'assets/images/food2.jpg',
           name: 'Chatime',
-          distance: 'CHATIME',
+          distance: '3.5 km',
           score: 4.9,
           ratingCount: 107.3,
           weeklyOrderCount: 2.7,
@@ -46,7 +46,7 @@ class VendorService {
       const Vendor(
           imageUrl: 'assets/images/food2.jpg',
           name: 'Conti\'s',
-          distance: 'CONTI\'S',
+          distance: '3.5 km',
           score: 4.9,
           ratingCount: 107.3,
           weeklyOrderCount: 2.7,
@@ -56,7 +56,7 @@ class VendorService {
       const Vendor(
           imageUrl: 'assets/images/food2.jpg',
           name: 'Cabalen',
-          distance: 'CABALEN',
+          distance: '3.5 km',
           score: 4.9,
           ratingCount: 107.3,
           weeklyOrderCount: 2.7,
