@@ -11,6 +11,7 @@ class SearchList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("nagrebuild si Searchlist");
     return Column(
       children: [
         SearchFilter(),

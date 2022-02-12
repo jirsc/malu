@@ -51,7 +51,9 @@ class _SearchScreenState extends State<SearchScreen> {
                   return SearchBar(
                       controller: textEditingController,
                       onChanged: (value) {
-                        searchText = value;
+                        setState(() {
+                          searchText = value;
+                        });
                         context
                             .read<SearchVendorBloc>()
                             .add(SearchTextChanged(text: value));

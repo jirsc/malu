@@ -23,30 +23,30 @@ class SearchVendorState extends Equatable {
     this.status = SearchVendorStatus.initial,
     List<Vendor>? vendors,
     List<String>? suggestionList,
-    String? searchText,
+    List<String>? searchResultList,
   })  : vendors = vendors ?? const [],
         suggestionList = suggestionList ?? const [],
-        searchText = searchText ?? '';
+        searchResultList = searchResultList ?? const [];
 
   final SearchVendorStatus status;
   final List<Vendor> vendors;
   final List<String> suggestionList;
-  final String searchText;
+  final List<String> searchResultList;
 
   @override
-  List<Object> get props => [status, vendors, suggestionList, searchText];
+  List<Object> get props => [status, vendors, suggestionList, searchResultList];
 
   SearchVendorState copyWith({
     List<Vendor>? vendors,
     SearchVendorStatus? status,
     List<String>? suggestionList,
-    String? searchText,
+    List<String>? searchResultList,
   }) {
     return SearchVendorState(
       vendors: vendors ?? this.vendors,
       status: status ?? this.status,
       suggestionList: suggestionList ?? this.suggestionList,
-      searchText: searchText ?? this.searchText,
+      searchResultList: searchResultList ?? this.searchResultList,
     );
   }
 

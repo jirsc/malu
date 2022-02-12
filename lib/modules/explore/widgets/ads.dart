@@ -26,56 +26,6 @@ class Ads extends StatelessWidget {
                     e,
                     fit: BoxFit.cover,
                   ),
-                  /* Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      Image.asset(
-                        e,
-                        fit: BoxFit.cover,
-                      ), */
-                  /* Container(
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 1,
-                        ),
-                        alignment: Alignment.bottomCenter,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          gradient: LinearGradient(
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                            colors: <Color>[
-                              Colors.black,
-                              Colors.black45,
-                              Colors.black12,
-                              Colors.black.withAlpha(0),
-                            ],
-                          ),
-                        ),
-                      ), 
-                      const Positioned(
-                        top: 20,
-                        left: 30,
-                        child: Text(
-                          'Upcoming Book',
-                          style: TextStyle(
-                            fontSize: 24,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      const Positioned(
-                        top: 55,
-                        left: 30,
-                        child: Text(
-                          '30+ new books coming with various\ngames are waiting for you',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ), 
-                    ],
-                  ),*/
                 )
                 .toList(),
           ),

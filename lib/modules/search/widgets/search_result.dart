@@ -18,7 +18,6 @@ class _SearchResultState extends State<SearchResult> {
   //final textEditingController = TextEditingController();
   final vendorRepository = VendorRepository(service: VendorService());
   List<String> suggestionList = ['test'];
-  String searchText = '';
 
   @override
   void initState() {
@@ -60,7 +59,7 @@ class _SearchResultState extends State<SearchResult> {
                 if (index == suggestionList.length - 1) {
                   context
                       .read<SearchVendorBloc>()
-                      .add(SearchDone(text: searchText));
+                      .add(SearchDone(text: widget.searchText));
                 } else {
                   context
                       .read<SearchVendorBloc>()
@@ -141,22 +140,10 @@ class _SearchResultState extends State<SearchResult> {
         } else if (state.status.isError) {
           return Container();
         } else if (state.status.isDoneSearching) {
-          //print(widget.searchText);
-          searchText = state.searchText;
-          print(state.searchText);
+          vendors = state.vendors;
           return ListView(
             children: [
-              SearchList(
-                  list: vendors //Vendor.generateTrendingVendor()
-                      .where(
-                        (element) => element.name.toLowerCase().contains(
-                              RegExp(
-                                r'' + state.searchText.toLowerCase() + '',
-                                //caseSensitive: false,
-                              ),
-                            ),
-                      )
-                      .toList()),
+              SearchList(list: vendors),
             ],
           );
         } else {

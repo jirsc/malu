@@ -54,6 +54,22 @@ class SearchVendorBloc extends Bloc<SearchVendorEvent, SearchVendorState> {
     }
   }
 
+  void _onSearchDone(SearchDone event, Emitter<SearchVendorState> emit) async {
+    emit(state.copyWith(status: SearchVendorStatus.loading));
+    try {
+      final vendors = await repository.getVendors();
+      emit(
+        state.copyWith(
+          status: SearchVendorStatus.searchDone,
+          vendors: _getSearchResultList(vendors, event.text),
+        ),
+      );
+    } catch (error, stacktrace) {
+      //print(stacktrace);
+      emit(state.copyWith(status: SearchVendorStatus.error));
+    }
+  }
+
   List<String> _getSuggestionList(String text, List<Vendor> vendors) {
     var list = ['test1'];
     if (vendors.isNotEmpty) {
@@ -68,19 +84,16 @@ class SearchVendorBloc extends Bloc<SearchVendorEvent, SearchVendorState> {
     return list;
   }
 
-  void _onSearchDone(SearchDone event, Emitter<SearchVendorState> emit) async {
-    emit(state.copyWith(status: SearchVendorStatus.loading));
-    try {
-      //final vendors = await repository.getVendors();
-      emit(
-        state.copyWith(
-            status: SearchVendorStatus.searchDone,
-            //vendors: vendors,
-            searchText: event.text),
-      );
-    } catch (error, stacktrace) {
-      //print(stacktrace);
-      emit(state.copyWith(status: SearchVendorStatus.error));
-    }
+  List<Vendor> _getSearchResultList(List<Vendor> vendors, String searchText) {
+    //var list = Vendor.generateTrendingVendor()
+    var list = vendors.where((element) {
+      return element.name.toLowerCase().contains(searchText.toLowerCase()
+          /* RegExp(
+              r'' + searchText.toLowerCase() + '',
+              //caseSensitive: false,
+            ), */
+          );
+    }).toList();
+    return list;
   }
 }

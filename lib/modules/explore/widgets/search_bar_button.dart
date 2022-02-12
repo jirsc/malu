@@ -112,13 +112,16 @@ class _SearchBarButtonState extends State<SearchBarButton>
           color: Colors.grey.shade700,
           size: 25,
         ),
-        label: GestureDetector(
+        label: TypingText(
+          string: string,
+          animation: animation,
+        ), /* GestureDetector(
           child: TypingText(
             string: string,
             animation: animation,
           ),
           onTap: () => _pushPage(context, SearchScreen()),
-        ),
+        ), */
       ),
     );
   }
