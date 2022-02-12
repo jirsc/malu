@@ -131,6 +131,9 @@ class _VendorScreenState extends State<VendorScreen> {
       child: Card(
         color: Colors.white,
         elevation: 3,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(7.0),
+        ),
         child: WidgetSizeListener(
           onChange: (Size size) {
             setState(() {
@@ -295,6 +298,9 @@ class _VendorScreenState extends State<VendorScreen> {
   Widget _buildCard(int index) {
     return Card(
       elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(7),
+      ),
       margin: const EdgeInsets.only(left: 12, right: 12, top: 12),
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 24, horizontal: 12),

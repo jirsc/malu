@@ -115,60 +115,8 @@ class _SearchBarButtonState extends State<SearchBarButton>
         label: TypingText(
           string: string,
           animation: animation,
-        ), /* GestureDetector(
-          child: TypingText(
-            string: string,
-            animation: animation,
-          ),
-          onTap: () => _pushPage(context, SearchScreen()),
-        ), */
+        ),
       ),
     );
   }
 }
-
-/* Stack(
-            children: [
-              TextField(
-                enabled: true,
-                cursorColor: theme.primaryColor,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(7),
-                    borderSide: BorderSide.none,
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 0),
-                  prefixIcon: Icon(
-                    Icons.search_outlined,
-                    color: Theme.of(context).colorScheme.onSurface,
-                    size: 25,
-                  ),
-                  /* hintText: 'What are you craving for?',
-                    hintStyle: TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey[400],
-                    ), */
-                ),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SearchScreen()),
-                ),
-                //onTap: () => Navigator.of(context).push(const SearchScreen()),
-              ),
-              /* Positioned(
-                  top: 13,
-                  left: 50,
-                  child: GestureDetector(
-                    child: TypingText(
-                      string: string,
-                      animation: animation,
-                    ),
-                    onTap: () => MaterialPageRoute(
-                      builder: (context) => const SearchScreen(),
-                    ),
-                  ),
-                ), */
-            ],
-          ), */

@@ -10,18 +10,19 @@ class ExploreScreen extends StatelessWidget {
     return Scaffold(
       body: ListView(
         children: [
-          /* Stack(
-            clipBehavior: Clip.none,
-            children: [
-              ComingBook(),
-              const Positioned(
-                child: CustomAppBar(),
-              ),
-            ],
-          ), */
-          Ads(),
-          const SizedBox(height: 40),
-          RecommendedVendor(),
+          Stack(children: [
+            Column(
+              children: [
+                Ads(),
+                const SizedBox(height: 40),
+                RecommendedVendor(),
+              ],
+            ),
+            const Positioned(
+              top: 140,
+              child: SearchBarButton(),
+            ),
+          ]),
           TrendingVendor(trendingList: Vendor.generateTrendingVendor()),
         ],
       ),

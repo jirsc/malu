@@ -52,10 +52,6 @@ class Ads extends StatelessWidget {
                   );
                 }),
           ),
-          const Positioned(
-            bottom: -30,
-            child: SearchBarButton(),
-          ),
         ],
       ),
     );
