@@ -9,7 +9,7 @@ class VendorScreenHeader extends StatefulWidget {
 }
 
 class _VendorScreenHeaderState extends State<VendorScreenHeader> {
-  bool isSavedToFavorites = false;
+  bool isAddedToFavorites = false;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +63,7 @@ class _VendorScreenHeaderState extends State<VendorScreenHeader> {
                           color: Colors.black.withOpacity(0.4),
                           shape: BoxShape.circle,
                         ),
-                        child: isSavedToFavorites
+                        child: isAddedToFavorites
                             ? const Icon(
                                 FontAwesome4.heart,
                                 color: Colors.red,
@@ -76,7 +76,7 @@ class _VendorScreenHeaderState extends State<VendorScreenHeader> {
                               ),
                       ),
                       onTap: () => setState(() {
-                        isSavedToFavorites = !isSavedToFavorites;
+                        isAddedToFavorites = !isAddedToFavorites;
                       }),
                     ),
                   ],

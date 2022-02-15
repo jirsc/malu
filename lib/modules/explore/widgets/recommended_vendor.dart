@@ -23,7 +23,7 @@ class RecommendedVendor extends StatelessWidget {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) =>
-                                  DetailPage(recommendedList[index]),
+                                  VendorScreen(vendor: recommendedList[index]),
                             ),
                           );
                         },

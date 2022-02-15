@@ -120,9 +120,7 @@ class _SearchResultState extends State<SearchResult> {
   Widget build(BuildContext context) {
     return BlocBuilder<SearchVendorBloc, SearchVendorState>(
       builder: (context, state) {
-        print(state.status);
         if (state.status.isSuggesting) {
-          print('SUGGESTING NA!');
           vendors = state.vendors;
           suggestionList = state.suggestionList;
           return _buildSuggestionListView();
@@ -132,18 +130,24 @@ class _SearchResultState extends State<SearchResult> {
           );
         } else if (state.status.isLoaded) {
           vendors = state.vendors;
-          print('LOADED NA!');
           context
               .read<SearchVendorBloc>()
               .add(const SearchTextChanged(text: ''));
           return Container();
         } else if (state.status.isError) {
-          return Container();
+          return const Text('Sorry, may error ka');
         } else if (state.status.isDoneSearching) {
           vendors = state.vendors;
-          return ListView(
+          return Column(
             children: [
-              SearchList(list: vendors),
+              SizedBox(height: 57, child: SearchFilter()),
+              Expanded(
+                child: ListView(
+                  children: [
+                    SearchList(list: vendors),
+                  ],
+                ),
+              ),
             ],
           );
         } else {

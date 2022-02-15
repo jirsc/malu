@@ -1,10 +1,16 @@
+import 'package:json_annotation/json_annotation.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+
+part 'vendor.g.dart';
 
 /// {@template user}
 /// Vendor model
 ///
-/// [Vendor.empty] represents an unauthenticated user.
+/// [Vendor.empty] represents an empty vendor.
 /// {@endtemplate}
+///
+@JsonSerializable()
 class Vendor extends Equatable {
   /// {@macro vendor}
   final String id;
@@ -15,6 +21,7 @@ class Vendor extends Equatable {
   final num ratingCount;
   final num weeklyOrderCount;
   final List<String> category;
+  final Map<String, dynamic> location;
   final String description;
 
   const Vendor({
@@ -26,17 +33,58 @@ class Vendor extends Equatable {
     this.ratingCount = 0,
     this.weeklyOrderCount = 0,
     this.category = const [''],
+    this.location = const {},
     this.description = '',
   });
 
-  /// Empty user which represents an unauthenticated user.
+  /// Empty vendor
   static const empty = Vendor(id: '');
 
-  /// Convenience getter to determine whether the current user is empty.
+  /// Convenience getter to determine whether the current vendor is empty.
   bool get isEmpty => this == Vendor.empty;
 
-  /// Convenience getter to determine whether the current user is not empty.
+  /// Convenience getter to determine whether the current vendor is not empty.
   bool get hasData => this != Vendor.empty;
+
+  /* Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'imageUrl': imageUrl,
+      'name': name,
+      'distance': distance,
+      'score': score,
+      'ratingCount': ratingCount,
+      'weeklyOrderCount': weeklyOrderCount,
+      'category': category,
+      'location': location,
+      'description': description,
+    };
+  }
+
+  factory Vendor.fromJson(Map<String, dynamic> json) {
+    return Vendor(
+      id: json['id'] as String,
+      imageUrl: json['imageUrl'] as String,
+      name: json['name'] as String,
+      distance: json['distance'] as String,
+      score: json['score'] as num,
+      ratingCount: json['ratingCount'] as num,
+      weeklyOrderCount: json['weeklyOrderCount'] as num,
+      category: json['category'] as List<String>,
+      location: json['location'] as Map<String, dynamic>,
+      description: json['description'] as String,
+    );
+  } */
+
+  factory Vendor.fromJson(Map<String, dynamic> json) {
+    return _$VendorFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() => _$VendorToJson(this);
+
+  factory Vendor.fromFirestore(DocumentSnapshot snapshot) {
+    return Vendor.fromJson(snapshot.data() as Map<String, dynamic>);
+  }
 
   @override
   List<Object?> get props => [
@@ -62,37 +110,57 @@ class Vendor extends Equatable {
           weeklyOrderCount: 2.7,
           category: ['Asian', 'Snacks', 'Pastry'],
           description: 'The best food to eat ...',
-          id: ''),
+          id: '1'),
       const Vendor(
           imageUrl: 'assets/images/food4.jpg',
-          name: 'McDonald\'s',
-          distance: 'MCDO',
+          name: 'Coco Fresh',
+          distance: 'COCO FRESH',
           score: 4.9,
           ratingCount: 107.3,
           weeklyOrderCount: 2.7,
           category: ['Asian', 'Snacks', 'Pastry'],
           description: 'The best food to eat ...',
-          id: ''),
+          id: '2'),
       const Vendor(
           imageUrl: 'assets/images/food3.jpg',
-          name: 'McDonald\'s',
-          distance: 'MCDO',
+          name: 'Mary Grace',
+          distance: 'MARY GRACE',
           score: 4.9,
           ratingCount: 107.3,
           weeklyOrderCount: 2.7,
           category: ['Asian', 'Snacks', 'Pastry'],
           description: 'The best food to eat ...',
-          id: ''),
+          id: '3'),
       const Vendor(
           imageUrl: 'assets/images/food2.jpg',
-          name: 'McDonald\'s',
-          distance: 'MCDO',
+          name: 'Chatime',
+          distance: 'CHATIME',
           score: 4.9,
           ratingCount: 107.3,
           weeklyOrderCount: 2.7,
           category: ['Asian', 'Snacks', 'Pastry'],
           description: 'The best food to eat ...',
-          id: ''),
+          id: '4'),
+      const Vendor(
+          imageUrl: 'assets/images/food1.jpg',
+          name: 'Conti\'s',
+          distance: 'CONTI\'S',
+          score: 4.9,
+          ratingCount: 107.3,
+          weeklyOrderCount: 2.7,
+          category: ['Asian', 'Snacks', 'Pastry'],
+          description: 'The best food to eat ...',
+          id: '5'),
+      const Vendor(
+          imageUrl: 'assets/images/food4.jpg',
+          name: 'Cabalen',
+          distance: 'CABALEN',
+          score: 4.9,
+          ratingCount: 107.3,
+          weeklyOrderCount: 2.7,
+          category: ['Asian', 'Snacks', 'Pastry'],
+          description: 'The best food to eat ...',
+          id: '6'),
     ];
   }
 
@@ -139,7 +207,7 @@ class Vendor extends Equatable {
           description: 'The best food to eat ...',
           id: '4'),
       const Vendor(
-          imageUrl: 'assets/images/food2.jpg',
+          imageUrl: 'assets/images/food1.jpg',
           name: 'Conti\'s',
           distance: 'CONTI\'S',
           score: 4.9,
@@ -149,7 +217,7 @@ class Vendor extends Equatable {
           description: 'The best food to eat ...',
           id: '5'),
       const Vendor(
-          imageUrl: 'assets/images/food2.jpg',
+          imageUrl: 'assets/images/food4.jpg',
           name: 'Cabalen',
           distance: 'CABALEN',
           score: 4.9,

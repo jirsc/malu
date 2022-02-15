@@ -366,6 +366,7 @@ class AuthenticationRepository {
       await Future.wait([
         _firebaseAuth.signOut(),
         _googleSignIn.signOut(),
+        _facebookAuth.logOut(),
       ]);
     } catch (_) {
       throw LogOutFailure();

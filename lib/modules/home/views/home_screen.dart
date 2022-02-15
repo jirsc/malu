@@ -17,6 +17,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
+    print('nakalogin na');
     //final textTheme = Theme.of(context).textTheme;
     //final user = context.select((AppBloc bloc) => bloc.state.user);
     return BlocProvider<NavbarCubit>(
@@ -24,9 +25,9 @@ class _HomeState extends State<Home> {
       child: Scaffold(
         body: BlocBuilder<NavbarCubit, NavbarState>(builder: (context, state) {
           if (state.navbarItem == NavbarItem.home) {
-            return const ExploreScreen();
+            return ExploreScreen();
           } else if (state.navbarItem == NavbarItem.activity) {
-            return const ExploreScreen();
+            return ExploreScreen();
           } else if (state.navbarItem == NavbarItem.account) {
             return const AccountScreen();
           }
