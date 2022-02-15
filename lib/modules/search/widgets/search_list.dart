@@ -59,7 +59,7 @@ class SearchList extends StatelessWidget {
                   vendor.name + ' - address',
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                    fontSize: 12,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -68,7 +68,7 @@ class SearchList extends StatelessWidget {
                   vendor.description,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                    fontSize: 11,
+                    fontSize: 12,
                     color: Colors.grey,
                   ),
                 ),

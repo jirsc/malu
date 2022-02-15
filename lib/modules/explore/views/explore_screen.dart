@@ -30,8 +30,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
             if (state.status.isLoading) {
               return ExploreSkeleton();
             } else if (state.status.isLoaded) {
-              sleep(Duration(seconds: 4));
-              //Future.delayed(Duration(seconds: 5));
+              sleep(const Duration(milliseconds: 2100));
               return ListView(
                 children: [
                   Stack(

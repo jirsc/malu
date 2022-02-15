@@ -5,11 +5,6 @@ import 'package:doeat/utils/ui/ui.dart';
 import 'package:doeat/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-/* class VendorScreen extends StatelessWidget {
-  final Vendor vendor;
-  const VendorScreen(this.vendor, {Key? key}) : super(key: key);
-} */
-
 class VendorScreen extends StatefulWidget {
   final Vendor vendor;
 
@@ -28,7 +23,7 @@ class _VendorScreenState extends State<VendorScreen> {
 
   bool isEmpty = false;
   bool isCollapsed = false;
-  Size vendorDetailsCardSize = Size(0, 0);
+  Size vendorDetailsCardSize = const Size(0, 0);
 
   @override
   Widget build(BuildContext context) {
@@ -78,20 +73,20 @@ class _VendorScreenState extends State<VendorScreen> {
                           children: [
                             Text(
                               widget.vendor.name + " - address",
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),
                               overflow: TextOverflow.ellipsis,
                             ),
-                            Icon(
+                            const Icon(
                               FontAwesome4.ellipsis,
                               size: 13,
                             ),
                           ],
                         )
-                      : Text(''),
+                      : const Text(''),
                 ),
                 SliverToBoxAdapter(
                   child: _buildVendorDetailsCard(),
@@ -147,33 +142,33 @@ class _VendorScreenState extends State<VendorScreen> {
               children: [
                 Text(
                   widget.vendor.name + ' - address',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 7),
+                const SizedBox(height: 7),
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       FontAwesome4.star,
                       color: Colors.yellow,
                       size: 12,
                     ),
-                    SizedBox(width: 4),
+                    const SizedBox(width: 4),
                     Text(
                       widget.vendor.score.toString(),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(width: 4),
+                    const SizedBox(width: 4),
                     GestureDetector(
                       onTap: () {
                         print('text button pressed');
                       },
-                      child: Text(
+                      child: const Text(
                         'See Details',
                         style: TextStyle(
                           color: Colors.grey,
@@ -185,12 +180,12 @@ class _VendorScreenState extends State<VendorScreen> {
                     )
                   ],
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Divider(
                   color: Colors.grey.shade300,
                   thickness: 1,
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 GestureDetector(
                   onTap: () {
                     print('deliver now tapped');
@@ -211,22 +206,22 @@ class _VendorScreenState extends State<VendorScreen> {
                               shape: BoxShape.circle,
                             ),
                           ),
-                          SizedBox(width: 12),
+                          const SizedBox(width: 12),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 widget.vendor.distance,
-                                style: TextStyle(
-                                  fontSize: 10,
+                                style: const TextStyle(
+                                  fontSize: 11,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Text(
+                              const Text(
                                 'Deliver now',
                                 style: TextStyle(
                                   color: Colors.black87,
-                                  fontSize: 10,
+                                  fontSize: 11,
                                   fontWeight: FontWeight.w300,
                                 ),
                               ),
@@ -242,12 +237,12 @@ class _VendorScreenState extends State<VendorScreen> {
                     ],
                   ),
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Divider(
                   color: Colors.grey.shade300,
                   thickness: 1,
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 GestureDetector(
                   onTap: () {
                     print('check available offers tapped');
@@ -262,8 +257,8 @@ class _VendorScreenState extends State<VendorScreen> {
                             size: 13,
                             color: theme.primaryColor,
                           ),
-                          SizedBox(width: 12),
-                          Text(
+                          const SizedBox(width: 12),
+                          const Text(
                             'Check for available offers',
                             style: TextStyle(
                               color: Colors.black87,
@@ -281,9 +276,9 @@ class _VendorScreenState extends State<VendorScreen> {
                     ],
                   ),
                 ),
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 Row(
-                  children: [
+                  children: const [
                     Text('Scroll View Horizontal dito'),
                   ],
                 ),

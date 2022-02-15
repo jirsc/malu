@@ -61,7 +61,7 @@ class SearchFilter extends StatelessWidget {
                       filterLabel,
                       style: const TextStyle(
                         color: Colors.black87,
-                        fontSize: 13,
+                        fontSize: 14,
                       ),
                     ),
                     onSelected: (selected) {
