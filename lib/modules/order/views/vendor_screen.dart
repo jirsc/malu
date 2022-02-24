@@ -4,6 +4,7 @@ import 'package:doeat/modules/order/order.dart';
 import 'package:doeat/utils/ui/ui.dart';
 import 'package:doeat/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:sliver_tools/sliver_tools.dart';
 
 class VendorScreen extends StatefulWidget {
   final Vendor vendor;
@@ -24,6 +25,8 @@ class _VendorScreenState extends State<VendorScreen> {
   bool isEmpty = false;
   bool isCollapsed = false;
   Size vendorDetailsCardSize = const Size(0, 0);
+  List<ProductSection> productSections =
+      ProductSection.generateProductSectionList();
 
   @override
   Widget build(BuildContext context) {
@@ -92,14 +95,18 @@ class _VendorScreenState extends State<VendorScreen> {
                   child: _buildVendorDetailsCard(),
                 ),
                 if (!isEmpty)
-                  SliverList(
+                  MultiSliver(
+                    children: buildSectionList(sections: productSections),
+                  )
+                /* SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
+                        var section = productSections[index];
                         return _buildCard(index);
                       },
-                      childCount: 70,
+                      childCount: productSections.length,
                     ),
-                  )
+                  ) */
                 else
                   const SliverFillRemaining(
                     hasScrollBody: false,
@@ -289,6 +296,12 @@ class _VendorScreenState extends State<VendorScreen> {
       ),
     );
   }
+
+  List<Widget> buildSectionList({required List<ProductSection> sections}) =>
+      sections
+          .map((productSection) => VendorProductSection(
+              section: productSection, product: productSection.product))
+          .toList();
 
   Widget _buildCard(int index) {
     return Card(

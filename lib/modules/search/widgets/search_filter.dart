@@ -5,7 +5,14 @@ import 'package:flutter/material.dart';
 class SearchFilter extends StatelessWidget {
   SearchFilter({Key? key}) : super(key: key);
 
-  final list = ['1', 'Sort By', 'Cuisines', 'Promo', 'Nearby', 'FREE Deliver!'];
+  final list = [
+    '1',
+    'Sort By',
+    'Cuisines',
+    'Promo',
+    'Nearby',
+    'FREE Delivery!'
+  ];
 
   @override
   Widget build(BuildContext context) {

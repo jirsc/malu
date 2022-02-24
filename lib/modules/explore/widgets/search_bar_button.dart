@@ -34,8 +34,8 @@ class _SearchBarButtonState extends State<SearchBarButton>
       reverseDuration: const Duration(milliseconds: 300),
     )..forward();
 
-    animation =
-        IntTween(begin: 0, end: string.length).animate(_animationController);
+    animation = IntTween(begin: 0, end: foodList.first.length)
+        .animate(_animationController);
 
     _animationController.addListener(() async {
       if (_animationController.isCompleted) {
@@ -43,6 +43,10 @@ class _SearchBarButtonState extends State<SearchBarButton>
 
         if (!animationControllerDisposed) {
           _animationController.reverse();
+          /* setState(() {
+            var item = foodList.removeAt(0);
+            foodList.add(item);
+          }); */
         }
       } else if (_animationController.isDismissed) {
         _animationController.forward();
@@ -113,7 +117,7 @@ class _SearchBarButtonState extends State<SearchBarButton>
           size: 25,
         ),
         label: TypingText(
-          string: string,
+          string: foodList.first,
           animation: animation,
         ),
       ),
