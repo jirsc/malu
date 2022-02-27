@@ -1,5 +1,4 @@
 import 'package:doeat/config/themes/theme.dart';
-import 'package:doeat/core/auth/login/views/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:doeat/core/core.dart';
