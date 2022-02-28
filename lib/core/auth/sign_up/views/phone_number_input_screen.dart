@@ -102,7 +102,7 @@ class _NumberField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text('FLAG +63'),
+        Text('FLAG +63'), //Ang pogi ko
         SizedBox(width: 21),
         Expanded(
           child: TextField(
