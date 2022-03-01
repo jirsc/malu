@@ -93,6 +93,8 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/countries/
+    - assets/countries/flags/4x3/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

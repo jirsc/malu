@@ -1,11 +1,11 @@
 import 'package:doeat/config/themes/theme.dart';
 import 'package:doeat/constants/constants.dart';
+import 'package:doeat/core/core.dart';
 import 'package:doeat/utils/ui/icons/font_awesome_icons.dart';
 import 'package:doeat/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:authentication_repository/authentication_repository.dart';
-import 'package:doeat/core/core.dart';
 import 'package:formz/formz.dart';
 
 class LoginScreen extends StatelessWidget {
