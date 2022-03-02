@@ -40,14 +40,6 @@ class Country extends Equatable {
     return _$CountryFromJson(json);
   }
 
-  factory Country.fromDynamicJson(Map<dynamic, dynamic> json) => Country(
-        code: json['code'] as String,
-        flag_1x1: json['flag_1x1'] as String? ?? '',
-        flag_4x3: json['flag_4x3'] as String? ?? '',
-        name: json['name'] as String? ?? '',
-        iso: json['iso'] as bool? ?? true,
-      );
-
   Map<String, dynamic> toJson() => _$CountryToJson(this);
 
   factory Country.fromFirestore(DocumentSnapshot snapshot) {
