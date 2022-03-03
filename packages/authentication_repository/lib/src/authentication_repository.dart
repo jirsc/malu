@@ -203,6 +203,61 @@ class LogInWithFacebookFailure implements Exception {
   final String message;
 }
 
+/// {@template log_in_with_phone_number_failure}
+/// Thrown during the sign in with phone number process if a failure occurs.
+/// https://pub.dev/documentation/firebase_auth/latest/firebase_auth/FirebaseAuth/signInWithCredential.html
+/// {@endtemplate}
+class LogInWithPhoneNumberFailure implements Exception {
+  /// {@macro log_in_with_phone_number_failure}
+  const LogInWithPhoneNumberFailure([
+    this.message = 'An unknown exception occurred.',
+  ]);
+
+  /// Create an authentication message
+  /// from a firebase authentication exception code.
+  factory LogInWithPhoneNumberFailure.fromCode(String code) {
+    switch (code) {
+      case 'account-exists-with-different-credential':
+        return const LogInWithPhoneNumberFailure(
+          'Account exists with different credentials.',
+        );
+      case 'invalid-credential':
+        return const LogInWithPhoneNumberFailure(
+          'The credential received is malformed or has expired.',
+        );
+      case 'operation-not-allowed':
+        return const LogInWithPhoneNumberFailure(
+          'Operation is not allowed.  Please contact support.',
+        );
+      case 'user-disabled':
+        return const LogInWithPhoneNumberFailure(
+          'This user has been disabled. Please contact support for help.',
+        );
+      case 'user-not-found':
+        return const LogInWithPhoneNumberFailure(
+          'Email is not found, please create an account.',
+        );
+      case 'wrong-password':
+        return const LogInWithPhoneNumberFailure(
+          'Incorrect password, please try again.',
+        );
+      case 'invalid-verification-code':
+        return const LogInWithPhoneNumberFailure(
+          'The credential verification code received is invalid.',
+        );
+      case 'invalid-verification-id':
+        return const LogInWithPhoneNumberFailure(
+          'The credential verification ID received is invalid.',
+        );
+      default:
+        return const LogInWithPhoneNumberFailure();
+    }
+  }
+
+  /// The associated error message.
+  final String message;
+}
+
 /// Thrown during the logout process if a failure occurs.
 class LogOutFailure implements Exception {}
 
@@ -335,6 +390,37 @@ class AuthenticationRepository {
       throw LogInWithFacebookFailure.fromCode(e.code);
     } catch (_) {
       throw const LogInWithFacebookFailure();
+    }
+  }
+
+  /// Starts the Sign In with PhoneNumber Flow.
+  ///
+  /// Throws a [LogInWithPhoneNumberFailure] if an exception occurs.
+  Future<void> logInWithPhoneNumber(
+      firebase_auth.PhoneAuthCredential phoneCredential) async {
+    try {
+      late final firebase_auth.AuthCredential credential;
+      if (isWeb) {
+        final phoneProvider = firebase_auth.PhoneAuthProvider();
+        final userCredential = await _firebaseAuth.signInWithPopup(
+          phoneProvider,
+        );
+        credential = userCredential.credential!;
+      } else {
+        credential = phoneCredential;
+        /* credential = firebase_auth.PhoneAuthProvider.credential(
+            verificationId: verificationCode, smsCode: smsCode); */
+      }
+
+      await _firebaseAuth.signInWithCredential(credential).then((current) => {
+            db.collection('users').doc(current.user!.uid).set({
+              'balance': 200,
+            }).onError((error, stackTrace) => print(error))
+          });
+    } on FirebaseAuthException catch (e) {
+      throw LogInWithPhoneNumberFailure.fromCode(e.code);
+    } catch (_) {
+      throw const LogInWithPhoneNumberFailure();
     }
   }
 

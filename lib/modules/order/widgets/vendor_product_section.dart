@@ -1,4 +1,5 @@
 import 'package:doeat/models/models.dart';
+import 'package:doeat/modules/modules.dart';
 import 'package:flutter/material.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'dart:math' as math;
@@ -147,11 +148,11 @@ class VerticalProductTile extends StatelessWidget {
         color: Colors.white,
         child: GestureDetector(
           onTap: () {
-            /* Navigator.of(context).push(
+            Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => ProductScreen(product: product),
               ),
-            ); */
+            );
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -240,11 +241,11 @@ class HorizontalProductTile extends StatelessWidget {
         color: Colors.white,
         child: GestureDetector(
           onTap: () {
-            /* Navigator.of(context).push(
+            Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => ProductScreen(product: product),
               ),
-            ); */
+            );
           },
           child: Column(
             children: [

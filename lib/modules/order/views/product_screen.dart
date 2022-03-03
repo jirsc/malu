@@ -1,7 +1,10 @@
+import 'package:doeat/models/models.dart';
 import 'package:flutter/material.dart';
 
 class ProductScreen extends StatefulWidget {
-  const ProductScreen({Key? key}) : super(key: key);
+  const ProductScreen({Key? key, required this.product}) : super(key: key);
+
+  final Product product;
 
   @override
   State<ProductScreen> createState() => _ProductScreenState();
