@@ -130,7 +130,10 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
                 onPressed: () {
                   if (status.isValid) {
                     return Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => OTPScreen(_controller.text)));
+                        builder: (context) => OTPScreen(
+                              phoneNumber: _controller.text,
+                              entryType: widget.entryType,
+                            )));
                   }
                 },
                 enabled: status.isValid,

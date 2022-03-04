@@ -351,11 +351,7 @@ class AuthenticationRepository {
         );
       }
 
-      await _firebaseAuth.signInWithCredential(credential).then((current) => {
-            db.collection('users').doc(current.user!.uid).set({
-              'balance': 100,
-            }).onError((error, stackTrace) => print(error.toString()))
-          });
+      await _signInWithCredential(credential);
     } on FirebaseAuthException catch (e) {
       throw LogInWithGoogleFailure.fromCode(e.code);
     } catch (_) {
@@ -381,11 +377,7 @@ class AuthenticationRepository {
             loginResult.accessToken!.token);
       }
 
-      await _firebaseAuth.signInWithCredential(credential).then((current) => {
-            db.collection('users').doc(current.user!.uid).set({
-              'balance': 200,
-            }).onError((error, stackTrace) => print(error))
-          });
+      await _signInWithCredential(credential);
     } on FirebaseAuthException catch (e) {
       throw LogInWithFacebookFailure.fromCode(e.code);
     } catch (_) {
@@ -412,16 +404,36 @@ class AuthenticationRepository {
             verificationId: verificationCode, smsCode: smsCode); */
       }
 
-      await _firebaseAuth.signInWithCredential(credential).then((current) => {
-            db.collection('users').doc(current.user!.uid).set({
-              'balance': 200,
-            }).onError((error, stackTrace) => print(error))
-          });
+      await _signInWithCredential(credential);
     } on FirebaseAuthException catch (e) {
       throw LogInWithPhoneNumberFailure.fromCode(e.code);
     } catch (_) {
       throw const LogInWithPhoneNumberFailure();
     }
+  }
+
+  Future<void> _signInWithCredential(dynamic credential) async {
+    _firebaseAuth.signInWithCredential(credential).then((current) {
+      var lastSignInTime = current
+          .user!.metadata.lastSignInTime!.millisecondsSinceEpoch
+          .toString();
+      lastSignInTime = lastSignInTime.substring(0, lastSignInTime.length - 1);
+      print(lastSignInTime);
+      var creationTime = current
+          .user!.metadata.creationTime!.millisecondsSinceEpoch
+          .toString();
+      creationTime = creationTime.substring(0, creationTime.length - 1);
+      print(creationTime);
+      if (lastSignInTime == creationTime) {
+        db.collection('users').doc(current.user!.uid).set({
+          'email': current.user!.email,
+          'name': current.user!.displayName,
+          'photo': current.user!.photoURL,
+          'phoneNumber': current.user!.phoneNumber,
+          'balance': 0,
+        }).onError((error, stackTrace) => print(error.toString()));
+      }
+    });
   }
 
   /// Signs in with the provided [email] and [password].
@@ -462,6 +474,12 @@ class AuthenticationRepository {
 
 extension on firebase_auth.User {
   User get toUser {
-    return User(id: uid, email: email, name: displayName, photo: photoURL);
+    return User(
+      id: uid,
+      email: email,
+      name: displayName,
+      photo: photoURL,
+      phoneNumber: phoneNumber,
+    );
   }
 }

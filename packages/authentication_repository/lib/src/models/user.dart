@@ -13,13 +13,15 @@ part 'user.g.dart';
 @JsonSerializable()
 class User extends Equatable {
   /// {@macro user}
-  const User(
-      {required this.id,
-      this.email,
-      this.name,
-      this.photo,
-      this.favoriteVendor,
-      this.balance});
+  const User({
+    required this.id,
+    this.email,
+    this.name,
+    this.photo,
+    this.phoneNumber,
+    this.balance,
+    this.favoriteVendor,
+  });
 
   /// The current user's email address.
   final String? email;
@@ -33,11 +35,14 @@ class User extends Equatable {
   /// Url for the current user's photo.
   final String? photo;
 
-  /// List of user's favorite vendors.
-  final List<dynamic>? favoriteVendor;
+  /// Url for the current user's mobile number.
+  final String? phoneNumber;
 
   /// Balance of user's wallet.
   final String? balance;
+
+  /// List of user's favorite vendors.
+  final List<dynamic>? favoriteVendor;
 
   /// Empty user which represents an unauthenticated user.
   static const empty = User(id: '');
@@ -59,5 +64,6 @@ class User extends Equatable {
   }
 
   @override
-  List<Object?> get props => [email, id, name, photo, favoriteVendor, balance];
+  List<Object?> get props =>
+      [email, id, name, photo, phoneNumber, balance, favoriteVendor];
 }

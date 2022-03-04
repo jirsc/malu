@@ -1,7 +1,7 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebaseAuth;
 import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
 
@@ -77,11 +77,17 @@ class LoginCubit extends Cubit<LoginState> {
     }
   }
 
-  Future<void> logInWithPhoneNumber(PhoneAuthCredential credential) async {
+  Future<void> logInWithPhoneNumber(
+      firebaseAuth.PhoneAuthCredential credential) async {
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
-      await _authenticationRepository.logInWithPhoneNumber(credential);
-      emit(state.copyWith(status: FormzStatus.submissionSuccess));
+      var user = await _authenticationRepository
+          .logInWithPhoneNumber(credential)
+          .then((value) => _authenticationRepository.currentUser);
+      emit(state.copyWith(
+        status: FormzStatus.submissionSuccess,
+        user: user,
+      ));
     } on LogInWithPhoneNumberFailure catch (e) {
       emit(state.copyWith(
         errorMessage: e.message,
