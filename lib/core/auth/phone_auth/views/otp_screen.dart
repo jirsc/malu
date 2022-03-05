@@ -46,7 +46,7 @@ class _OTPScreenState extends State<OTPScreen> {
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
+    //_controller.dispose();
   }
 
   _verifyPhone() async {
@@ -73,7 +73,7 @@ class _OTPScreenState extends State<OTPScreen> {
       },
       codeSent: (String verificationID, int? resendToken) {
         // Update the UI - wait for the user to enter the SMS code
-        String smsCode = 'xxxx';
+        String smsCode = '123400';
         phoneCredential = PhoneAuthProvider.credential(
           verificationId: verificationID,
           smsCode: smsCode,
@@ -114,6 +114,8 @@ class _OTPScreenState extends State<OTPScreen> {
           }).onError((error, stackTrace) => print(error.toString()));
         }
       }).onError((error, stackTrace) {
+        print(error.toString());
+      }).catchError((error, stackTrace) {
         print(error.toString());
       });
     } on FirebaseAuthException catch (e) {

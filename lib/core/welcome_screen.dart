@@ -8,24 +8,39 @@ import 'package:doeat/core/core.dart';
 import 'package:formz/formz.dart';
 
 class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({Key? key}) : super(key: key);
+  WelcomeScreen({Key? key}) : super(key: key);
 
-  static Page page() => const MaterialPage<void>(child: WelcomeScreen());
+  static Page page() => MaterialPage<void>(child: WelcomeScreen());
+
+  final ScreenSize screenSize = ScreenSize(width: 0, height: 0);
 
   @override
   Widget build(BuildContext context) {
+    screenSize.width = MediaQuery.of(context).size.width;
+    screenSize.height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Stack(
         children: [
           ClipPath(
             clipper: BackgroundClipper(),
             child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
+              width: screenSize.width,
+              height: screenSize.height,
+              padding: EdgeInsets.only(top: screenSize.height / 5),
+              alignment: Alignment.topCenter,
+              //color: theme.primaryColor,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('assets/images/login_bg.jpg'),
                   fit: BoxFit.cover,
+                ),
+              ),
+              child: SizedBox(
+                height: 160,
+                width: 160,
+                child: Image.asset(
+                  'assets/images/app_logo.png',
+                  color: theme.primaryColorDark,
                 ),
               ),
             ),
