@@ -8,14 +8,28 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:formz/formz.dart';
 
+class ScreenSize {
+  double width;
+  double height;
+
+  ScreenSize({
+    required this.width,
+    required this.height,
+  });
+}
+
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  LoginScreen({Key? key}) : super(key: key);
+
+  final ScreenSize screenSize = ScreenSize(width: 0, height: 0);
 
   @override
   Widget build(BuildContext context) {
+    screenSize.width = MediaQuery.of(context).size.width;
+    screenSize.height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: theme.primaryColorDark,
+        backgroundColor: theme.primaryColor,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(
@@ -45,19 +59,26 @@ class LoginScreen extends StatelessWidget {
             }
           },
           child: Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
+            height: screenSize.height,
+            width: screenSize.width,
             padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-            color: theme.primaryColorDark,
-            alignment: Alignment.bottomCenter, //const Alignment(0, 1 / 2),
-            child: SingleChildScrollView(
+            color: theme.primaryColor,
+            alignment: Alignment.center, //const Alignment(0, 1 / 2),
+            /* decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/login_bg.jpg'),
+                fit: BoxFit.cover,
+              ),
+            ), */
+            child: Padding(
+              padding: EdgeInsets.only(top: screenSize.height / 6),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 //mainAxisSize: MainAxisSize.min,
                 children: [
                   Image.asset(
-                    'assets/images/bloc_logo_small.png',
+                    'assets/images/unrype_logo_small_transparent.png',
                     height: 120,
                   ),
                   LoginButtons()

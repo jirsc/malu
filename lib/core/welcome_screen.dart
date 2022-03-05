@@ -111,7 +111,7 @@ class AppEntryButtons extends StatelessWidget {
                   return Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) {
-                      return const LoginScreen();
+                      return LoginScreen();
                     }),
                   );
                 },

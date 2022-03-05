@@ -153,7 +153,7 @@ class _LoginButtonV2 extends StatelessWidget {
               ),
               onPressed: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const LoginScreen()),
+                MaterialPageRoute(builder: (context) => LoginScreen()),
               ),
               child: const Text(
                 'Log In V2',

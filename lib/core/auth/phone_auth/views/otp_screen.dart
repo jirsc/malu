@@ -1,3 +1,4 @@
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doeat/constants/app_constants.dart';
 import 'package:doeat/core/core.dart';
@@ -91,27 +92,35 @@ class _OTPScreenState extends State<OTPScreen> {
   }
 
   Future<void> _signInWithCredential(PhoneAuthCredential credential) async {
-    FirebaseAuth.instance.signInWithCredential(credential).then((current) {
-      var lastSignInTime = current
-          .user!.metadata.lastSignInTime!.millisecondsSinceEpoch
-          .toString();
-      lastSignInTime = lastSignInTime.substring(0, lastSignInTime.length - 1);
-      //print(lastSignInTime);
-      var creationTime = current
-          .user!.metadata.creationTime!.millisecondsSinceEpoch
-          .toString();
-      creationTime = creationTime.substring(0, creationTime.length - 1);
-      //print(creationTime);
-      if (lastSignInTime == creationTime) {
-        db.collection('users').doc(current.user!.uid).set({
-          'email': current.user!.email,
-          'name': current.user!.displayName,
-          'photo': current.user!.photoURL,
-          'phoneNumber': current.user!.phoneNumber,
-          'balance': 0,
-        }).onError((error, stackTrace) => print(error.toString()));
-      }
-    });
+    try {
+      FirebaseAuth.instance.signInWithCredential(credential).then((current) {
+        var lastSignInTime = current
+            .user!.metadata.lastSignInTime!.millisecondsSinceEpoch
+            .toString();
+        lastSignInTime = lastSignInTime.substring(0, lastSignInTime.length - 1);
+        //print(lastSignInTime);
+        var creationTime = current
+            .user!.metadata.creationTime!.millisecondsSinceEpoch
+            .toString();
+        creationTime = creationTime.substring(0, creationTime.length - 1);
+        //print(creationTime);
+        if (lastSignInTime == creationTime) {
+          db.collection('users').doc(current.user!.uid).set({
+            'email': current.user!.email,
+            'name': current.user!.displayName,
+            'photo': current.user!.photoURL,
+            'phoneNumber': current.user!.phoneNumber,
+            'balance': 0,
+          }).onError((error, stackTrace) => print(error.toString()));
+        }
+      }).onError((error, stackTrace) {
+        print(error.toString());
+      });
+    } on FirebaseAuthException catch (e) {
+      throw LogInWithPhoneNumberFailure.fromCode(e.code);
+    } catch (_) {
+      throw const LogInWithPhoneNumberFailure();
+    }
   }
 
   setPIN() {
