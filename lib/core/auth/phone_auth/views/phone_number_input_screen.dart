@@ -7,11 +7,10 @@ import 'package:doeat/utils/ui/icons/font_awesome_icons.dart';
 import 'package:doeat/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import 'otp_screen.dart';
 
 class PhoneNumberInputScreen extends StatefulWidget {
   const PhoneNumberInputScreen({Key? key, required this.entryType})
@@ -127,13 +126,39 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
             Expanded(
               child: FullWidthButton(
                 'Next',
-                onPressed: () {
+                onPressed: () async {
                   if (status.isValid) {
-                    return Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => OTPScreen(
-                              phoneNumber: _controller.text,
-                              entryType: widget.entryType,
-                            )));
+                    if (await hasInternetConnection()) {
+                      return Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => OTPScreen(
+                                phoneNumber: _controller.text,
+                                entryType: widget.entryType,
+                              )));
+                    } else {
+                      await showDialog<void>(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('No internet connection.'),
+                            content:
+                                Text('Sorry, pal. We can\'t send you a code.'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                  'Oh, okay.',
+                                  style: TextStyle(
+                                    color: theme.primaryColor,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
                   }
                 },
                 enabled: status.isValid,
@@ -145,6 +170,22 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
         )
       ],
     );
+  }
+
+  Future<bool> hasInternetConnection() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        return true;
+      }
+      return false;
+    } on SocketException catch (e) {
+      print(e.message);
+      //rethrow;
+      return false;
+    } catch (e) {
+      rethrow;
+    }
   }
 }
 
@@ -315,10 +356,13 @@ class _ErrorMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     return isValid
         ? Container()
-        : const Text(
-            'Check for extra or missing digits',
-            style: TextStyle(
-              color: Colors.red,
+        : const Padding(
+            padding: EdgeInsets.all(7),
+            child: Text(
+              'Check for extra or missing digits',
+              style: TextStyle(
+                color: Colors.red,
+              ),
             ),
           );
   }

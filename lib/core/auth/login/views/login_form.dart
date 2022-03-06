@@ -176,7 +176,8 @@ class _SignUpButton extends StatelessWidget {
         const Text('New to DoEat?'),
         TextButton(
           key: const Key('loginForm_createAccount_textButton'),
-          onPressed: () => Navigator.of(context).push<void>(SignUpPage.route()),
+          onPressed: () =>
+              Navigator.of(context).push<void>(SignUpScreen.route()),
           child: Text(
             'Sign up!',
             style: TextStyle(color: theme.primaryColor),

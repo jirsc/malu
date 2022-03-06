@@ -1,5 +1,6 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:doeat/config/config.dart';
 import 'package:doeat/constants/app_constants.dart';
 import 'package:doeat/core/core.dart';
 import 'package:doeat/utils/ui/icons/font_awesome_icons.dart';
@@ -24,7 +25,11 @@ class OTPScreen extends StatefulWidget {
 
 class _OTPScreenState extends State<OTPScreen> {
   final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
+  final GlobalKey<NavigatorState> _loadingNavigatorKey =
+      GlobalKey<NavigatorState>();
+  late BuildContext dialogContext;
   late String _verificationCode;
+  late String _verificationErrorMessage;
   final TextEditingController _controller = TextEditingController();
   late final PhoneAuthCredential phoneCredential;
   final FirebaseFirestore db = FirebaseFirestore.instance;
@@ -56,6 +61,7 @@ class _OTPScreenState extends State<OTPScreen> {
       verificationCompleted: (PhoneAuthCredential credential) async {
         print('Verification Complete!');
         phoneCredential = credential;
+        _controller.text = credential.smsCode.toString();
         /* if (widget.entryType.isLogin) {
             context.read<LoginCubit>().logInWithPhoneNumber(credential);
           } else {} */
@@ -66,19 +72,26 @@ class _OTPScreenState extends State<OTPScreen> {
               setPassword(value.user!.uid);
             }
           }); */
-        await _signInWithCredential(credential);
+        //await _signInWithCredential(credential);
       },
       verificationFailed: (FirebaseAuthException e) {
         print(e.message);
+        /* setState(() {
+          _verificationErrorMessage = e.message.toString();
+        }); */
       },
       codeSent: (String verificationID, int? resendToken) {
         // Update the UI - wait for the user to enter the SMS code
-        String smsCode = '123400';
-        phoneCredential = PhoneAuthProvider.credential(
-          verificationId: verificationID,
-          smsCode: smsCode,
-        );
-        _controller.text = '123400';
+
+        // Test phone number from firebase auth
+        if (widget.phoneNumber == "9007771122") {
+          // String smsCode = 'xxxxxx';
+          phoneCredential = PhoneAuthProvider.credential(
+            verificationId: verificationID,
+            smsCode: "123400",
+          );
+          _controller.text = "123400";
+        }
         /* setState(() {
           _verificationCode = verificationID;
         }); */
@@ -113,14 +126,20 @@ class _OTPScreenState extends State<OTPScreen> {
             'balance': 0,
           }).onError((error, stackTrace) => print(error.toString()));
         }
+
+        Navigator.of(dialogContext, rootNavigator: true).pop();
       }).onError((error, stackTrace) {
         print(error.toString());
+        Navigator.of(dialogContext, rootNavigator: true).pop();
       }).catchError((error, stackTrace) {
         print(error.toString());
+        Navigator.of(dialogContext, rootNavigator: true).pop();
       });
     } on FirebaseAuthException catch (e) {
+      Navigator.of(dialogContext, rootNavigator: true).pop();
       throw LogInWithPhoneNumberFailure.fromCode(e.code);
     } catch (_) {
+      Navigator.of(dialogContext, rootNavigator: true).pop();
       throw const LogInWithPhoneNumberFailure();
     }
   }
@@ -222,6 +241,20 @@ class _OTPScreenState extends State<OTPScreen> {
                 if (widget.entryType.isSignUp) {
                   //setPIN();
                 }
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  //barrierColor: Colors.black.withAlpha(30),
+                  builder: (BuildContext context) {
+                    dialogContext = context;
+                    return Center(
+                      key: _loadingNavigatorKey,
+                      child: CircularProgressIndicator(
+                        color: theme.primaryColorDark,
+                      ),
+                    );
+                  },
+                );
                 await _signInWithCredential(phoneCredential);
                 /* context
                     .read<LoginCubit>()
