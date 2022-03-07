@@ -4,7 +4,7 @@ import 'package:doeat/config/config.dart';
 import 'package:doeat/constants/app_constants.dart';
 import 'package:doeat/core/core.dart';
 import 'package:doeat/utils/ui/icons/font_awesome_icons.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebaseAuth;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -30,8 +30,10 @@ class _OTPScreenState extends State<OTPScreen> {
   late BuildContext dialogContext;
   late String _verificationCode;
   late String _verificationErrorMessage;
+  late User _user;
   final TextEditingController _controller = TextEditingController();
-  late final PhoneAuthCredential phoneCredential;
+  late final firebaseAuth.PhoneAuthCredential phoneCredential;
+  final _firebaseAuth = firebaseAuth.FirebaseAuth.instance;
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
   final BoxDecoration pinPutDecoration = BoxDecoration(
@@ -55,10 +57,11 @@ class _OTPScreenState extends State<OTPScreen> {
   }
 
   _verifyPhone() async {
-    await FirebaseAuth.instance.verifyPhoneNumber(
+    await _firebaseAuth.verifyPhoneNumber(
       phoneNumber: '+63${widget.phoneNumber}', //900 777 1122
       //timeout: Duration(seconds: 120),
-      verificationCompleted: (PhoneAuthCredential credential) async {
+      verificationCompleted:
+          (firebaseAuth.PhoneAuthCredential credential) async {
         print('Verification Complete!');
         phoneCredential = credential;
         _controller.text = credential.smsCode.toString();
@@ -74,7 +77,7 @@ class _OTPScreenState extends State<OTPScreen> {
           }); */
         //await _signInWithCredential(credential);
       },
-      verificationFailed: (FirebaseAuthException e) {
+      verificationFailed: (firebaseAuth.FirebaseAuthException e) {
         print(e.message);
         /* setState(() {
           _verificationErrorMessage = e.message.toString();
@@ -86,7 +89,7 @@ class _OTPScreenState extends State<OTPScreen> {
         // Test phone number from firebase auth
         if (widget.phoneNumber == "9007771122") {
           // String smsCode = 'xxxxxx';
-          phoneCredential = PhoneAuthProvider.credential(
+          phoneCredential = firebaseAuth.PhoneAuthProvider.credential(
             verificationId: verificationID,
             smsCode: "123400",
           );
@@ -104,27 +107,91 @@ class _OTPScreenState extends State<OTPScreen> {
     );
   }
 
-  Future<void> _signInWithCredential(PhoneAuthCredential credential) async {
+  setProfile() async {
+    _user = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const SignUpScreen(),
+      ),
+    );
+    /* Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                PINInputScreen(phoneNumber: widget.phoneNumber)),
+        (route) => false); */
+  }
+
+  Future<void> _signInWithCredential(
+      firebaseAuth.PhoneAuthCredential credential) async {
     try {
-      FirebaseAuth.instance.signInWithCredential(credential).then((current) {
-        var lastSignInTime = current
-            .user!.metadata.lastSignInTime!.millisecondsSinceEpoch
-            .toString();
-        lastSignInTime = lastSignInTime.substring(0, lastSignInTime.length - 1);
-        //print(lastSignInTime);
-        var creationTime = current
-            .user!.metadata.creationTime!.millisecondsSinceEpoch
-            .toString();
-        creationTime = creationTime.substring(0, creationTime.length - 1);
-        //print(creationTime);
-        if (lastSignInTime == creationTime) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        //barrierColor: Colors.black.withAlpha(30),
+        builder: (BuildContext context) {
+          dialogContext = context;
+          return Container(
+            padding: const EdgeInsets.symmetric(horizontal: 40),
+            //color: Colors.white,
+            alignment: Alignment.center,
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(7),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Material(
+                  child: Row(
+                    children: [
+                      CircularProgressIndicator(
+                        color: theme.primaryColorDark,
+                      ),
+                      SizedBox(
+                        width: 12,
+                      ),
+                      Text(
+                        "Loading..",
+                        style: TextStyle(color: Colors.black87, fontSize: 21),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      );
+
+      await _firebaseAuth
+          .signInWithCredential(credential)
+          .then((current) async {
+        if (firstLoginOf(current)) {
           db.collection('users').doc(current.user!.uid).set({
-            'email': current.user!.email,
+            //Use .updateEmail, .updateDisplayName or .updatePhoneNumber to update the basic info
+            // in firebase auth credentials
+            /*  'email': current.user!.email,
             'name': current.user!.displayName,
             'photo': current.user!.photoURL,
-            'phoneNumber': current.user!.phoneNumber,
+            'phoneNumber': current.user!.phoneNumber, */
             'balance': 0,
           }).onError((error, stackTrace) => print(error.toString()));
+        }
+        if (widget.entryType.isSignUp) {
+          current.user!.updateEmail(_user.email ?? '');
+          current.user!.updateDisplayName(_user.name ?? '');
+
+          /* firebaseAuth.ActionCodeSettings actionCodeSettings =
+              firebaseAuth.ActionCodeSettings(
+            url:
+                'https://www.example.com/cart?email=user@example.com&cartId=123',
+            iOSBundleId: 'com.unrype.doeat',
+            androidPackageName: 'com.unrype.doeat',
+            androidInstallApp: true,
+            androidMinimumVersion: '19',
+            dynamicLinkDomain: '',
+            handleCodeInApp: true,
+          ); */
+          // current.user!.sendEmailVerification()
         }
 
         Navigator.of(dialogContext, rootNavigator: true).pop();
@@ -135,7 +202,7 @@ class _OTPScreenState extends State<OTPScreen> {
         print(error.toString());
         Navigator.of(dialogContext, rootNavigator: true).pop();
       });
-    } on FirebaseAuthException catch (e) {
+    } on firebaseAuth.FirebaseAuthException catch (e) {
       Navigator.of(dialogContext, rootNavigator: true).pop();
       throw LogInWithPhoneNumberFailure.fromCode(e.code);
     } catch (_) {
@@ -144,28 +211,17 @@ class _OTPScreenState extends State<OTPScreen> {
     }
   }
 
-  setPIN() {
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                PINInputScreen(phoneNumber: widget.phoneNumber)),
-        (route) => false);
-
-    /*Map userDetails={
-      "mobile":widget.phone,
-      "password":"1234",
-    };
-
-    dbRef.child(uid).set(userDetails).then((value) {
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => Home(uid)),
-              (route) => false);
-    }).onError((error, stackTrace) {
-      _scaffoldkey.currentState!
-          .showSnackBar(SnackBar(content: Text('${error.toString()}')));
-    });*/
+  bool firstLoginOf(firebaseAuth.UserCredential current) {
+    var lastSignInTime = current
+        .user!.metadata.lastSignInTime!.millisecondsSinceEpoch
+        .toString();
+    lastSignInTime = lastSignInTime.substring(0, lastSignInTime.length - 1);
+    //print(lastSignInTime);
+    var creationTime =
+        current.user!.metadata.creationTime!.millisecondsSinceEpoch.toString();
+    creationTime = creationTime.substring(0, creationTime.length - 1);
+    //print(creationTime);
+    return lastSignInTime == creationTime;
   }
 
   @override
@@ -239,23 +295,10 @@ class _OTPScreenState extends State<OTPScreen> {
             onCompleted: (v) async {
               try {
                 if (widget.entryType.isSignUp) {
-                  //setPIN();
+                  await setProfile();
                 }
-                showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  //barrierColor: Colors.black.withAlpha(30),
-                  builder: (BuildContext context) {
-                    dialogContext = context;
-                    return Center(
-                      key: _loadingNavigatorKey,
-                      child: CircularProgressIndicator(
-                        color: theme.primaryColorDark,
-                      ),
-                    );
-                  },
-                );
-                await _signInWithCredential(phoneCredential);
+                _signInWithCredential(phoneCredential);
+
                 /* context
                     .read<LoginCubit>()
                     .logInWithPhoneNumber(phoneCredential); */
@@ -265,9 +308,6 @@ class _OTPScreenState extends State<OTPScreen> {
                     .then((value) async {
                   if (value.user != null) {
                     //setPassword(value.user!.uid);
-
-                    /// TODO:
-
                   } 
                 });*/
               } catch (e) {

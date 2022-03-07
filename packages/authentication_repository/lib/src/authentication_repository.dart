@@ -414,26 +414,31 @@ class AuthenticationRepository {
 
   Future<void> _signInWithCredential(dynamic credential) async {
     _firebaseAuth.signInWithCredential(credential).then((current) {
-      var lastSignInTime = current
-          .user!.metadata.lastSignInTime!.millisecondsSinceEpoch
-          .toString();
-      lastSignInTime = lastSignInTime.substring(0, lastSignInTime.length - 1);
-      print(lastSignInTime);
-      var creationTime = current
-          .user!.metadata.creationTime!.millisecondsSinceEpoch
-          .toString();
-      creationTime = creationTime.substring(0, creationTime.length - 1);
-      print(creationTime);
-      if (lastSignInTime == creationTime) {
+      if (firstLoginOf(current)) {
         db.collection('users').doc(current.user!.uid).set({
-          'email': current.user!.email,
-          'name': current.user!.displayName,
-          'photo': current.user!.photoURL,
-          'phoneNumber': current.user!.phoneNumber,
+          //Use .updateProfile or .updatePhoneNumber to update the basic info
+          // in firebase auth credentials
+          /*  'email': current.user!.email,
+            'name': current.user!.displayName,
+            'photo': current.user!.photoURL,
+            'phoneNumber': current.user!.phoneNumber, */
           'balance': 0,
         }).onError((error, stackTrace) => print(error.toString()));
       }
     });
+  }
+
+  bool firstLoginOf(current) {
+    var lastSignInTime = current
+        .user!.metadata.lastSignInTime!.millisecondsSinceEpoch
+        .toString();
+    lastSignInTime = lastSignInTime.substring(0, lastSignInTime.length - 1);
+    print(lastSignInTime);
+    var creationTime =
+        current.user!.metadata.creationTime!.millisecondsSinceEpoch.toString();
+    creationTime = creationTime.substring(0, creationTime.length - 1);
+    print(creationTime);
+    return lastSignInTime == creationTime;
   }
 
   /// Signs in with the provided [email] and [password].

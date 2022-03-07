@@ -84,12 +84,15 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
           padding: const EdgeInsets.all(12.0),
           child: BlocBuilder<PhoneAuthBloc, PhoneAuthState>(
             builder: (context, state) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildForm(state.status),
-                  _buildButton(state.status),
-                ],
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 7),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildForm(state.status),
+                    _buildButton(state.status),
+                  ],
+                ),
               );
             },
           ),
