@@ -1,7 +1,5 @@
 import 'package:doeat/models/models.dart';
 
-enum ProductCategory { latest, trending, recommended }
-
 class ProductSection {
   final String title;
   final List<Product> product;
@@ -20,7 +18,7 @@ class ProductSection {
       ProductSection(
         title: 'Recommended for you',
         productCategory: ProductCategory.recommended,
-        product: Product.generateProductList(),
+        product: Product.listWhere(category: ProductCategory.recommended),
       ),
       ProductSection(
         title: 'New Items',
@@ -33,8 +31,8 @@ class ProductSection {
         product: Product.generateTrendingProduct(),
       ),
       ProductSection(
-        title: 'Hot and Trending',
-        productCategory: ProductCategory.trending,
+        title: 'Top',
+        productCategory: ProductCategory.top,
         product: Product.generateProductList(),
       ),
     ];

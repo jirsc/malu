@@ -4,6 +4,13 @@ import 'package:equatable/equatable.dart';
 
 part 'product.g.dart';
 
+enum ProductCategory {
+  recommended, // Suggested by the vendor
+  trending, // Famous and mostly bought by the customers
+  latest, // New products
+  top, // Top rated and most liked by the customers
+}
+
 /// {@template product}
 /// Product model
 ///
@@ -20,7 +27,8 @@ class Product extends Equatable {
   final num score;
   final num ratingCount;
   final String description;
-  final List<String> categoryCode;
+  final List<String> category;
+  final List<List<String>> specification;
   final bool isRecommended;
 
   const Product({
@@ -31,7 +39,10 @@ class Product extends Equatable {
     this.score = 0,
     this.ratingCount = 0,
     this.description = '',
-    this.categoryCode = const [''],
+    this.category = const [''],
+    this.specification = const [
+      ['']
+    ],
     this.isRecommended = false,
   });
 
@@ -43,36 +54,6 @@ class Product extends Equatable {
 
   /// Convenience getter to determine whether the current product is not empty.
   bool get hasData => this != Product.empty;
-
-  /* Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'imageUrl': imageUrl,
-      'name': name,
-      'distance': distance,
-      'score': score,
-      'ratingCount': ratingCount,
-      'price': price,
-      'category': category,
-      'location': location,
-      'description': description,
-    };
-  }
-
-  factory Product.fromJson(Map<String, dynamic> json) {
-    return Product(
-      id: json['id'] as String,
-      imageUrl: json['imageUrl'] as String,
-      name: json['name'] as String,
-      distance: json['distance'] as String,
-      score: json['score'] as num,
-      ratingCount: json['ratingCount'] as num,
-      price: json['price'] as num,
-      category: json['category'] as List<String>,
-      location: json['location'] as Map<String, dynamic>,
-      description: json['description'] as String,
-    );
-  } */
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return _$ProductFromJson(json);
@@ -93,9 +74,22 @@ class Product extends Equatable {
         score,
         ratingCount,
         description,
-        categoryCode,
+        category,
         isRecommended,
       ];
+
+  static List<Product> listWhere({required ProductCategory category}) {
+    switch (category) {
+      case ProductCategory.recommended:
+        return generateRecommendedProduct();
+      case ProductCategory.trending:
+        return generateTrendingProduct();
+      case ProductCategory.latest:
+      case ProductCategory.top:
+      default:
+        return generateProductList();
+    }
+  }
 
   static List<Product> generateRecommendedProduct() {
     return [
@@ -105,7 +99,7 @@ class Product extends Equatable {
           score: 4.9,
           ratingCount: 107.3,
           price: 2.7,
-          categoryCode: ['Asian', 'Snacks', 'Pastry'],
+          category: ['Asian', 'Snacks', 'Pastry'],
           description: 'The best food to eat ...',
           id: '1'),
       const Product(
@@ -114,7 +108,7 @@ class Product extends Equatable {
           score: 4.9,
           ratingCount: 107.3,
           price: 2.7,
-          categoryCode: ['Asian', 'Snacks', 'Pastry'],
+          category: ['Asian', 'Snacks', 'Pastry'],
           description: 'The best food to eat ...',
           id: '2'),
       const Product(
@@ -123,7 +117,7 @@ class Product extends Equatable {
           score: 4.9,
           ratingCount: 107.3,
           price: 2.7,
-          categoryCode: ['Asian', 'Snacks', 'Pastry'],
+          category: ['Asian', 'Snacks', 'Pastry'],
           description: 'The best food to eat ...',
           id: '3'),
       const Product(
@@ -132,7 +126,7 @@ class Product extends Equatable {
           score: 4.9,
           ratingCount: 107.3,
           price: 2.7,
-          categoryCode: ['Asian', 'Snacks', 'Pastry'],
+          category: ['Asian', 'Snacks', 'Pastry'],
           description: 'The best food to eat ...',
           id: '4'),
       const Product(
@@ -141,7 +135,7 @@ class Product extends Equatable {
           score: 4.9,
           ratingCount: 107.3,
           price: 2.7,
-          categoryCode: ['Asian', 'Snacks', 'Pastry'],
+          category: ['Asian', 'Snacks', 'Pastry'],
           description: 'The best food to eat ...',
           id: '5'),
       const Product(
@@ -150,7 +144,7 @@ class Product extends Equatable {
           score: 4.9,
           ratingCount: 107.3,
           price: 2.7,
-          categoryCode: ['Asian', 'Snacks', 'Pastry'],
+          category: ['Asian', 'Snacks', 'Pastry'],
           description: 'The best food to eat ...',
           id: '6'),
     ];
@@ -164,7 +158,7 @@ class Product extends Equatable {
           score: 4.9,
           ratingCount: 107.3,
           price: 2.7,
-          categoryCode: ['Asian', 'Snacks', 'Pastry'],
+          category: ['Asian', 'Snacks', 'Pastry'],
           description: 'The best food to eat ...',
           id: '1'),
       const Product(
@@ -173,7 +167,7 @@ class Product extends Equatable {
           score: 4.9,
           ratingCount: 107.3,
           price: 2.7,
-          categoryCode: ['Asian', 'Snacks', 'Pastry'],
+          category: ['Asian', 'Snacks', 'Pastry'],
           description: 'The best food to eat ...',
           id: '2'),
       const Product(
@@ -182,7 +176,7 @@ class Product extends Equatable {
           score: 4.9,
           ratingCount: 107.3,
           price: 2.7,
-          categoryCode: ['Asian', 'Snacks', 'Pastry'],
+          category: ['Asian', 'Snacks', 'Pastry'],
           description: 'The best food to eat ...',
           id: '3'),
       const Product(
@@ -191,7 +185,7 @@ class Product extends Equatable {
           score: 4.9,
           ratingCount: 107.3,
           price: 2.7,
-          categoryCode: ['Asian', 'Snacks', 'Pastry'],
+          category: ['Asian', 'Snacks', 'Pastry'],
           description: 'The best food to eat ...',
           id: '4'),
       const Product(
@@ -200,7 +194,7 @@ class Product extends Equatable {
           score: 4.9,
           ratingCount: 107.3,
           price: 2.7,
-          categoryCode: ['Asian', 'Snacks', 'Pastry'],
+          category: ['Asian', 'Snacks', 'Pastry'],
           description: 'The best food to eat ...',
           id: '5'),
       const Product(
@@ -209,7 +203,7 @@ class Product extends Equatable {
           score: 4.9,
           ratingCount: 107.3,
           price: 2.7,
-          categoryCode: ['Asian', 'Snacks', 'Pastry'],
+          category: ['Asian', 'Snacks', 'Pastry'],
           description: 'The best food to eat ...',
           id: '6'),
     ];
@@ -223,7 +217,7 @@ class Product extends Equatable {
           score: 4.9,
           ratingCount: 107.3,
           price: 90.00,
-          categoryCode: ['Asian', 'Snacks', 'Pastry'],
+          category: ['Asian', 'Snacks', 'Pastry'],
           description: 'The best food to eat ...',
           id: ''),
       const Product(
@@ -232,7 +226,7 @@ class Product extends Equatable {
           score: 4.9,
           ratingCount: 107.3,
           price: 85.00,
-          categoryCode: ['Asian', 'Snacks', 'Pastry'],
+          category: ['Asian', 'Snacks', 'Pastry'],
           description: 'The best food to eat ...',
           id: ''),
       const Product(
@@ -241,7 +235,7 @@ class Product extends Equatable {
           score: 4.9,
           ratingCount: 107.3,
           price: 120.00,
-          categoryCode: ['Asian', 'Snacks', 'Pastry'],
+          category: ['Asian', 'Snacks', 'Pastry'],
           description: 'The best food to eat ...',
           id: ''),
       const Product(
@@ -250,7 +244,7 @@ class Product extends Equatable {
           score: 4.9,
           ratingCount: 107.3,
           price: 70.00,
-          categoryCode: ['Asian', 'Snacks', 'Pastry'],
+          category: ['Asian', 'Snacks', 'Pastry'],
           description: 'The best food to eat ...',
           id: ''),
     ];

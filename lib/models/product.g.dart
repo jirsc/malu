@@ -14,10 +14,17 @@ Product _$ProductFromJson(Map<String, dynamic> json) => Product(
       score: json['score'] as num? ?? 0,
       ratingCount: json['ratingCount'] as num? ?? 0,
       description: json['description'] as String? ?? '',
-      categoryCode: (json['categoryCode'] as List<dynamic>?)
+      category: (json['category'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           const [''],
+      specification: (json['specification'] as List<dynamic>?)
+              ?.map(
+                  (e) => (e as List<dynamic>).map((e) => e as String).toList())
+              .toList() ??
+          const [
+            ['']
+          ],
       isRecommended: json['isRecommended'] as bool? ?? false,
     );
 
@@ -29,6 +36,7 @@ Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
       'score': instance.score,
       'ratingCount': instance.ratingCount,
       'description': instance.description,
-      'categoryCode': instance.categoryCode,
+      'category': instance.category,
+      'specification': instance.specification,
       'isRecommended': instance.isRecommended,
     };
