@@ -1,8 +1,11 @@
 import 'package:doeat/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:doeat/models/models.dart';
 
 class VendorScreenHeader extends StatefulWidget {
-  const VendorScreenHeader({Key? key}) : super(key: key);
+  const VendorScreenHeader(this.vendor, {Key? key}) : super(key: key);
+
+  final Vendor vendor;
 
   @override
   State<VendorScreenHeader> createState() => _VendorScreenHeaderState();
@@ -19,9 +22,9 @@ class _VendorScreenHeaderState extends State<VendorScreenHeader> {
         Container(
           height: 200,
           width: MediaQuery.of(context).size.width,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/images/ad2.jpg'),
+              image: AssetImage(widget.vendor.imageUrl),
               fit: BoxFit.cover,
             ),
           ),

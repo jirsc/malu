@@ -19,7 +19,9 @@ class User extends Equatable {
     this.name,
     this.photo,
     this.phoneNumber,
+    this.emailIsVerified = false,
     this.balance,
+    this.pin = '',
     this.favoriteVendor,
   });
 
@@ -38,8 +40,14 @@ class User extends Equatable {
   /// Url for the current user's mobile number.
   final String? phoneNumber;
 
+  /// List of user's favorite vendors.
+  final bool emailIsVerified;
+
   /// Balance of user's wallet.
   final String? balance;
+
+  /// Balance of user's wallet.
+  final String pin;
 
   /// List of user's favorite vendors.
   final List<dynamic>? favoriteVendor;
@@ -47,11 +55,16 @@ class User extends Equatable {
   /// Empty user which represents an unauthenticated user.
   static const empty = User(id: '');
 
+  //bool get emailIsVerified => emailVerified == true;
+
   /// Convenience getter to determine whether the current user is empty.
   bool get isEmpty => this == User.empty;
 
   /// Convenience getter to determine whether the current user is not empty.
   bool get isNotEmpty => this != User.empty;
+
+  /// Convenience getter to determine whether the current user is empty.
+  bool get hasPIN => pin != '';
 
   factory User.fromJson(Map<String, dynamic> json) {
     return _$UserFromJson(json);
@@ -64,6 +77,14 @@ class User extends Equatable {
   }
 
   @override
-  List<Object?> get props =>
-      [email, id, name, photo, phoneNumber, balance, favoriteVendor];
+  List<Object?> get props => [
+        email,
+        id,
+        name,
+        photo,
+        phoneNumber,
+        emailIsVerified,
+        balance,
+        favoriteVendor
+      ];
 }

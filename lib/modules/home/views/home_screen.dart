@@ -17,7 +17,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    print('nakalogin na');
+    //print('nakalogin na');
     //final textTheme = Theme.of(context).textTheme;
     //final user = context.select((AppBloc bloc) => bloc.state.user);
     return BlocProvider<NavbarCubit>(

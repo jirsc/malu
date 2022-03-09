@@ -35,13 +35,23 @@ class WelcomeScreen extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              child: SizedBox(
-                height: 160,
-                width: 160,
-                child: Image.asset(
-                  'assets/images/app_logo.png',
-                  color: theme.primaryColorDark,
-                ),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 160,
+                    width: 160,
+                    child: Image.asset(
+                      'assets/images/app_logo.png',
+                      color: theme.primaryColorDark,
+                    ),
+                  ),
+                  Text(
+                    'Order from anyone near you.',
+                    /* style: TextStyle(
+                      color: Colors.white,
+                    ), */
+                  )
+                ],
               ),
             ),
           ),

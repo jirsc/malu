@@ -1,5 +1,6 @@
 import 'package:doeat/config/config.dart';
 import 'package:doeat/models/models.dart';
+import 'package:collection/collection.dart';
 import 'package:doeat/utils/ui/icons/font_awesome_icons.dart';
 import 'package:doeat/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -18,59 +19,81 @@ class _ProductScreenState extends State<ProductScreen> {
     {
       'name': 'Size',
       'selectionType': 'single',
+      'required': true,
       'option': [
-        {'name': 'Regular', 'additionalPrice': 0.00},
-        {'name': 'Large', 'additionalPrice': 10.00},
+        {'name': 'Regular', 'additionalPrice': 0.00, 'available': true},
+        {'name': 'Large', 'additionalPrice': 10.00, 'available': true},
       ],
       'description': 'Pick 1',
     },
     {
       'name': 'Sugar Level',
       'selectionType': 'single',
+      'required': true,
       'option': [
-        {'name': '1.2 (120% sugar)', 'additionalPrice': 0.00},
-        {'name': '1 (100% sugar)', 'additionalPrice': 0.00},
-        {'name': '0.7 (70% sugar)', 'additionalPrice': 0.00},
-        {'name': '0.5 (50% sugar)', 'additionalPrice': 0.00},
-        {'name': '0.3 (30% sugar)', 'additionalPrice': 0.00},
-        {'name': '0 (No sugar added)', 'additionalPrice': 0.00},
+        {
+          'name': '1.2 (120% sugar)',
+          'additionalPrice': 0.00,
+          'available': true
+        },
+        {'name': '1 (100% sugar)', 'additionalPrice': 0.00, 'available': true},
+        {'name': '0.7 (70% sugar)', 'additionalPrice': 0.00, 'available': true},
+        {'name': '0.5 (50% sugar)', 'additionalPrice': 0.00, 'available': true},
+        {'name': '0.3 (30% sugar)', 'additionalPrice': 0.00, 'available': true},
+        {
+          'name': '0 (No sugar added)',
+          'additionalPrice': 0.00,
+          'available': true
+        },
       ],
       'description': 'Pick 1',
     },
     {
       'name': 'Ice options',
       'selectionType': 'single',
+      'required': true,
       'option': [
-        {'name': 'Normal ice', 'additionalPrice': 0.00},
-        {'name': 'Less ice', 'additionalPrice': 0.00},
-        {'name': 'More ice', 'additionalPrice': 0.00},
-        {'name': 'Cold but no ice', 'additionalPrice': 0.00},
+        {'name': 'Normal ice', 'additionalPrice': 0.00, 'available': true},
+        {'name': 'Less ice', 'additionalPrice': 0.00, 'available': true},
+        {'name': 'More ice', 'additionalPrice': 0.00, 'available': true},
+        {'name': 'Cold but no ice', 'additionalPrice': 0.00, 'available': true},
       ],
       'description': 'Pick 1',
     },
     {
       'name': 'Add ons',
       'selectionType': 'multiple',
+      'required': false,
       'option': [
-        {'name': 'Pearl', 'additionalPrice': 10.00},
-        {'name': 'Coconut Jelly', 'additionalPrice': 10.00},
-        {'name': 'Grass Jelly', 'additionalPrice': 20.00},
-        {'name': 'Pudding', 'additionalPrice': 20.00},
-        {'name': 'Salty Cream', 'additionalPrice': 20.00},
+        {'name': 'Pearl', 'additionalPrice': 10.00, 'available': true},
+        {'name': 'Coconut Jelly', 'additionalPrice': 10.00, 'available': true},
+        {'name': 'Grass Jelly', 'additionalPrice': 20.00, 'available': false},
+        {'name': 'Pudding', 'additionalPrice': 20.00, 'available': true},
+        {'name': 'Salty Cream', 'additionalPrice': 20.00, 'available': true},
       ],
       'description': 'Optional',
     }
   ];
 
-  int? _selection = -1;
+  Map<int, int> selectedOptions = {};
+  Map<int, double> selectedOptionPrice = {};
+  double basePrice = 0.00;
   double totalPrice = 0.00;
-  bool _showAuthSecretTextField = false;
-  bool _showProviderTokenField = true;
-  String _provider = 'GitHub';
+  double totalPricePerQuantity = 0.00;
+  int quantity = 1;
+  bool enabled = false;
+  List<int?> requiredSpecifications = [];
+  final TextEditingController _controller = TextEditingController();
 
   @override
   void initState() {
-    totalPrice = widget.product.price as double;
+    totalPrice =
+        totalPricePerQuantity = basePrice = widget.product.price as double;
+    requiredSpecifications = specification
+        .mapIndexed(
+            (index, element) => element['required'] == true ? index : null)
+        .where((element) => element != null)
+        .toList();
     super.initState();
   }
 
@@ -99,8 +122,9 @@ class _ProductScreenState extends State<ProductScreen> {
             height: 70,
             child: FullWidthButton(
               'Add to Basket - ${totalPrice.toStringAsFixed(2)}',
-              enabled: false,
+              enabled: enabled,
               textColor: Colors.white,
+              color: theme.primaryColor,
               onPressed: () {},
             ),
           )
@@ -124,6 +148,7 @@ class _ProductScreenState extends State<ProductScreen> {
       children: [
         Container(
           height: 170,
+          padding: const EdgeInsets.fromLTRB(12, 12, 0, 0),
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage(widget.product.imageUrl),
@@ -131,8 +156,26 @@ class _ProductScreenState extends State<ProductScreen> {
             ),
           ),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(FontAwesome4.cancel),
+              GestureDetector(
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  padding: EdgeInsets.zero,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade700.withOpacity(0.7),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    FontAwesome4.cancel,
+                    color: Colors.white,
+                    size: 21,
+                  ),
+                ),
+                onTap: () => Navigator.of(context).pop(),
+              ),
             ],
           ),
         ),
@@ -147,7 +190,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   Text(
                     widget.product.name + ' Milk Tea',
                     style: TextStyle(
-                      fontSize: 17,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   )
@@ -159,7 +202,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   Text(
                     widget.product.price.toStringAsFixed(2),
                     style: TextStyle(
-                      fontSize: 17,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -167,7 +210,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     'Base price',
                     style: TextStyle(
                       color: Colors.grey.shade400,
-                      fontSize: 11,
+                      fontSize: 12,
                     ),
                   ),
                 ],
@@ -205,31 +248,55 @@ class _ProductScreenState extends State<ProductScreen> {
           specification[specificationIndex]['option'][optionIndex - 1]['name'];
       double optionAdditionalPrice = specification[specificationIndex]['option']
           [optionIndex - 1]['additionalPrice'];
+      bool isOptionAvailable = specification[specificationIndex]['option']
+          [optionIndex - 1]['available'];
 
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Radio<int>(
-                value: optionIndex - 1,
-                groupValue: _selection,
-                activeColor: theme.primaryColor,
-                onChanged: _handleRadioButtonSelected,
-              ),
-              Text(optionName),
-            ],
+      return RadioListTile<int>(
+        value: optionIndex - 1,
+        groupValue: selectedOptions[specificationIndex] ?? -1,
+        activeColor: theme.primaryColor,
+        title: Text(
+          optionName,
+          style: TextStyle(
+            color: isOptionAvailable ? Colors.black : Colors.grey.shade400,
+            fontSize: 14,
           ),
-          optionAdditionalPrice == 0
-              ? Text(optionAdditionalPrice.toStringAsFixed(2))
-              : Text('+${optionAdditionalPrice.toStringAsFixed(2)}'),
-        ],
+        ),
+        subtitle: isOptionAvailable
+            ? null
+            : Text(
+                'Unavailable',
+                style: TextStyle(
+                  color: Colors.grey.shade400,
+                  fontSize: 12,
+                ),
+              ),
+        secondary: optionAdditionalPrice == 0
+            ? Text(
+                optionAdditionalPrice.toStringAsFixed(2),
+                style: TextStyle(
+                  color:
+                      isOptionAvailable ? Colors.black : Colors.grey.shade400,
+                ),
+              )
+            : Text(
+                '+${optionAdditionalPrice.toStringAsFixed(2)}',
+                style: TextStyle(
+                  color:
+                      isOptionAvailable ? Colors.black : Colors.grey.shade400,
+                ),
+              ),
+        onChanged: (value) => isOptionAvailable
+            ? _handleRadioButtonSelected(
+                value, specificationIndex, optionAdditionalPrice)
+            : null,
       );
     }
   }
 
   Widget _buildOptionHeader(index) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
           index == specification.length + 1
@@ -237,14 +304,16 @@ class _ProductScreenState extends State<ProductScreen> {
               : specification[index]['name'],
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 14,
+            fontSize: 16,
           ),
         ),
         const SizedBox(width: 7),
         Text(
-          index == specification.length + 1 ? 'Optional' : 'Pick 1',
+          index == specification.length + 1
+              ? 'Optional'
+              : specification[index]['description'],
           style: TextStyle(
-            fontSize: 11,
+            fontSize: 12,
             color: Colors.grey.shade400,
           ),
         ),
@@ -252,32 +321,213 @@ class _ProductScreenState extends State<ProductScreen> {
     );
   }
 
-  _handleRadioButtonSelected(int? value) {
+  _handleRadioButtonSelected(int? value, int specificationIndex, double price) {
     setState(() {
-      _selection = value;
-
-      switch (_selection) {
-        case 1:
-          {
-            _provider = 'GitHub';
-          }
-          break;
-
-        case 2:
-          {
-            _provider = 'Facebook';
-          }
-          break;
-
-        default:
-          {
-            _provider = 'Google';
-          }
-      }
+      selectedOptions[specificationIndex] = value ?? -1;
+      selectedOptionPrice[specificationIndex] = price;
+      enabled = selectedOptions.keys
+          .toSet()
+          .containsAll(requiredSpecifications.toSet());
+      var list =
+          selectedOptionPrice.entries.map((element) => element.value).toList();
+      totalPricePerQuantity = basePrice + list.sum;
+      totalPrice = totalPricePerQuantity * quantity;
     });
   }
 
   Widget _buildLastRow(index) {
-    return _buildOptionHeader(index);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: Column(
+        children: [
+          _buildOptionHeader(index),
+          const SizedBox(height: 12),
+          _buildNoteField(),
+          _buildQuantityField(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNoteField() {
+    return TextField(
+      controller: _controller,
+      readOnly: true,
+      decoration: const InputDecoration(
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey),
+        ),
+      ),
+      onTap: () async {
+        await showDialog<void>(
+          context: context,
+          useRootNavigator: false,
+          builder: (BuildContext context) {
+            return _buildNoteInputDialog();
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildNoteInputDialog() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      alignment: Alignment.center,
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(7),
+        ),
+        child: ListView(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      FontAwesome4.cancel,
+                      color: Colors.grey.shade700,
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  SizedBox(width: 21),
+                  Text(
+                    'Note to vendor',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Divider(
+              thickness: 1,
+              color: Colors.grey.shade300,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Material(
+                child: ListView(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    Text(
+                      'Optional',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    SizedBox(height: 7),
+                    TextField(
+                      controller: _controller,
+                      decoration: const InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        contentPadding: EdgeInsets.all(12),
+                        hintText:
+                            'Add your request (subject to restaurant\'s discretion)',
+                        hintStyle: TextStyle(fontSize: 12),
+                      ),
+                      cursorColor: theme.primaryColor,
+                    ),
+                    SizedBox(height: 12),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: FullWidthButton(
+                            'Confirm',
+                            color: theme.primaryColor,
+                            textColor: Colors.white,
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildQuantityField() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _buildSubtractQuantityButton(),
+          SizedBox(width: 30),
+          Text(
+            quantity.toString(),
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(width: 30),
+          _buildAddQuantityButton(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSubtractQuantityButton() {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(7),
+        border: Border.all(color: Colors.grey.shade300, width: 1),
+      ),
+      child: IconButton(
+        padding: const EdgeInsets.all(2),
+        icon: Icon(
+          FontAwesome4.minus,
+          color: theme.primaryColor,
+        ),
+        onPressed: () {
+          setState(() {
+            if (quantity > 1) {
+              totalPrice -= totalPricePerQuantity;
+              quantity--;
+            }
+          });
+        },
+      ),
+    );
+  }
+
+  Widget _buildAddQuantityButton() {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(7),
+        border: Border.all(color: Colors.grey.shade300, width: 1),
+      ),
+      child: IconButton(
+        padding: const EdgeInsets.all(3),
+        icon: Icon(
+          FontAwesome4.plus,
+          color: theme.primaryColor,
+        ),
+        onPressed: () {
+          setState(() {
+            if (quantity < 20) {
+              ++quantity;
+              totalPrice += totalPricePerQuantity;
+            }
+          });
+        },
+      ),
+    );
   }
 }

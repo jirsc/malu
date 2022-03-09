@@ -36,7 +36,7 @@ class _VendorScreenState extends State<VendorScreen> {
         children: [
           IgnorePointer(
             ignoring: isCollapsed,
-            child: const VendorScreenHeader(),
+            child: VendorScreenHeader(widget.vendor),
           ),
           NotificationListener<ScrollUpdateNotification>(
             onNotification: (_) {

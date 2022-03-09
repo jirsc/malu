@@ -284,6 +284,8 @@ class AuthenticationRepository {
   final FacebookAuth _facebookAuth;
   final FirebaseFirestore db;
 
+  final String _userPIN = '';
+
   /// Whether or not the current environment is web
   /// Should only be overriden for testing purposes. Otherwise,
   /// defaults to [kIsWeb]
@@ -423,21 +425,23 @@ class AuthenticationRepository {
             'photo': current.user!.photoURL,
             'phoneNumber': current.user!.phoneNumber, */
           'balance': 0,
+          'pin': '',
         }).onError((error, stackTrace) => print(error.toString()));
+        //db.collection('users').doc(current.user!.uid).get();
       }
     });
   }
 
-  bool firstLoginOf(current) {
+  bool firstLoginOf(firebase_auth.UserCredential current) {
     var lastSignInTime = current
         .user!.metadata.lastSignInTime!.millisecondsSinceEpoch
         .toString();
     lastSignInTime = lastSignInTime.substring(0, lastSignInTime.length - 1);
-    print(lastSignInTime);
+    //print(lastSignInTime);
     var creationTime =
         current.user!.metadata.creationTime!.millisecondsSinceEpoch.toString();
     creationTime = creationTime.substring(0, creationTime.length - 1);
-    print(creationTime);
+    //print(creationTime);
     return lastSignInTime == creationTime;
   }
 
@@ -485,6 +489,7 @@ extension on firebase_auth.User {
       name: displayName,
       photo: photoURL,
       phoneNumber: phoneNumber,
+      emailIsVerified: emailVerified,
     );
   }
 }

@@ -61,15 +61,20 @@ class LoginScreen extends StatelessWidget {
               ),
             ), */
             child: Padding(
-              padding: EdgeInsets.only(top: screenSize.height / 6),
+              padding: EdgeInsets.only(top: screenSize.height / 7),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 //mainAxisSize: MainAxisSize.min,
                 children: [
-                  Image.asset(
-                    'assets/images/unrype_logo_small_transparent.png',
-                    height: 120,
+                  Column(
+                    children: [
+                      Text('created by'),
+                      Image.asset(
+                        'assets/images/unrype_logo_small_transparent.png',
+                        height: 100,
+                      ),
+                    ],
                   ),
                   LoginButtons()
                 ],

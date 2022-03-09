@@ -62,20 +62,8 @@ class _OTPScreenState extends State<OTPScreen> {
       //timeout: Duration(seconds: 120),
       verificationCompleted:
           (firebaseAuth.PhoneAuthCredential credential) async {
-        print('Verification Complete!');
         phoneCredential = credential;
         _controller.text = credential.smsCode.toString();
-        /* if (widget.entryType.isLogin) {
-            context.read<LoginCubit>().logInWithPhoneNumber(credential);
-          } else {} */
-        /* await FirebaseAuth.instance
-              .signInWithCredential(credential)
-              .then((value) async {
-            if (value.user != null) {
-              setPassword(value.user!.uid);
-            }
-          }); */
-        //await _signInWithCredential(credential);
       },
       verificationFailed: (firebaseAuth.FirebaseAuthException e) {
         print(e.message);
@@ -147,7 +135,7 @@ class _OTPScreenState extends State<OTPScreen> {
                         color: theme.primaryColorDark,
                       ),
                       SizedBox(
-                        width: 12,
+                        width: 20,
                       ),
                       Text(
                         "Loading..",
@@ -298,18 +286,6 @@ class _OTPScreenState extends State<OTPScreen> {
                   await setProfile();
                 }
                 _signInWithCredential(phoneCredential);
-
-                /* context
-                    .read<LoginCubit>()
-                    .logInWithPhoneNumber(phoneCredential); */
-                /* await FirebaseAuth.instance
-                    .signInWithCredential(PhoneAuthProvider.credential(
-                        verificationId: _verificationCode, smsCode: v))
-                    .then((value) async {
-                  if (value.user != null) {
-                    //setPassword(value.user!.uid);
-                  } 
-                });*/
               } catch (e) {
                 FocusScope.of(context).unfocus();
                 /* _scaffoldkey.currentState!

@@ -5,7 +5,10 @@ import 'package:doeat/modules/modules.dart';
 
 List<Page> onGenerateAppViewPages(AppStatus state, List<Page<dynamic>> pages) {
   switch (state) {
+    case AppStatus.userEmailUnverified:
+    //return [VerifyEmailScreen.page()];
     case AppStatus.authenticated:
+    case AppStatus.pinLocked:
       return [Home.page()];
     case AppStatus.unauthenticated:
 
