@@ -1,13 +1,13 @@
-part of 'explore_bloc.dart';
+part of 'order_bloc.dart';
 
-abstract class ExploreEvent extends Equatable {
-  const ExploreEvent();
+abstract class OrderEvent extends Equatable {
+  const OrderEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class DataRequested extends ExploreEvent {
+class DataRequested extends OrderEvent {
   const DataRequested({
     required this.user,
   });

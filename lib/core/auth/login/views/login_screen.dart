@@ -72,7 +72,7 @@ class LoginScreen extends StatelessWidget {
                       Text('created by'),
                       Image.asset(
                         'assets/images/unrype_logo_small_transparent.png',
-                        height: 100,
+                        height: 93,
                       ),
                     ],
                   ),

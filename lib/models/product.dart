@@ -21,39 +21,47 @@ enum ProductCategory {
 class Product extends Equatable {
   /// {@macro product}
   final String id;
-  final String imageUrl;
   final String name;
-  final num price;
-  final num score;
-  final num ratingCount;
+  final double price;
+  final String imageUrl;
+  final int productCount;
   final String description;
+  final List<Map<String, dynamic>> specification;
   final List<String> category;
-  final List<List<String>> specification;
-  final bool isRecommended;
+  final double score;
+  final num ratingCount;
+  final bool recommended;
 
   const Product({
     required this.id,
+    required this.name,
+    required this.price,
     this.imageUrl = '',
-    this.name = '',
-    this.price = 0,
+    this.productCount = 0,
+    this.description = '',
+    this.specification = const [{}],
+    this.category = const [''],
     this.score = 0,
     this.ratingCount = 0,
-    this.description = '',
-    this.category = const [''],
-    this.specification = const [
-      ['']
-    ],
-    this.isRecommended = false,
+    this.recommended = false,
   });
 
   /// Empty product
-  static const empty = Product(id: '');
+  static const empty = Product(id: '', name: '', price: 0);
+
+  //static var available = productCount > 0;
 
   /// Convenience getter to determine whether the current product is empty.
   bool get isEmpty => this == Product.empty;
 
   /// Convenience getter to determine whether the current product is not empty.
   bool get hasData => this != Product.empty;
+
+  /// Convenience getter to determine whether the current product is available.
+  bool get isAvailable => productCount > 0;
+
+  /// Convenience getter to determine whether the current product is available.
+  bool get isRecommended => recommended == true;
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return _$ProductFromJson(json);
@@ -68,14 +76,16 @@ class Product extends Equatable {
   @override
   List<Object?> get props => [
         id,
-        imageUrl,
         name,
         price,
+        imageUrl,
+        productCount,
+        description,
+        specification,
+        category,
         score,
         ratingCount,
-        description,
-        category,
-        isRecommended,
+        recommended,
       ];
 
   static List<Product> listWhere({required ProductCategory category}) {

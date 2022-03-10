@@ -37,22 +37,6 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
     super.dispose();
   }
 
-  List<Country> countries = [];
-  Country _country = Country.empty;
-
-  // Fetch content from the json file
-  Future<void> getCountries() async {
-    final String jsonDataAsString =
-        await rootBundle.loadString('assets/countries/country.json');
-    final List data = jsonDecode(jsonDataAsString);
-    setState(() {
-      countries = data
-          .map((element) => Country.fromJson(element as Map<String, dynamic>))
-          .toList();
-      _country = countries.firstWhere((country) => country.code == 'ph');
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

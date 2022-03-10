@@ -20,6 +20,10 @@ Vendor _$VendorFromJson(Map<String, dynamic> json) => Vendor(
           const [''],
       location: json['location'] as Map<String, dynamic>? ?? const {},
       description: json['description'] as String? ?? '',
+      productList: (json['productList'] as List<dynamic>?)
+              ?.map((e) => Product.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [Product(id: '', name: '', price: 0)],
     );
 
 Map<String, dynamic> _$VendorToJson(Vendor instance) => <String, dynamic>{
@@ -33,4 +37,5 @@ Map<String, dynamic> _$VendorToJson(Vendor instance) => <String, dynamic>{
       'category': instance.category,
       'location': instance.location,
       'description': instance.description,
+      'productList': instance.productList,
     };

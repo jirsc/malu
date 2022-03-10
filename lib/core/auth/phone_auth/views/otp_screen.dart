@@ -31,6 +31,7 @@ class _OTPScreenState extends State<OTPScreen> {
   late String _verificationCode;
   late String _verificationErrorMessage;
   late User _user;
+  late String _phoneNumber;
   final TextEditingController _controller = TextEditingController();
   late final firebaseAuth.PhoneAuthCredential phoneCredential;
   final _firebaseAuth = firebaseAuth.FirebaseAuth.instance;
@@ -47,6 +48,11 @@ class _OTPScreenState extends State<OTPScreen> {
   @override
   void initState() {
     super.initState();
+    if (widget.phoneNumber.length < 10) {
+      _phoneNumber = '+687${widget.phoneNumber}';
+    } else {
+      _phoneNumber = '+63${widget.phoneNumber}';
+    }
     _verifyPhone();
   }
 
@@ -58,7 +64,7 @@ class _OTPScreenState extends State<OTPScreen> {
 
   _verifyPhone() async {
     await _firebaseAuth.verifyPhoneNumber(
-      phoneNumber: '+63${widget.phoneNumber}', //900 777 1122
+      phoneNumber: _phoneNumber,
       //timeout: Duration(seconds: 120),
       verificationCompleted:
           (firebaseAuth.PhoneAuthCredential credential) async {
@@ -82,6 +88,13 @@ class _OTPScreenState extends State<OTPScreen> {
             smsCode: "123400",
           );
           _controller.text = "123400";
+        } else if (widget.phoneNumber.length < 10) {
+          // String smsCode = 'xxxxxx';
+          phoneCredential = firebaseAuth.PhoneAuthProvider.credential(
+            verificationId: verificationID,
+            smsCode: "001200",
+          );
+          _controller.text = "001200";
         }
         /* setState(() {
           _verificationCode = verificationID;

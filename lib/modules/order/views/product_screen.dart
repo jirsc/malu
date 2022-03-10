@@ -75,7 +75,7 @@ class _ProductScreenState extends State<ProductScreen> {
     }
   ];
 
-  Map<int, int> selectedOptions = {};
+  Map<int, dynamic> selectedRadioButtons = {};
   Map<int, double> selectedOptionPrice = {};
   double basePrice = 0.00;
   double totalPrice = 0.00;
@@ -84,6 +84,7 @@ class _ProductScreenState extends State<ProductScreen> {
   bool enabled = false;
   List<int?> requiredSpecifications = [];
   final TextEditingController _controller = TextEditingController();
+  bool isSelected = false;
 
   @override
   void initState() {
@@ -250,47 +251,96 @@ class _ProductScreenState extends State<ProductScreen> {
           [optionIndex - 1]['additionalPrice'];
       bool isOptionAvailable = specification[specificationIndex]['option']
           [optionIndex - 1]['available'];
+      String optionSelectionType =
+          specification[specificationIndex]['selectionType'];
 
-      return RadioListTile<int>(
-        value: optionIndex - 1,
-        groupValue: selectedOptions[specificationIndex] ?? -1,
-        activeColor: theme.primaryColor,
-        title: Text(
-          optionName,
-          style: TextStyle(
-            color: isOptionAvailable ? Colors.black : Colors.grey.shade400,
-            fontSize: 14,
-          ),
-        ),
-        subtitle: isOptionAvailable
-            ? null
-            : Text(
-                'Unavailable',
-                style: TextStyle(
-                  color: Colors.grey.shade400,
-                  fontSize: 12,
-                ),
-              ),
-        secondary: optionAdditionalPrice == 0
-            ? Text(
-                optionAdditionalPrice.toStringAsFixed(2),
+      return optionSelectionType == 'single'
+          ? RadioListTile<int>(
+              value: optionIndex - 1,
+              groupValue: selectedRadioButtons[specificationIndex] ?? -1,
+              activeColor: theme.primaryColor,
+              title: Text(
+                optionName,
                 style: TextStyle(
                   color:
                       isOptionAvailable ? Colors.black : Colors.grey.shade400,
+                  fontSize: 14,
                 ),
-              )
-            : Text(
-                '+${optionAdditionalPrice.toStringAsFixed(2)}',
+              ),
+              subtitle: isOptionAvailable
+                  ? null
+                  : Text(
+                      'Unavailable',
+                      style: TextStyle(
+                        color: Colors.grey.shade400,
+                        fontSize: 12,
+                      ),
+                    ),
+              secondary: optionAdditionalPrice == 0
+                  ? Text(
+                      optionAdditionalPrice.toStringAsFixed(2),
+                      style: TextStyle(
+                        color: isOptionAvailable
+                            ? Colors.black
+                            : Colors.grey.shade400,
+                      ),
+                    )
+                  : Text(
+                      '+${optionAdditionalPrice.toStringAsFixed(2)}',
+                      style: TextStyle(
+                        color: isOptionAvailable
+                            ? Colors.black
+                            : Colors.grey.shade400,
+                      ),
+                    ),
+              onChanged: (value) => isOptionAvailable
+                  ? _handleRadioButtonSelected(
+                      value, specificationIndex, optionAdditionalPrice)
+                  : null,
+            )
+          : CheckboxListTile(
+              value: isSelected,
+              activeColor: theme.primaryColor,
+              controlAffinity: ListTileControlAffinity.leading,
+              title: Text(
+                optionName,
                 style: TextStyle(
                   color:
                       isOptionAvailable ? Colors.black : Colors.grey.shade400,
+                  fontSize: 14,
                 ),
               ),
-        onChanged: (value) => isOptionAvailable
-            ? _handleRadioButtonSelected(
-                value, specificationIndex, optionAdditionalPrice)
-            : null,
-      );
+              subtitle: isOptionAvailable
+                  ? null
+                  : Text(
+                      'Unavailable',
+                      style: TextStyle(
+                        color: Colors.grey.shade400,
+                        fontSize: 12,
+                      ),
+                    ),
+              secondary: optionAdditionalPrice == 0
+                  ? Text(
+                      optionAdditionalPrice.toStringAsFixed(2),
+                      style: TextStyle(
+                        color: isOptionAvailable
+                            ? Colors.black
+                            : Colors.grey.shade400,
+                      ),
+                    )
+                  : Text(
+                      '+${optionAdditionalPrice.toStringAsFixed(2)}',
+                      style: TextStyle(
+                        color: isOptionAvailable
+                            ? Colors.black
+                            : Colors.grey.shade400,
+                      ),
+                    ),
+              onChanged: (value) => isOptionAvailable
+                  ? _handleCheckBoxSelected(
+                      value, specificationIndex, optionAdditionalPrice)
+                  : null,
+            );
     }
   }
 
@@ -323,15 +373,30 @@ class _ProductScreenState extends State<ProductScreen> {
 
   _handleRadioButtonSelected(int? value, int specificationIndex, double price) {
     setState(() {
-      selectedOptions[specificationIndex] = value ?? -1;
+      selectedRadioButtons[specificationIndex] = value ?? -1;
       selectedOptionPrice[specificationIndex] = price;
-      enabled = selectedOptions.keys
+      enabled = selectedRadioButtons.keys
           .toSet()
           .containsAll(requiredSpecifications.toSet());
       var list =
           selectedOptionPrice.entries.map((element) => element.value).toList();
       totalPricePerQuantity = basePrice + list.sum;
       totalPrice = totalPricePerQuantity * quantity;
+    });
+  }
+
+  _handleCheckBoxSelected(bool? value, int specificationIndex, double price) {
+    setState(() {
+      isSelected = value ?? false;
+      //selectedRadioButtons[specificationIndex] = value ?? -1;
+      //selectedOptionPrice[specificationIndex] = price;
+      /* enabled = selectedRadioButtons.keys
+          .toSet()
+          .containsAll(requiredSpecifications.toSet());
+      var list =
+          selectedOptionPrice.entries.map((element) => element.value).toList();
+      totalPricePerQuantity = basePrice + list.sum;
+      totalPrice = totalPricePerQuantity * quantity; */
     });
   }
 

@@ -8,35 +8,34 @@ part of 'product.dart';
 
 Product _$ProductFromJson(Map<String, dynamic> json) => Product(
       id: json['id'] as String,
+      name: json['name'] as String,
+      price: (json['price'] as num).toDouble(),
       imageUrl: json['imageUrl'] as String? ?? '',
-      name: json['name'] as String? ?? '',
-      price: json['price'] as num? ?? 0,
-      score: json['score'] as num? ?? 0,
-      ratingCount: json['ratingCount'] as num? ?? 0,
+      productCount: json['productCount'] as int? ?? 0,
       description: json['description'] as String? ?? '',
+      specification: (json['specification'] as List<dynamic>?)
+              ?.map((e) => e as Map<String, dynamic>)
+              .toList() ??
+          const [{}],
       category: (json['category'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           const [''],
-      specification: (json['specification'] as List<dynamic>?)
-              ?.map(
-                  (e) => (e as List<dynamic>).map((e) => e as String).toList())
-              .toList() ??
-          const [
-            ['']
-          ],
-      isRecommended: json['isRecommended'] as bool? ?? false,
+      score: (json['score'] as num?)?.toDouble() ?? 0,
+      ratingCount: json['ratingCount'] as num? ?? 0,
+      recommended: json['recommended'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
       'id': instance.id,
-      'imageUrl': instance.imageUrl,
       'name': instance.name,
       'price': instance.price,
+      'imageUrl': instance.imageUrl,
+      'productCount': instance.productCount,
+      'description': instance.description,
+      'specification': instance.specification,
+      'category': instance.category,
       'score': instance.score,
       'ratingCount': instance.ratingCount,
-      'description': instance.description,
-      'category': instance.category,
-      'specification': instance.specification,
-      'isRecommended': instance.isRecommended,
+      'recommended': instance.recommended,
     };

@@ -1,3 +1,4 @@
+import 'package:doeat/models/models.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
@@ -23,6 +24,7 @@ class Vendor extends Equatable {
   final List<String> category;
   final Map<String, dynamic> location;
   final String description;
+  final List<Product> productList;
 
   const Vendor({
     required this.id,
@@ -35,6 +37,7 @@ class Vendor extends Equatable {
     this.category = const [''],
     this.location = const {},
     this.description = '',
+    this.productList = const [Product(id: '', name: '', price: 0)],
   });
 
   /// Empty vendor
@@ -97,6 +100,7 @@ class Vendor extends Equatable {
         weeklyOrderCount,
         category,
         description,
+        productList,
       ];
 
   static List<Vendor> generateRecommendedVendor() {

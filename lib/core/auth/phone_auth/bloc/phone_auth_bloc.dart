@@ -5,7 +5,7 @@ part 'phone_auth_event.dart';
 part 'phone_auth_state.dart';
 
 class PhoneAuthBloc extends Bloc<PhoneAuthEvent, PhoneAuthState> {
-  PhoneAuthBloc() : super(PhoneAuthState()) {
+  PhoneAuthBloc() : super(const PhoneAuthState()) {
     on<NumberInputChanged>(_onNumberInputChanged);
   }
 
@@ -13,7 +13,7 @@ class PhoneAuthBloc extends Bloc<PhoneAuthEvent, PhoneAuthState> {
       NumberInputChanged event, Emitter<PhoneAuthState> emit) async {
     //emit(state.copyWith(status: PhoneAuthStatus.loading));
     try {
-      if (event.text.length < 10) {
+      if (event.text.length < 6) {
         emit(state.copyWith(status: PhoneAuthStatus.invalid));
       } else {
         emit(state.copyWith(status: PhoneAuthStatus.valid));
