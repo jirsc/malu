@@ -20,16 +20,17 @@ class _ProductScreenState extends State<ProductScreen> {
       'name': 'Size',
       'selectionType': 'single',
       'required': true,
+      'description': 'Pick 1',
       'option': [
         {'name': 'Regular', 'additionalPrice': 0.00, 'available': true},
         {'name': 'Large', 'additionalPrice': 10.00, 'available': true},
       ],
-      'description': 'Pick 1',
     },
     {
       'name': 'Sugar Level',
       'selectionType': 'single',
       'required': true,
+      'description': 'Pick 1',
       'option': [
         {
           'name': '1.2 (120% sugar)',
@@ -46,50 +47,115 @@ class _ProductScreenState extends State<ProductScreen> {
           'available': true
         },
       ],
-      'description': 'Pick 1',
     },
     {
       'name': 'Ice options',
       'selectionType': 'single',
       'required': true,
+      'description': 'Pick 1',
       'option': [
         {'name': 'Normal ice', 'additionalPrice': 0.00, 'available': true},
         {'name': 'Less ice', 'additionalPrice': 0.00, 'available': true},
         {'name': 'More ice', 'additionalPrice': 0.00, 'available': true},
         {'name': 'Cold but no ice', 'additionalPrice': 0.00, 'available': true},
       ],
-      'description': 'Pick 1',
     },
     {
-      'name': 'Add ons',
+      //if selectionType is multiple, auto add new default key-value pair "selected": false, in option list
+      'name': 'Add ons 1',
       'selectionType': 'multiple',
       'required': false,
-      'option': [
-        {'name': 'Pearl', 'additionalPrice': 10.00, 'available': true},
-        {'name': 'Coconut Jelly', 'additionalPrice': 10.00, 'available': true},
-        {'name': 'Grass Jelly', 'additionalPrice': 20.00, 'available': false},
-        {'name': 'Pudding', 'additionalPrice': 20.00, 'available': true},
-        {'name': 'Salty Cream', 'additionalPrice': 20.00, 'available': true},
-      ],
       'description': 'Optional',
-    }
+      'option': [
+        {
+          'name': 'Pearl',
+          'additionalPrice': 10.00,
+          'available': true,
+          'selected': false
+        },
+        {
+          'name': 'Coconut Jelly',
+          'additionalPrice': 10.00,
+          'available': true,
+          'selected': false
+        },
+        {
+          'name': 'Grass Jelly',
+          'additionalPrice': 20.00,
+          'available': false,
+          'selected': false
+        },
+        {
+          'name': 'Pudding',
+          'additionalPrice': 20.00,
+          'available': true,
+          'selected': false
+        },
+        {
+          'name': 'Salty Cream',
+          'additionalPrice': 20.00,
+          'available': true,
+          'selected': false
+        },
+      ],
+    },
+    /* {
+      // if selectionType is multiple and required is true, add new key "min" and set it's default value to 1 and add new key "max" and set it's default value depending on the total count of options in option list
+      'name': 'Add ons 2',
+      'selectionType': 'multiple',
+      'required': true,
+      'min': 1,
+      'max': 1,
+      'description': 'Pick at least <minimum number of options>',
+      'option': [
+        {
+          'name': 'Pearl',
+          'additionalPrice': 10.00,
+          'available': true,
+          'selected': false
+        },
+        {
+          'name': 'Coconut Jelly',
+          'additionalPrice': 10.00,
+          'available': true,
+          'selected': false
+        },
+        {
+          'name': 'Grass Jelly',
+          'additionalPrice': 20.00,
+          'available': false,
+          'selected': false
+        },
+        {
+          'name': 'Pudding',
+          'additionalPrice': 20.00,
+          'available': true,
+          'selected': false
+        },
+        {
+          'name': 'Salty Cream',
+          'additionalPrice': 20.00,
+          'available': true,
+          'selected': false
+        },
+      ],
+    } */
   ];
 
-  Map<int, dynamic> selectedRadioButtons = {};
-  Map<int, double> selectedOptionPrice = {};
   double basePrice = 0.00;
   double totalPrice = 0.00;
   double totalPricePerQuantity = 0.00;
   int quantity = 1;
+  Map<int, dynamic> selectedRadioButtons = {};
+  Map<int, double> selectedRadioButtonPrice = {};
+  Map<int, double> selectedCheckBoxPrice = {};
   bool enabled = false;
   List<int?> requiredSpecifications = [];
   final TextEditingController _controller = TextEditingController();
-  bool isSelected = false;
 
   @override
   void initState() {
-    totalPrice =
-        totalPricePerQuantity = basePrice = widget.product.price as double;
+    totalPrice = totalPricePerQuantity = basePrice = widget.product.price;
     requiredSpecifications = specification
         .mapIndexed(
             (index, element) => element['required'] == true ? index : null)
@@ -245,14 +311,16 @@ class _ProductScreenState extends State<ProductScreen> {
     if (optionIndex == 0) {
       return _buildOptionHeader(specificationIndex);
     } else {
-      String optionName =
-          specification[specificationIndex]['option'][optionIndex - 1]['name'];
-      double optionAdditionalPrice = specification[specificationIndex]['option']
-          [optionIndex - 1]['additionalPrice'];
-      bool isOptionAvailable = specification[specificationIndex]['option']
-          [optionIndex - 1]['available'];
+      Map<String, dynamic> option =
+          specification[specificationIndex]['option'][optionIndex - 1];
+
+      String optionName = option['name'];
+      double optionAdditionalPrice = option['additionalPrice'];
+      bool isOptionAvailable = option['available'];
       String optionSelectionType =
           specification[specificationIndex]['selectionType'];
+      bool isOptionSelected =
+          optionSelectionType == 'multiple' ? option['selected'] : false;
 
       return optionSelectionType == 'single'
           ? RadioListTile<int>(
@@ -299,7 +367,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   : null,
             )
           : CheckboxListTile(
-              value: isSelected,
+              value: isOptionSelected,
               activeColor: theme.primaryColor,
               controlAffinity: ListTileControlAffinity.leading,
               title: Text(
@@ -338,7 +406,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     ),
               onChanged: (value) => isOptionAvailable
                   ? _handleCheckBoxSelected(
-                      value, specificationIndex, optionAdditionalPrice)
+                      value, specificationIndex, optionIndex)
                   : null,
             );
     }
@@ -369,35 +437,6 @@ class _ProductScreenState extends State<ProductScreen> {
         ),
       ],
     );
-  }
-
-  _handleRadioButtonSelected(int? value, int specificationIndex, double price) {
-    setState(() {
-      selectedRadioButtons[specificationIndex] = value ?? -1;
-      selectedOptionPrice[specificationIndex] = price;
-      enabled = selectedRadioButtons.keys
-          .toSet()
-          .containsAll(requiredSpecifications.toSet());
-      var list =
-          selectedOptionPrice.entries.map((element) => element.value).toList();
-      totalPricePerQuantity = basePrice + list.sum;
-      totalPrice = totalPricePerQuantity * quantity;
-    });
-  }
-
-  _handleCheckBoxSelected(bool? value, int specificationIndex, double price) {
-    setState(() {
-      isSelected = value ?? false;
-      //selectedRadioButtons[specificationIndex] = value ?? -1;
-      //selectedOptionPrice[specificationIndex] = price;
-      /* enabled = selectedRadioButtons.keys
-          .toSet()
-          .containsAll(requiredSpecifications.toSet());
-      var list =
-          selectedOptionPrice.entries.map((element) => element.value).toList();
-      totalPricePerQuantity = basePrice + list.sum;
-      totalPrice = totalPricePerQuantity * quantity; */
-    });
   }
 
   Widget _buildLastRow(index) {
@@ -594,5 +633,45 @@ class _ProductScreenState extends State<ProductScreen> {
         },
       ),
     );
+  }
+
+  _handleRadioButtonSelected(int? value, int specificationIndex, double price) {
+    setState(() {
+      selectedRadioButtons[specificationIndex] = value ?? -1;
+      selectedRadioButtonPrice[specificationIndex] = price;
+      enabled = selectedRadioButtons.keys
+          .toSet()
+          .containsAll(requiredSpecifications.toSet());
+      totalPrice = _computeTotalPrice();
+    });
+  }
+
+  _handleCheckBoxSelected(
+      bool? value, int specificationIndex, int optionIndex) {
+    List<Map<String, dynamic>> optionList =
+        specification[specificationIndex]['option'];
+    setState(() {
+      optionList[optionIndex - 1]['selected'] = value;
+      List<double> checkboxPriceList = optionList
+          .where((element) => element['selected'])
+          .map((element) => element['additionalPrice'] as double)
+          .toList();
+      selectedCheckBoxPrice[specificationIndex] = checkboxPriceList.sum;
+      totalPrice = _computeTotalPrice();
+    });
+  }
+
+  double _computeTotalPrice() {
+    var selectedCheckBoxTotalPrice = selectedCheckBoxPrice.entries
+        .map((element) => element.value)
+        .toList()
+        .sum;
+    var selectedRadioButtonTotalPrice = selectedRadioButtonPrice.entries
+        .map((element) => element.value)
+        .toList()
+        .sum;
+    totalPricePerQuantity =
+        basePrice + selectedRadioButtonTotalPrice + selectedCheckBoxTotalPrice;
+    return totalPricePerQuantity * quantity;
   }
 }
