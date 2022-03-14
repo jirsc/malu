@@ -461,6 +461,7 @@ class _ProductScreenState extends State<ProductScreen> {
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.grey),
         ),
+        hintText: 'Add your request (subject to restaurant\'s discretion)',
       ),
       onTap: () async {
         await showDialog<void>(
