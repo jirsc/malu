@@ -106,7 +106,7 @@ class Vendor extends Equatable {
   static List<Vendor> generateRecommendedVendor() {
     return [
       const Vendor(
-          imageUrl: 'assets/images/food1.jpg',
+          imageUrl: 'assets/images/mcdo.jpg',
           name: 'McDonald\'s',
           distance: 'MCDO',
           score: 4.9,
@@ -116,7 +116,7 @@ class Vendor extends Equatable {
           description: 'The best food to eat ...',
           id: '1'),
       const Vendor(
-          imageUrl: 'assets/images/food4.jpg',
+          imageUrl: 'assets/images/coco.jpeg',
           name: 'Coco Fresh',
           distance: 'COCO FRESH',
           score: 4.9,
@@ -126,7 +126,7 @@ class Vendor extends Equatable {
           description: 'The best food to eat ...',
           id: '2'),
       const Vendor(
-          imageUrl: 'assets/images/food3.jpg',
+          imageUrl: 'assets/images/mary_grace.jpg',
           name: 'Mary Grace',
           distance: 'MARY GRACE',
           score: 4.9,
@@ -136,7 +136,7 @@ class Vendor extends Equatable {
           description: 'The best food to eat ...',
           id: '3'),
       const Vendor(
-          imageUrl: 'assets/images/food2.jpg',
+          imageUrl: 'assets/images/chatime.jpeg',
           name: 'Chatime',
           distance: 'CHATIME',
           score: 4.9,
@@ -146,7 +146,7 @@ class Vendor extends Equatable {
           description: 'The best food to eat ...',
           id: '4'),
       const Vendor(
-          imageUrl: 'assets/images/food1.jpg',
+          imageUrl: 'assets/images/food3.jpg',
           name: 'Conti\'s',
           distance: 'CONTI\'S',
           score: 4.9,
@@ -156,7 +156,7 @@ class Vendor extends Equatable {
           description: 'The best food to eat ...',
           id: '5'),
       const Vendor(
-          imageUrl: 'assets/images/food4.jpg',
+          imageUrl: 'assets/images/food2.jpg',
           name: 'Cabalen',
           distance: 'CABALEN',
           score: 4.9,
@@ -171,7 +171,7 @@ class Vendor extends Equatable {
   static List<Vendor> generateTrendingVendor() {
     return [
       const Vendor(
-          imageUrl: 'assets/images/food1.jpg',
+          imageUrl: 'assets/images/mcdo1.jpg',
           name: 'McDonald\'s',
           distance: 'MCDO',
           score: 4.9,
@@ -181,7 +181,7 @@ class Vendor extends Equatable {
           description: 'The best food to eat ...',
           id: '1'),
       const Vendor(
-          imageUrl: 'assets/images/food4.jpg',
+          imageUrl: 'assets/images/coco.png',
           name: 'Coco Fresh',
           distance: 'COCO FRESH',
           score: 4.9,
@@ -191,7 +191,7 @@ class Vendor extends Equatable {
           description: 'The best food to eat ...',
           id: '2'),
       const Vendor(
-          imageUrl: 'assets/images/food3.jpg',
+          imageUrl: 'assets/images/mary_grace3.jpg',
           name: 'Mary Grace',
           distance: 'MARY GRACE',
           score: 4.9,
@@ -201,7 +201,7 @@ class Vendor extends Equatable {
           description: 'The best food to eat ...',
           id: '3'),
       const Vendor(
-          imageUrl: 'assets/images/food2.jpg',
+          imageUrl: 'assets/images/chatime1.jpg',
           name: 'Chatime',
           distance: 'CHATIME',
           score: 4.9,

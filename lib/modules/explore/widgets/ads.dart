@@ -1,4 +1,3 @@
-import 'package:doeat/modules/explore/explore.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -9,6 +8,8 @@ class Ads extends StatelessWidget {
     'assets/images/ad1.jpg',
     'assets/images/ad2.jpg',
     'assets/images/ad3.jpg',
+    'assets/images/ad4.jpg',
+    'assets/images/ad5.jpg',
   ];
 
   @override

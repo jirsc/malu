@@ -46,7 +46,7 @@ class WelcomeScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Order from anyone near you.',
+                    'Anyone can sell, anyone can buy',
                     /* style: TextStyle(
                       color: Colors.white,
                     ), */

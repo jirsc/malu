@@ -30,7 +30,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
             if (state.status.isLoading) {
               return ExploreSkeleton();
             } else if (state.status.isLoaded) {
-              sleep(const Duration(milliseconds: 2100));
+              sleep(const Duration(milliseconds: 2000));
               return ListView(
                 children: [
                   Stack(
@@ -84,118 +84,116 @@ class ExploreSkeleton extends StatelessWidget {
   Widget build(BuildContext context) {
     screenSize.width = MediaQuery.of(context).size.width;
     screenSize.height = MediaQuery.of(context).size.height;
-    return SingleChildScrollView(
-      child: Column(
-        //crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Skeleton(height: 210, width: screenSize.width),
-          const SizedBox(height: 20),
-          Container(
+    return Column(
+      //crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Skeleton(height: 210, width: screenSize.width),
+        const SizedBox(height: 20),
+        Container(
+          padding: const EdgeInsets.all(defaultPadding),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 120,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Skeleton(height: 120, width: 120),
+                    SizedBox(height: 4),
+                    Skeleton(height: 7, width: 70),
+                    SizedBox(height: 4),
+                    Skeleton(height: 7, width: 40),
+                  ],
+                ),
+              ),
+              const SizedBox(width: defaultPadding),
+              SizedBox(
+                width: 120,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Skeleton(height: 120, width: 120),
+                    SizedBox(height: 4),
+                    Skeleton(height: 7, width: 70),
+                    SizedBox(height: 4),
+                    Skeleton(height: 7, width: 40),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.all(defaultPadding),
+          width: screenSize.width,
+          child: Skeleton(
+            height: 7,
+            width: screenSize.width * 0.7,
+          ),
+        ),
+        Expanded(
+          child: Container(
             padding: const EdgeInsets.all(defaultPadding),
-            child: Row(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  width: 120,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Skeleton(height: 120, width: 120),
-                      SizedBox(height: 4),
-                      Skeleton(height: 7, width: 70),
-                      SizedBox(height: 4),
-                      Skeleton(height: 7, width: 40),
-                    ],
-                  ),
+                Row(
+                  children: [
+                    const Skeleton(width: 120, height: 120),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(7),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Skeleton(height: 7, width: 120),
+                            SizedBox(height: 7),
+                            Skeleton(height: 7, width: 120),
+                            SizedBox(height: 7),
+                            Skeleton(height: 7, width: 120),
+                            SizedBox(height: 7),
+                            Skeleton(height: 7, width: 120),
+                            SizedBox(height: 7),
+                            Skeleton(height: 7, width: 100),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: defaultPadding),
-                SizedBox(
-                  width: 120,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Skeleton(height: 120, width: 120),
-                      SizedBox(height: 4),
-                      Skeleton(height: 7, width: 70),
-                      SizedBox(height: 4),
-                      Skeleton(height: 7, width: 40),
-                    ],
-                  ),
+                const SizedBox(height: defaultPadding),
+                Row(
+                  children: [
+                    const Skeleton(width: 120, height: 120),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(7),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Skeleton(height: 7, width: 120),
+                            SizedBox(height: 12),
+                            Skeleton(height: 7, width: 120),
+                            SizedBox(height: 12),
+                            Skeleton(height: 7, width: 120),
+                            SizedBox(height: 12),
+                            Skeleton(height: 7, width: 120),
+                            SizedBox(height: 12),
+                            Skeleton(height: 7, width: 100),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
-          Container(
-            padding: const EdgeInsets.all(defaultPadding),
-            width: screenSize.width,
-            child: Skeleton(
-              height: 7,
-              width: screenSize.width * 0.7,
-            ),
-          ),
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.all(defaultPadding),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      const Skeleton(width: 120, height: 120),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(7),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Skeleton(height: 7, width: 120),
-                              SizedBox(height: 7),
-                              Skeleton(height: 7, width: 120),
-                              SizedBox(height: 7),
-                              Skeleton(height: 7, width: 120),
-                              SizedBox(height: 7),
-                              Skeleton(height: 7, width: 120),
-                              SizedBox(height: 7),
-                              Skeleton(height: 7, width: 100),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: defaultPadding),
-                  Row(
-                    children: [
-                      const Skeleton(width: 120, height: 120),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(7),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Skeleton(height: 7, width: 120),
-                              SizedBox(height: 12),
-                              Skeleton(height: 7, width: 120),
-                              SizedBox(height: 12),
-                              Skeleton(height: 7, width: 120),
-                              SizedBox(height: 12),
-                              Skeleton(height: 7, width: 120),
-                              SizedBox(height: 12),
-                              Skeleton(height: 7, width: 100),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
+        )
+      ],
     );
   }
 }
