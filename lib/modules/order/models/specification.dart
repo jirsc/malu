@@ -1,5 +1,4 @@
-import 'package:doeat/models/models.dart';
-import 'package:doeat/models/specification_option.dart';
+import 'package:doeat/modules/modules.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';

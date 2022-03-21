@@ -7,11 +7,14 @@ import 'dart:math' as math;
 class VendorProductSection extends StatelessWidget {
   final ProductSection section;
   final List<Product> product;
+  //final Basket basket;
+  final List<Order> basket;
 
   const VendorProductSection({
     Key? key,
     required this.section,
     required this.product,
+    required this.basket,
   }) : super(key: key);
 
   @override
@@ -69,7 +72,10 @@ class VendorProductSection extends StatelessWidget {
           (context, index) {
             final int itemIndex = index ~/ 2;
             if (index.isEven) {
-              return HorizontalProductTile(product: product[itemIndex]);
+              return HorizontalProductTile(
+                product: product[itemIndex],
+                basket: basket,
+              );
             }
             return Container(
               padding: const EdgeInsets.all(12.0),
@@ -95,7 +101,10 @@ class VendorProductSection extends StatelessWidget {
         // horizontal, this produces 2 rows.
         crossAxisCount: 2,
         children: List.generate(product.length, (index) {
-          return VerticalProductTile(product: product[index]);
+          return VerticalProductTile(
+            product: product[index],
+            basket: basket,
+          );
         }),
       );
 }
@@ -135,10 +144,15 @@ class Header extends StatelessWidget {
 }
 
 class VerticalProductTile extends StatelessWidget {
-  const VerticalProductTile({Key? key, required this.product})
-      : super(key: key);
+  const VerticalProductTile({
+    Key? key,
+    required this.product,
+    required this.basket,
+  }) : super(key: key);
 
   final Product product;
+  //final Basket basket;
+  final List<Order> basket;
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +164,10 @@ class VerticalProductTile extends StatelessWidget {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => ProductScreen(product: product),
+                builder: (context) => ProductScreen(
+                  product: product,
+                  basket: basket,
+                ),
               ),
             );
           },
@@ -228,10 +245,15 @@ class VerticalProductTile extends StatelessWidget {
 }
 
 class HorizontalProductTile extends StatelessWidget {
-  const HorizontalProductTile({Key? key, required this.product})
-      : super(key: key);
+  const HorizontalProductTile({
+    Key? key,
+    required this.product,
+    required this.basket,
+  }) : super(key: key);
 
   final Product product;
+  //final Basket basket;
+  final List<Order> basket;
 
   @override
   Widget build(BuildContext context) {
@@ -243,7 +265,10 @@ class HorizontalProductTile extends StatelessWidget {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => ProductScreen(product: product),
+                builder: (context) => ProductScreen(
+                  product: product,
+                  basket: basket,
+                ),
               ),
             );
           },

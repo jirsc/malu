@@ -7,8 +7,29 @@ abstract class OrderEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class DataRequested extends OrderEvent {
+/* class DataRequested extends OrderEvent {
   const DataRequested({
+    required this.user,
+  });
+  final User user;
+
+  @override
+  List<Object> get props => [user];
+} */
+
+class OrderAdded extends OrderEvent {
+  const OrderAdded({
+    required this.basket,
+  });
+  //final Basket basket;
+  final List<Order> basket;
+
+  @override
+  List<Object> get props => [basket];
+}
+
+class OrderPlaced extends OrderEvent {
+  const OrderPlaced({
     required this.user,
   });
   final User user;

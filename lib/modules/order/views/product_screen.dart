@@ -1,14 +1,22 @@
 import 'package:doeat/config/config.dart';
 import 'package:doeat/models/models.dart';
 import 'package:collection/collection.dart';
+import 'package:doeat/modules/modules.dart';
 import 'package:doeat/utils/ui/icons/font_awesome_icons.dart';
 import 'package:doeat/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductScreen extends StatefulWidget {
-  const ProductScreen({Key? key, required this.product}) : super(key: key);
+  const ProductScreen({
+    Key? key,
+    required this.product,
+    required this.basket,
+  }) : super(key: key);
 
   final Product product;
+  //final Basket basket;
+  final List<Order> basket;
 
   @override
   State<ProductScreen> createState() => _ProductScreenState();
@@ -177,7 +185,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   specification.length + 2, // plus 2 for Header and footer
               itemBuilder: (context, index) => _buildSpecificationList(index),
               separatorBuilder: (_, index) => Container(
-                  margin: const EdgeInsets.symmetric(vertical: 12),
+                  margin: const EdgeInsets.symmetric(vertical: 7),
                   height: 7,
                   child: const Skeleton()),
             ),
@@ -187,12 +195,29 @@ class _ProductScreenState extends State<ProductScreen> {
             color: Colors.white,
             width: double.infinity,
             height: 70,
-            child: FullWidthButton(
-              'Add to Basket - ${totalPrice.toStringAsFixed(2)}',
-              enabled: enabled,
-              textColor: Colors.white,
-              color: theme.primaryColor,
-              onPressed: () {},
+            child: BlocProvider(
+              create: (context) => OrderBloc(),
+              child: BlocBuilder<OrderBloc, OrderState>(
+                builder: (context, state) {
+                  return FullWidthButton(
+                    'Add to Basket - ${totalPrice.toStringAsFixed(2)}',
+                    enabled: enabled,
+                    textColor: Colors.white,
+                    color: theme.primaryColor,
+                    onPressed: () {
+                      widget.basket.add(Order(
+                        itemName: widget.product.name,
+                        qty: quantity,
+                        totalPrice: totalPrice,
+                      ));
+                      context
+                          .read<OrderBloc>()
+                          .add(OrderAdded(basket: widget.basket));
+                      Navigator.of(context).pop();
+                    },
+                  );
+                },
+              ),
             ),
           )
         ],
@@ -291,7 +316,7 @@ class _ProductScreenState extends State<ProductScreen> {
 
   Widget _buildSpecificationTile(specificationIndex) {
     return Padding(
-      padding: const EdgeInsets.all(12.0),
+      padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
       child: ListView.separated(
         primary: false,
         shrinkWrap: true,
@@ -300,7 +325,7 @@ class _ProductScreenState extends State<ProductScreen> {
         itemBuilder: (context, index) =>
             _buildOptionTile(specificationIndex, index),
         separatorBuilder: (_, index) => Container(
-            margin: const EdgeInsets.symmetric(vertical: 12),
+            //margin: const EdgeInsets.symmetric(vertical: 12),
             height: 2,
             child: const Skeleton()),
       ),
@@ -327,6 +352,7 @@ class _ProductScreenState extends State<ProductScreen> {
               value: optionIndex - 1,
               groupValue: selectedRadioButtons[specificationIndex] ?? -1,
               activeColor: theme.primaryColor,
+              contentPadding: EdgeInsets.zero,
               title: Text(
                 optionName,
                 style: TextStyle(
@@ -370,6 +396,7 @@ class _ProductScreenState extends State<ProductScreen> {
               value: isOptionSelected,
               activeColor: theme.primaryColor,
               controlAffinity: ListTileControlAffinity.leading,
+              contentPadding: EdgeInsets.zero,
               title: Text(
                 optionName,
                 style: TextStyle(
@@ -413,29 +440,32 @@ class _ProductScreenState extends State<ProductScreen> {
   }
 
   Widget _buildOptionHeader(index) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Text(
-          index == specification.length + 1
-              ? 'Note to vendor'
-              : specification[index]['name'],
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12.0, left: 7),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Text(
+            index == specification.length + 1
+                ? 'Note to vendor'
+                : specification[index]['name'],
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
           ),
-        ),
-        const SizedBox(width: 7),
-        Text(
-          index == specification.length + 1
-              ? 'Optional'
-              : specification[index]['description'],
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.grey.shade400,
+          const SizedBox(width: 7),
+          Text(
+            index == specification.length + 1
+                ? 'Optional'
+                : specification[index]['description'],
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.grey.shade400,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -462,6 +492,7 @@ class _ProductScreenState extends State<ProductScreen> {
           borderSide: BorderSide(color: Colors.grey),
         ),
         hintText: 'Add your request (subject to restaurant\'s discretion)',
+        hintStyle: TextStyle(fontSize: 12),
       ),
       onTap: () async {
         await showDialog<void>(

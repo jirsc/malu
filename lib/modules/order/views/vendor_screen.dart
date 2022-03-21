@@ -5,6 +5,7 @@ import 'package:doeat/utils/ui/ui.dart';
 import 'package:doeat/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:sliver_tools/sliver_tools.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class VendorScreen extends StatefulWidget {
   final Vendor vendor;
@@ -27,9 +28,66 @@ class _VendorScreenState extends State<VendorScreen> {
   Size vendorDetailsCardSize = const Size(0, 0);
   List<ProductSection> productSections =
       ProductSection.generateProductSectionList();
+  //Basket basket = Basket.empty;
+  List<Order> basket = [];
 
   @override
   Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => OrderBloc(),
+      child: BlocBuilder<OrderBloc, OrderState>(
+        builder: (context, state) {
+          if (state.status.isBasketUpdated && state.basket.isNotEmpty) {
+            return Scaffold(
+              body: _buildVendorScreen(),
+              floatingActionButton: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: FloatingActionButton.extended(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        backgroundColor: theme.primaryColor,
+                        foregroundColor: Colors.white,
+                        label: Row(
+                          children: [
+                            Text(
+                              'Basket',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        onPressed: () {},
+                      ),
+                      /* child: Row(
+                            children: [
+                              FullWidthButton(
+                                'Basket . 1 item',
+                                textColor: Colors.white,
+                                color: theme.primaryColor,
+                                onPressed: () {},
+                              ),
+                            ],
+                          ), */
+                    ),
+                  ],
+                ),
+              ),
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.centerFloat,
+            );
+          } else {
+            return _buildVendorScreen();
+          }
+        },
+      ),
+    );
+  }
+
+  Widget _buildVendorScreen() {
     return Container(
       color: Colors.white,
       child: CustomStack(
@@ -64,9 +122,9 @@ class _VendorScreenState extends State<VendorScreen> {
                   backgroundColor:
                       isCollapsed ? Colors.white : Colors.transparent,
                   /* flexibleSpace: Header(
-                    maxHeight: 400, //maxHeight,
-                    minHeight: minHeight,
-                  ), */
+                                maxHeight: 400, //maxHeight,
+                                minHeight: minHeight,
+                              ), */
                   collapsedHeight: 100,
                   expandedHeight:
                       maxHeight - MediaQuery.of(context).padding.top,
@@ -99,14 +157,14 @@ class _VendorScreenState extends State<VendorScreen> {
                     children: buildSectionList(sections: productSections),
                   )
                 /* SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        var section = productSections[index];
-                        return _buildCard(index);
-                      },
-                      childCount: productSections.length,
-                    ),
-                  ) */
+                                delegate: SliverChildBuilderDelegate(
+                                  (context, index) {
+                                    var section = productSections[index];
+                                    return _buildCard(index);
+                                  },
+                                  childCount: productSections.length,
+                                ),
+                              ) */
                 else
                   const SliverFillRemaining(
                     hasScrollBody: false,
@@ -300,7 +358,10 @@ class _VendorScreenState extends State<VendorScreen> {
   List<Widget> buildSectionList({required List<ProductSection> sections}) =>
       sections
           .map((productSection) => VendorProductSection(
-              section: productSection, product: productSection.product))
+                section: productSection,
+                product: productSection.product,
+                basket: basket,
+              ))
           .toList();
 
   Widget _buildCard(int index) {
