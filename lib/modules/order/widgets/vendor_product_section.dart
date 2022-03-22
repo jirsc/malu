@@ -2,6 +2,7 @@ import 'package:doeat/models/models.dart';
 import 'package:doeat/modules/modules.dart';
 import 'package:flutter/material.dart';
 import 'package:sliver_tools/sliver_tools.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:math' as math;
 
 class VendorProductSection extends StatelessWidget {
@@ -161,8 +162,8 @@ class VerticalProductTile extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 7.0),
         color: Colors.white,
         child: GestureDetector(
-          onTap: () {
-            Navigator.of(context).push(
+          onTap: () async {
+            var _basket = await Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => ProductScreen(
                   product: product,
@@ -170,6 +171,7 @@ class VerticalProductTile extends StatelessWidget {
                 ),
               ),
             );
+            context.read<OrderBloc>().add(OrderAdded(basket: _basket));
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -262,8 +264,8 @@ class HorizontalProductTile extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 2),
         color: Colors.white,
         child: GestureDetector(
-          onTap: () {
-            Navigator.of(context).push(
+          onTap: () async {
+            var _basket = await Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => ProductScreen(
                   product: product,
@@ -271,6 +273,7 @@ class HorizontalProductTile extends StatelessWidget {
                 ),
               ),
             );
+            context.read<OrderBloc>().add(OrderAdded(basket: _basket));
           },
           child: Column(
             children: [

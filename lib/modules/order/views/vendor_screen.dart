@@ -1,6 +1,7 @@
 import 'package:doeat/config/config.dart';
 import 'package:doeat/models/models.dart';
 import 'package:doeat/modules/order/order.dart';
+import 'package:doeat/modules/order/views/checkout_screen.dart';
 import 'package:doeat/utils/ui/ui.dart';
 import 'package:doeat/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -60,18 +61,27 @@ class _VendorScreenState extends State<VendorScreen> {
                             ),
                           ],
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => CheckoutScreen(
+                                vendor: widget.vendor,
+                                basket: basket,
+                              ),
+                            ),
+                          );
+                        },
                       ),
                       /* child: Row(
-                            children: [
-                              FullWidthButton(
-                                'Basket . 1 item',
-                                textColor: Colors.white,
-                                color: theme.primaryColor,
-                                onPressed: () {},
-                              ),
-                            ],
-                          ), */
+                                    children: [
+                                      FullWidthButton(
+                                        'Basket . 1 item',
+                                        textColor: Colors.white,
+                                        color: theme.primaryColor,
+                                        onPressed: () {},
+                                      ),
+                                    ],
+                                  ), */
                     ),
                   ],
                 ),

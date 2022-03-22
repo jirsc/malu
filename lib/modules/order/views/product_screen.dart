@@ -5,7 +5,6 @@ import 'package:doeat/modules/modules.dart';
 import 'package:doeat/utils/ui/icons/font_awesome_icons.dart';
 import 'package:doeat/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({
@@ -195,29 +194,20 @@ class _ProductScreenState extends State<ProductScreen> {
             color: Colors.white,
             width: double.infinity,
             height: 70,
-            child: BlocProvider(
-              create: (context) => OrderBloc(),
-              child: BlocBuilder<OrderBloc, OrderState>(
-                builder: (context, state) {
-                  return FullWidthButton(
-                    'Add to Basket - ${totalPrice.toStringAsFixed(2)}',
-                    enabled: enabled,
-                    textColor: Colors.white,
-                    color: theme.primaryColor,
-                    onPressed: () {
-                      widget.basket.add(Order(
-                        itemName: widget.product.name,
-                        qty: quantity,
-                        totalPrice: totalPrice,
-                      ));
-                      context
-                          .read<OrderBloc>()
-                          .add(OrderAdded(basket: widget.basket));
-                      Navigator.of(context).pop();
-                    },
-                  );
-                },
-              ),
+            child: FullWidthButton(
+              'Add to Basket - ${totalPrice.toStringAsFixed(2)}',
+              enabled: enabled,
+              textColor: Colors.white,
+              color: theme.primaryColor,
+              onPressed: () {
+                widget.basket.add(Order(
+                  itemName: widget.product.name,
+                  qty: quantity,
+                  totalPrice: totalPrice,
+                ));
+
+                Navigator.pop(context, widget.basket);
+              },
             ),
           )
         ],

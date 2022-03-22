@@ -97,6 +97,7 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
         _NumberField(
           controller: _controller,
           isValid: status.isInitial || status.isValid,
+          entryType: widget.entryType,
         ),
         _ErrorMessage(
           isValid: status.isInitial || status.isValid,
@@ -177,11 +178,16 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
 }
 
 class _NumberField extends StatefulWidget {
-  const _NumberField({Key? key, required this.controller, this.isValid = true})
-      : super(key: key);
+  const _NumberField({
+    Key? key,
+    required this.controller,
+    this.isValid = true,
+    required this.entryType,
+  }) : super(key: key);
 
   final TextEditingController controller;
   final bool isValid;
+  final EntryType entryType;
 
   @override
   State<_NumberField> createState() => __NumberFieldState();
@@ -287,6 +293,42 @@ class __NumberFieldState extends State<_NumberField> {
                   .read<PhoneAuthBloc>()
                   .add(NumberInputChanged(text: text)),
               keyboardType: TextInputType.number,
+              textInputAction: TextInputAction.done,
+              onSubmitted: (value) async {
+                if (widget.isValid) {
+                  if (await hasInternetConnection()) {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => OTPScreen(
+                              phoneNumber: widget.controller.text,
+                              entryType: widget.entryType,
+                            )));
+                  } else {
+                    await showDialog<void>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('No internet connection.'),
+                          content:
+                              Text('Sorry, pal. We can\'t send you a code.'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text(
+                                'Oh, okay.',
+                                style: TextStyle(
+                                  color: theme.primaryColor,
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                }
+              },
               /* onSubmitted: (String value) async {
                 await showDialog<void>(
                   context: context,
@@ -331,6 +373,22 @@ class __NumberFieldState extends State<_NumberField> {
         ),
       ],
     );
+  }
+
+  Future<bool> hasInternetConnection() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        return true;
+      }
+      return false;
+    } on SocketException catch (e) {
+      print(e.message);
+      //rethrow;
+      return false;
+    } catch (e) {
+      rethrow;
+    }
   }
 }
 

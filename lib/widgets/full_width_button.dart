@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 typedef _FullWidthButtonCallback = dynamic Function();
 
 class FullWidthButton extends StatelessWidget {
-  const FullWidthButton(this.buttonText,
-      {Key? key,
-      required this.onPressed,
-      this.textColor = Colors.black87,
-      this.color = Colors.white,
-      this.enabled = true,
-      this.border = BorderSide.none})
-      : super(key: key);
+  const FullWidthButton(
+    this.buttonText, {
+    Key? key,
+    required this.onPressed,
+    this.textColor = Colors.black87,
+    this.color = Colors.white,
+    this.enabled = true,
+    this.border = BorderSide.none,
+    this.elevation = 0,
+  }) : super(key: key);
 
   final String buttonText;
   final Color textColor;
@@ -18,6 +20,7 @@ class FullWidthButton extends StatelessWidget {
   final bool enabled;
   final BorderSide border;
   final _FullWidthButtonCallback onPressed;
+  final double elevation;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +33,7 @@ class FullWidthButton extends StatelessWidget {
               side: border,
             ),
             primary: enabled ? color : Colors.grey.shade400,
+            elevation: elevation,
           ),
           onPressed: onPressed,
           child: Text(
