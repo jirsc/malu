@@ -61,7 +61,6 @@ class WelcomeScreen extends StatelessWidget {
               create: (_) =>
                   LoginCubit(context.read<AuthenticationRepository>()),
               child: const AppEntryButtons(),
-              //child: const LoginForm(),
             ),
           ),
         ],

@@ -184,9 +184,10 @@ class _ProductScreenState extends State<ProductScreen> {
                   specification.length + 2, // plus 2 for Header and footer
               itemBuilder: (context, index) => _buildSpecificationList(index),
               separatorBuilder: (_, index) => Container(
-                  margin: const EdgeInsets.symmetric(vertical: 7),
-                  height: 7,
-                  child: const Skeleton()),
+                margin: const EdgeInsets.symmetric(vertical: 7),
+                height: 7,
+                child: const Skeleton(),
+              ),
             ),
           ),
           Container(
@@ -256,7 +257,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     size: 21,
                   ),
                 ),
-                onTap: () => Navigator.of(context).pop(),
+                onTap: () => Navigator.pop(context, widget.basket),
               ),
             ],
           ),

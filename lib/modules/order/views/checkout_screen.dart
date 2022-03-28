@@ -42,7 +42,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            widget.vendor.name,
+            widget.vendor.name + ' - address nito',
             style: TextStyle(
               color: Colors.black87,
               fontWeight: FontWeight.bold,
@@ -151,38 +151,286 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   Widget _buildDeliveryOptionsSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Deliver to'),
-        ListView(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          children: [
-            Text('Home'),
-          ],
-        )
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 7),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Deliver to',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 12),
+          ListView(
+            padding: EdgeInsets.symmetric(vertical: 7),
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 7, 12.0, 7),
+                        child: Icon(
+                          FontAwesome4.location,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Home',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  'Address mo',
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 12),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                padding: EdgeInsets.all(7),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(4),
+                                    color: Colors.grey.shade200),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Address mo rin',
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 11,
+                                          ),
+                                        ),
+                                        Text(
+                                          'No chuchu added',
+                                          style: TextStyle(
+                                            fontSize: 11,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SmallBlueTextButton(
+                                      'Edit',
+                                      onPressed: () {},
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 21),
+                height: 2,
+                child: Skeleton(),
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 7, 12.0, 7),
+                        child: Icon(
+                          FontAwesome4.location,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Delivery',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 11,
+                              ),
+                            ),
+                            Text(
+                              'Deliver now (40 mins)',
+                              style: TextStyle(fontSize: 11),
+                            ),
+                          ],
+                        ),
+                        SmallBlueTextButton(
+                          'Change options',
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 
   Widget _buildOrderSummarySection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 7),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Order Summary',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              SmallBlueTextButton(
+                'Add items',
+                onPressed: () {},
+              ),
+            ],
+          ),
+          SizedBox(height: 12),
+          ListView.separated(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: 12,
+            itemBuilder: (context, index) {
+              return _buildOrderItemTile(index);
+            },
+            separatorBuilder: (_, index) => Container(
+              margin: const EdgeInsets.symmetric(vertical: 7),
+              height: 2,
+              child: const Skeleton(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildOrderItemTile(int index) {
+    return Row(
       children: [
-        Text('Order Summary'),
-        ListView(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+        Column(
           children: [
-            Text('Order 1'),
+            _buildQuantityIcon(),
           ],
-        )
+        ),
+        SizedBox(width: 12),
+        Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Order ' + index.toString(),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SmallBlueTextButton(
+                    'Edit',
+                    onPressed: () {},
+                  ),
+                ],
+              ),
+              Text('105.00'),
+            ],
+          ),
+        ),
       ],
     );
   }
 
+  Widget _buildQuantityIcon() {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(7),
+        border: Border.all(color: Colors.grey.shade300, width: 1),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(7),
+        child: Text(
+          '1x',
+          style: TextStyle(
+            color: theme.primaryColor,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildPaymentDetailsSection() {
-    return Text('data');
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 7),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Payment Details',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 12),
+          GestureDetector(
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(7.0),
+                  child: Icon(
+                    FontAwesome4.credit_card_alt,
+                    color: theme.primaryColor,
+                  ),
+                ),
+                SizedBox(width: 7),
+                Text('P 100.00'),
+              ],
+            ),
+            onTap: () {
+              // TODO: Punta sa Payment Methods options page
+              print('payment details napindot ay.');
+            },
+          )
+        ],
+      ),
+    );
   }
 }
