@@ -10,6 +10,9 @@ class OrderProgressScreen extends StatefulWidget {
 class _OrderProgressScreenState extends State<OrderProgressScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      color: Colors.white,
+      child: Text('Order in progress'),
+    );
   }
 }

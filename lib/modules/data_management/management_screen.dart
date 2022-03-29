@@ -1,8 +1,14 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doeat/app/app.dart';
 import 'package:doeat/config/config.dart';
 import 'package:doeat/widgets/full_width_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class Management extends StatefulWidget {
   const Management({Key? key}) : super(key: key);
@@ -14,6 +20,9 @@ class Management extends StatefulWidget {
 }
 
 class _ManagementState extends State<Management> {
+  final picker = ImagePicker();
+  late File _imageFile;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,9 +57,21 @@ class _ManagementState extends State<Management> {
                     SizedBox(height: 30),
                     TextField(),
                     SizedBox(height: 7),
-                    TextField(),
+                    _imageFile.existsSync()
+                        ? Image.file(
+                            _imageFile,
+                            fit: BoxFit.cover,
+                          )
+                        : SizedBox(height: 1),
+                    TextButton(
+                      onPressed: () => pickImage(1),
+                      child: Text('Pick image'),
+                    ),
                     SizedBox(height: 7),
-                    TextField(),
+                    TextButton(
+                      onPressed: () => pickImage(2),
+                      child: Text('Capture image'),
+                    ),
                     SizedBox(height: 7),
                     TextField(),
                     SizedBox(height: 7),
@@ -93,7 +114,37 @@ class _ManagementState extends State<Management> {
     );
   }
 
+  Future pickImage(int type) async {
+    final pickedFile = await picker.pickImage(
+      source: type == 1 ? ImageSource.gallery : ImageSource.camera,
+      maxWidth: 210,
+      maxHeight: 210,
+    );
+
+    setState(() {
+      if (pickedFile != null) {
+        _imageFile = File(pickedFile.path);
+      }
+    });
+  }
+
   _insertData() {
     print('insert data na tayo');
+    uploadImageToFirebase();
+  }
+
+  Future uploadImageToFirebase() async {
+    String fileName = basename(_imageFile.path);
+    Reference firebaseStorageRef =
+        FirebaseStorage.instance.ref().child('uploads/$fileName');
+    UploadTask uploadTask = firebaseStorageRef.putFile(_imageFile);
+    TaskSnapshot taskSnapshot = await uploadTask;
+    taskSnapshot.ref.getDownloadURL().then(
+          (value) => print("Done: $value"),
+        );
+    final String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+    /* await FirebaseFirestore.instance
+        .collection(_imageFile.path)
+        .add({"url": downloadUrl, "name": fileName}); */
   }
 }
