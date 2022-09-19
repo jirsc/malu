@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <string name="app_name">Malu</string>
-<string name="facebook_app_id">1318711585309516</string>
-<string name="fb_login_protocol_scheme">fb1318711585309516</string>
-<string name="facebook_client_token">1bdd8674c98b2e60750ff3c6d1d5cf1b</string>
+<string name="facebook_app_id">820996275886504</string>
+<string name="fb_login_protocol_scheme">fb820996275886504</string>
+<string name="facebook_client_token">2ed677f68b55a1bc150b18b3528b78ec</string>
 </resources>
