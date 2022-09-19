@@ -1,4 +1,4 @@
-package com.unrype.doeat
+package com.unrype.malu
 
 import io.flutter.embedding.android.FlutterActivity
 
