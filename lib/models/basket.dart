@@ -1,4 +1,4 @@
-import 'package:doeat/modules/modules.dart';
+import 'package:malu/modules/modules.dart';
 import 'package:collection/collection.dart';
 
 class Basket {

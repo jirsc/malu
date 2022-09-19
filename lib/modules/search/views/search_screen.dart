@@ -1,9 +1,9 @@
-import 'package:doeat/modules/modules.dart';
-import 'package:doeat/widgets/widgets.dart';
+import 'package:malu/modules/modules.dart';
+import 'package:malu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:doeat/utils/utils.dart';
-import 'package:doeat/repositories/repositories.dart';
+import 'package:malu/utils/utils.dart';
+import 'package:malu/repositories/repositories.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);

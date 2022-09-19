@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:doeat/app/app.dart';
-import 'package:doeat/config/config.dart';
-import 'package:doeat/widgets/full_width_button.dart';
+import 'package:malu/app/app.dart';
+import 'package:malu/config/config.dart';
+import 'package:malu/widgets/full_width_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';

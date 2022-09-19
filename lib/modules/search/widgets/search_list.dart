@@ -1,10 +1,10 @@
-import 'package:doeat/modules/order/views/vendor_screen.dart';
-import 'package:doeat/modules/search/widgets/search_filter.dart';
-import 'package:doeat/utils/ui/ui.dart';
-import 'package:doeat/widgets/widgets.dart';
+import 'package:malu/modules/order/views/vendor_screen.dart';
+import 'package:malu/modules/search/widgets/search_filter.dart';
+import 'package:malu/utils/ui/ui.dart';
+import 'package:malu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:doeat/models/models.dart';
-import 'package:doeat/modules/modules.dart';
+import 'package:malu/models/models.dart';
+import 'package:malu/modules/modules.dart';
 
 class SearchList extends StatelessWidget {
   final List<Vendor> list;

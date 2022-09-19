@@ -1,5 +1,5 @@
-import 'package:doeat/config/config.dart';
-import 'package:doeat/utils/utils.dart';
+import 'package:malu/config/config.dart';
+import 'package:malu/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class SearchFilter extends StatelessWidget {

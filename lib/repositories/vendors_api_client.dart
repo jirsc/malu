@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:doeat/models/models.dart';
+import 'package:malu/models/models.dart';
 
 class VendorsApiClient {
   static const baseUrl = 'http://api.github.com';

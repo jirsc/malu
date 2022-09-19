@@ -1,6 +1,6 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:doeat/models/models.dart';
+import 'package:malu/models/models.dart';
 
 final FirebaseFirestore db = FirebaseFirestore.instance;
 

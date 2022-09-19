@@ -5,12 +5,12 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "doeat",
+            "name": "malu",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "doeat (profile mode)",
+            "name": "malu (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"

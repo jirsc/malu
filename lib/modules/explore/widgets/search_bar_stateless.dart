@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:doeat/utils/utils.dart';
+import 'package:malu/utils/utils.dart';
 
 class SearchBarStateless extends StatelessWidget {
   const SearchBarStateless({Key? key}) : super(key: key);

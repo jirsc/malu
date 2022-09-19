@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:doeat/modules/modules.dart';
-import 'package:doeat/models/models.dart';
+import 'package:malu/modules/modules.dart';
+import 'package:malu/models/models.dart';
 
 class RecommendedVendor extends StatelessWidget {
   final recommendedList = Vendor.generateRecommendedVendor();

@@ -1,4 +1,4 @@
-import 'package:doeat/models/models.dart';
+import 'package:malu/models/models.dart';
 
 class ProductSection {
   final String title;

@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:doeat/utils/utils.dart';
-import 'package:doeat/models/models.dart';
+import 'package:malu/utils/utils.dart';
+import 'package:malu/models/models.dart';
 
 class VendorRepository {
   const VendorRepository({

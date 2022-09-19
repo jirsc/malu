@@ -1,8 +1,8 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
-import 'package:doeat/models/models.dart';
-import 'package:doeat/repositories/repositories.dart';
-import 'package:doeat/utils/services/firebase_firestore_service.dart';
+import 'package:malu/models/models.dart';
+import 'package:malu/repositories/repositories.dart';
+import 'package:malu/utils/services/firebase_firestore_service.dart';
 import 'package:equatable/equatable.dart';
 
 part 'explore_event.dart';

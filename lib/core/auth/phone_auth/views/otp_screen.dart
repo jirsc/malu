@@ -1,9 +1,9 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:doeat/config/config.dart';
-import 'package:doeat/constants/app_constants.dart';
-import 'package:doeat/core/core.dart';
-import 'package:doeat/utils/ui/icons/font_awesome_icons.dart';
+import 'package:malu/config/config.dart';
+import 'package:malu/constants/app_constants.dart';
+import 'package:malu/core/core.dart';
+import 'package:malu/utils/ui/icons/font_awesome_icons.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebaseAuth;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -185,8 +185,8 @@ class _OTPScreenState extends State<OTPScreen> {
               firebaseAuth.ActionCodeSettings(
             url:
                 'https://www.example.com/cart?email=user@example.com&cartId=123',
-            iOSBundleId: 'com.unrype.doeat',
-            androidPackageName: 'com.unrype.doeat',
+            iOSBundleId: 'com.unrype.malu',
+            androidPackageName: 'com.unrype.malu',
             androidInstallApp: true,
             androidMinimumVersion: '19',
             dynamicLinkDomain: '',

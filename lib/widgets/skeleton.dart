@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:doeat/constants/app_constants.dart';
+import 'package:malu/constants/app_constants.dart';
 
 class Skeleton extends StatelessWidget {
   const Skeleton({Key? key, this.height, this.width}) : super(key: key);

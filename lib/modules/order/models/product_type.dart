@@ -1,4 +1,4 @@
-import 'package:doeat/modules/modules.dart';
+import 'package:malu/modules/modules.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:doeat/utils/utils.dart';
-import 'package:doeat/config/config.dart';
+import 'package:malu/utils/utils.dart';
+import 'package:malu/config/config.dart';
 
 typedef _SearchEventCallback = void Function(String);
 

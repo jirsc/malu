@@ -1,6 +1,6 @@
-import 'package:doeat/utils/utils.dart';
+import 'package:malu/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:doeat/models/models.dart';
+import 'package:malu/models/models.dart';
 
 class VendorScreenHeader extends StatefulWidget {
   const VendorScreenHeader(this.vendor, {Key? key}) : super(key: key);

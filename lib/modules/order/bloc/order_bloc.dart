@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:doeat/models/models.dart';
-import 'package:doeat/modules/modules.dart';
-import 'package:doeat/repositories/repositories.dart';
-import 'package:doeat/utils/services/services.dart';
+import 'package:malu/models/models.dart';
+import 'package:malu/modules/modules.dart';
+import 'package:malu/repositories/repositories.dart';
+import 'package:malu/utils/services/services.dart';
 import 'package:equatable/equatable.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 

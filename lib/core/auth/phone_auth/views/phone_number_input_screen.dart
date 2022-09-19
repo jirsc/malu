@@ -1,10 +1,10 @@
 import 'package:authentication_repository/authentication_repository.dart';
-import 'package:doeat/config/config.dart';
-import 'package:doeat/constants/constants.dart';
-import 'package:doeat/core/auth/auth.dart';
-import 'package:doeat/models/models.dart';
-import 'package:doeat/utils/ui/icons/font_awesome_icons.dart';
-import 'package:doeat/widgets/widgets.dart';
+import 'package:malu/config/config.dart';
+import 'package:malu/constants/constants.dart';
+import 'package:malu/core/auth/auth.dart';
+import 'package:malu/models/models.dart';
+import 'package:malu/utils/ui/icons/font_awesome_icons.dart';
+import 'package:malu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:io';

@@ -1,6 +1,6 @@
-import 'package:doeat/constants/app_constants.dart';
-import 'package:doeat/core/core.dart';
-import 'package:doeat/utils/ui/icons/font_awesome_icons.dart';
+import 'package:malu/constants/app_constants.dart';
+import 'package:malu/core/core.dart';
+import 'package:malu/utils/ui/icons/font_awesome_icons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

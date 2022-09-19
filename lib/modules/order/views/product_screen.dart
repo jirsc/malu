@@ -1,9 +1,9 @@
-import 'package:doeat/config/config.dart';
-import 'package:doeat/models/models.dart';
+import 'package:malu/config/config.dart';
+import 'package:malu/models/models.dart';
 import 'package:collection/collection.dart';
-import 'package:doeat/modules/modules.dart';
-import 'package:doeat/utils/ui/icons/font_awesome_icons.dart';
-import 'package:doeat/widgets/widgets.dart';
+import 'package:malu/modules/modules.dart';
+import 'package:malu/utils/ui/icons/font_awesome_icons.dart';
+import 'package:malu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class ProductScreen extends StatefulWidget {

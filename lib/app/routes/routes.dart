@@ -1,8 +1,8 @@
-import 'package:doeat/core/core.dart';
-import 'package:doeat/modules/data_management/management_screen.dart';
+import 'package:malu/core/core.dart';
+import 'package:malu/modules/data_management/management_screen.dart';
 import 'package:flutter/widgets.dart';
-import 'package:doeat/app/app.dart';
-import 'package:doeat/modules/modules.dart';
+import 'package:malu/app/app.dart';
+import 'package:malu/modules/modules.dart';
 
 List<Page> onGenerateAppViewPages(AppState state, List<Page<dynamic>> pages) {
   switch (state.status) {

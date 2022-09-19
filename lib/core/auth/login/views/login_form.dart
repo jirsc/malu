@@ -1,7 +1,7 @@
-import 'package:doeat/config/themes/theme.dart';
+import 'package:malu/config/themes/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:doeat/core/core.dart';
+import 'package:malu/core/core.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:formz/formz.dart';
 
@@ -173,7 +173,7 @@ class _SignUpButton extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text('New to DoEat?'),
+        const Text('New to Malu?'),
         TextButton(
           key: const Key('loginForm_createAccount_textButton'),
           onPressed: () =>

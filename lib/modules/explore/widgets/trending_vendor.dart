@@ -1,8 +1,8 @@
 import 'package:authentication_repository/authentication_repository.dart';
-import 'package:doeat/utils/utils.dart';
+import 'package:malu/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:doeat/models/models.dart';
-import 'package:doeat/modules/modules.dart';
+import 'package:malu/models/models.dart';
+import 'package:malu/modules/modules.dart';
 
 class TrendingVendor extends StatefulWidget {
   const TrendingVendor({Key? key, required this.user}) : super(key: key);

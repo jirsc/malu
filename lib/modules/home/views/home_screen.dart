@@ -1,9 +1,9 @@
-import 'package:doeat/utils/ui/ui.dart';
+import 'package:malu/utils/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:doeat/modules/modules.dart';
-import 'package:doeat/config/config.dart';
-import 'package:doeat/constants/app_constants.dart';
+import 'package:malu/modules/modules.dart';
+import 'package:malu/config/config.dart';
+import 'package:malu/constants/app_constants.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);

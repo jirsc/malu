@@ -1,5 +1,5 @@
-import 'package:doeat/models/models.dart';
-import 'package:doeat/modules/modules.dart';
+import 'package:malu/models/models.dart';
+import 'package:malu/modules/modules.dart';
 import 'package:flutter/material.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

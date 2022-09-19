@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:doeat/models/models.dart';
+import 'package:malu/models/models.dart';
 import 'package:equatable/equatable.dart';
-import 'package:doeat/repositories/repositories.dart';
+import 'package:malu/repositories/repositories.dart';
 
 part 'search_vendor_event.dart';
 part 'search_vendor_state.dart';

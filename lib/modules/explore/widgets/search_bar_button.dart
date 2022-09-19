@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:doeat/utils/utils.dart';
-import 'package:doeat/config/config.dart';
-import 'package:doeat/modules/modules.dart';
+import 'package:malu/utils/utils.dart';
+import 'package:malu/config/config.dart';
+import 'package:malu/modules/modules.dart';
 
 class SearchBarButton extends StatefulWidget {
   const SearchBarButton({Key? key}) : super(key: key);

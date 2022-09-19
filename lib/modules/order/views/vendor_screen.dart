@@ -1,9 +1,9 @@
-import 'package:doeat/config/config.dart';
-import 'package:doeat/models/models.dart';
-import 'package:doeat/modules/order/order.dart';
-import 'package:doeat/modules/order/views/checkout_screen.dart';
-import 'package:doeat/utils/ui/ui.dart';
-import 'package:doeat/widgets/widgets.dart';
+import 'package:malu/config/config.dart';
+import 'package:malu/models/models.dart';
+import 'package:malu/modules/order/order.dart';
+import 'package:malu/modules/order/views/checkout_screen.dart';
+import 'package:malu/utils/ui/ui.dart';
+import 'package:malu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

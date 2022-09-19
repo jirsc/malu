@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:doeat/constants/app_constants.dart';
+import 'package:malu/constants/app_constants.dart';
 
 part 'navbar_state.dart';
 

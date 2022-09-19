@@ -1,8 +1,8 @@
-import 'package:doeat/config/config.dart';
-import 'package:doeat/constants/constants.dart';
-import 'package:doeat/core/core.dart';
-import 'package:doeat/utils/utils.dart';
-import 'package:doeat/widgets/widgets.dart';
+import 'package:malu/config/config.dart';
+import 'package:malu/constants/constants.dart';
+import 'package:malu/core/core.dart';
+import 'package:malu/utils/utils.dart';
+import 'package:malu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:authentication_repository/authentication_repository.dart';

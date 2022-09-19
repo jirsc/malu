@@ -1,10 +1,10 @@
 import 'package:authentication_repository/authentication_repository.dart';
-import 'package:doeat/config/config.dart';
-import 'package:doeat/constants/app_constants.dart';
-import 'package:doeat/widgets/widgets.dart';
+import 'package:malu/config/config.dart';
+import 'package:malu/constants/app_constants.dart';
+import 'package:malu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:doeat/core/core.dart';
+import 'package:malu/core/core.dart';
 import 'package:formz/formz.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -144,7 +144,7 @@ class AppEntryButtons extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               FullWidthButton(
-                'New to DoEat? Sign up!',
+                'New to Malu? Sign up!',
                 onPressed: () {
                   return Navigator.push(
                     context,
