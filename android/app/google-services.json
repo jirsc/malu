@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "1001238156282",
-    "project_id": "doeat-21e18",
-    "storage_bucket": "doeat-21e18.appspot.com"
+    "project_number": "740922106813",
+    "project_id": "malu-dc417",
+    "storage_bucket": "malu-dc417.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1001238156282:android:cf326b60baffc510c4ca43",
+        "mobilesdk_app_id": "1:740922106813:android:c8e74f337e219276a568d4",
         "android_client_info": {
-          "package_name": "com.unrype.doeat"
+          "package_name": "com.unrype.malu"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1001238156282-9315e55508h5gf9ucil0lmtormtki2bq.apps.googleusercontent.com",
+          "client_id": "740922106813-cmhj7ufgnafuu48vndrotlau19aittfg.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.unrype.doeat",
+            "package_name": "com.unrype.malu",
             "certificate_hash": "9b6449f97322df2402c608ba4fa03a56f0955f5f"
           }
         },
         {
-          "client_id": "1001238156282-qavj9c1pfegdsigsc8furipodc7b1utv.apps.googleusercontent.com",
+          "client_id": "740922106813-6teoec4b9e218j1vsq8bibeqppa6445c.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBOWD-AXo9e3DaX_bhMbaAxreSJPfHBkdc"
+          "current_key": "AIzaSyCXT3BjE9ENPxFvPgYZ-vUZEqbwYTRCglE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1001238156282-qavj9c1pfegdsigsc8furipodc7b1utv.apps.googleusercontent.com",
+              "client_id": "740922106813-6teoec4b9e218j1vsq8bibeqppa6445c.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
