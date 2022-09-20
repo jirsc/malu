@@ -28,6 +28,8 @@ class _HomeState extends State<Home> {
             return ExploreScreen();
           } else if (state.navbarItem == NavbarItem.activity) {
             return ExploreScreen();
+          } else if (state.navbarItem == NavbarItem.plan) {
+            return AccountScreen();
           } else if (state.navbarItem == NavbarItem.account) {
             return const AccountScreen();
           }
@@ -48,6 +50,9 @@ class _HomeState extends State<Home> {
                       .getNavBarItem(NavbarItem.activity);
                 } else if (index == 2) {
                   BlocProvider.of<NavbarCubit>(context)
+                      .getNavBarItem(NavbarItem.plan);
+                } else if (index == 3) {
+                  BlocProvider.of<NavbarCubit>(context)
                       .getNavBarItem(NavbarItem.account);
                 }
               },
@@ -59,6 +64,10 @@ class _HomeState extends State<Home> {
                 BottomNavigationBarItem(
                   icon: Icon(FontAwesome4.doc_text),
                   label: 'Activity',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(FontAwesome4.edit),
+                  label: 'Plan',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.person),

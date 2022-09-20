@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum NavbarItem { home, activity, account }
+enum NavbarItem { home, activity, plan, account }
 
 const Color grayColor = Color(0xFF8D8D8E);
 

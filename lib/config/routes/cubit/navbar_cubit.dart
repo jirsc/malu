@@ -15,8 +15,11 @@ class NavbarCubit extends Cubit<NavbarState> {
       case NavbarItem.activity:
         emit(const NavbarState(NavbarItem.activity, 1));
         break;
+      case NavbarItem.plan:
+        emit(const NavbarState(NavbarItem.plan, 2));
+        break;
       case NavbarItem.account:
-        emit(const NavbarState(NavbarItem.account, 2));
+        emit(const NavbarState(NavbarItem.account, 3));
         break;
     }
   }
