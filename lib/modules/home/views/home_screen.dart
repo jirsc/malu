@@ -29,7 +29,7 @@ class _HomeState extends State<Home> {
           } else if (state.navbarItem == NavbarItem.activity) {
             return ExploreScreen();
           } else if (state.navbarItem == NavbarItem.plan) {
-            return AccountScreen();
+            return PlanScreen();
           } else if (state.navbarItem == NavbarItem.account) {
             return const AccountScreen();
           }
