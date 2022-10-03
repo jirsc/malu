@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 // To generate the food.g.dart file run:
-// '
+// 'flutter pub run build_runner build'
 //  in the project root.
 part 'food.g.dart';
 
