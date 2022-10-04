@@ -1,0 +1,38 @@
+{
+  "configVersion": 2,
+  "packages": [
+    {
+      "name": "flutter_lints",
+      "rootUri": "file:///C:/Users/EAST%20KNC%20DEPARTMENT/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/flutter_lints-1.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "formz",
+      "rootUri": "file:///C:/Users/EAST%20KNC%20DEPARTMENT/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/formz-0.4.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "lints",
+      "rootUri": "file:///C:/Users/EAST%20KNC%20DEPARTMENT/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/lints-1.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "very_good_analysis",
+      "rootUri": "file:///C:/Users/EAST%20KNC%20DEPARTMENT/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/very_good_analysis-2.4.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "form_inputs",
+      "rootUri": "../",
+      "packageUri": "lib/",
+      "languageVersion": "2.13"
+    }
+  ],
+  "generated": "2022-09-19T05:29:17.360209Z",
+  "generator": "pub",
+  "generatorVersion": "2.16.2"
+}
