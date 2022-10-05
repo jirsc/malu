@@ -178,7 +178,7 @@ class _SignUpButton extends StatelessWidget {
           key: const Key('loginForm_createAccount_textButton'),
           onPressed: () =>
               Navigator.of(context).push<void>(SignUpScreen.route()),
-          Widget: Text(
+          child: Text(
             'Sign up!',
             style: TextStyle(color: theme.primaryColor),
           ),

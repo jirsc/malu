@@ -135,7 +135,7 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
-                                Widget: Text(
+                                child: Text(
                                   'Oh, okay.',
                                   style: TextStyle(
                                     color: theme.primaryColor,
@@ -232,7 +232,7 @@ class __NumberFieldState extends State<_NumberField> {
           ),
           child: TextButton(
             onPressed: () {},
-            Widget: FutureBuilder(
+            child: FutureBuilder(
                 future: _country,
                 builder: (context, AsyncSnapshot<Country> snapshot) {
                   if (snapshot.hasData) {
@@ -315,7 +315,7 @@ class __NumberFieldState extends State<_NumberField> {
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              Widget: Text(
+                              child: Text(
                                 'Oh, okay.',
                                 style: TextStyle(
                                   color: theme.primaryColor,

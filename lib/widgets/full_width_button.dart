@@ -36,7 +36,7 @@ class FullWidthButton extends StatelessWidget {
             elevation: elevation,
           ),
           onPressed: onPressed,
-          Widget: Text(
+          child: Text(
             buttonText,
             style: TextStyle(
               fontWeight: FontWeight.bold,

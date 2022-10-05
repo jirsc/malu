@@ -65,12 +65,12 @@ class _ManagementState extends State<Management> {
                         : SizedBox(height: 1),
                     TextButton(
                       onPressed: () => pickImage(1),
-                      Widget: Text('Pick image'),
+                      child: Text('Pick image'),
                     ),
                     SizedBox(height: 7),
                     TextButton(
                       onPressed: () => pickImage(2),
-                      Widget: Text('Capture image'),
+                      child: Text('Capture image'),
                     ),
                     SizedBox(height: 7),
                     TextField(),
