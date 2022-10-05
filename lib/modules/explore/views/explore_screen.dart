@@ -42,7 +42,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                           RecommendedVendor(),
                         ],
                       ),
-                      const Positioned(
+                      Positioned(
                         top: 140,
                         child: SearchBarButton(),
                       ),
