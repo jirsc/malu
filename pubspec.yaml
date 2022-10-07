@@ -48,11 +48,11 @@ dependencies:
   flow_builder: ^0.0.7
   flutter_bloc: ^8.0.1
   flutter_svg: ^1.0.3
-  font_awesome_flutter: ^9.1.0
+  font_awesome_flutter: ^10.2.1
   form_inputs:
     path: packages/form_inputs
   formz: ^0.4.0
-  google_fonts: ^2.1.0
+  google_fonts: ^3.0.1
   http: ^0.13.4
   image_picker: ^0.8.4+11
   in_app_purchase: ^3.0.2
@@ -79,11 +79,11 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^1.0.0
+  flutter_lints: ^2.0.1
 
   build_runner: ^2.1.7
   bloc_test: ^9.0.3
-  mocktail: ^0.2.0
+  mocktail: ^0.3.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
