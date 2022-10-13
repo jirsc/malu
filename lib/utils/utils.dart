@@ -1,4 +1,4 @@
-export 'helpers/text_helper.dart';
+export 'helpers/helpers.dart';
 
 export 'ui/ui.dart';
 

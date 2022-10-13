@@ -46,7 +46,7 @@ class WelcomeScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Anyone can sell, anyone can buy',
+                    'No more ulit ng ulam',
                     /* style: TextStyle(
                       color: Colors.white,
                     ), */

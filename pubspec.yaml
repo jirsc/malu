@@ -51,14 +51,16 @@ dependencies:
   font_awesome_flutter: ^10.2.1
   form_inputs:
     path: packages/form_inputs
-  formz: ^0.4.0
+  formz: ^0.4.1
   google_fonts: ^3.0.1
   http: ^0.13.4
   image_picker: ^0.8.4+11
+  intl_phone_number_input: ^0.7.0+2
   in_app_purchase: ^3.0.2
   json_annotation: ^4.4.0
   json_serializable: ^6.1.4
   meta: ^1.3.0
+  package_info_plus: ^1.4.2
   pin_code_fields: ^7.3.0
   provider: ^6.0.0
   shared_preferences: ^2.0.12

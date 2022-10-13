@@ -10,11 +10,19 @@ List<Page> onGenerateAppViewPages(AppState state, List<Page<dynamic>> pages) {
     //return [VerifyEmailScreen.page()];
     case AppStatus.authenticated:
     case AppStatus.pinLocked:
-      var testNum = state.user.phoneNumber ?? '+639007771122';
+      late String testNum;
+
+      if (state.user.phoneNumber == null || state.user.phoneNumber!.isEmpty) {
+        testNum = '+639007771122';
+      } else {
+        testNum = state.user.phoneNumber!;
+      }
+
       if (testNum.length < 13) {
         return [Management.page()];
+      } else {
+        return [Home.page()];
       }
-      return [Home.page()];
     case AppStatus.unauthenticated:
 
     default:

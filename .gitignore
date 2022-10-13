@@ -44,3 +44,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+#Ignore symbolic link to Flutter SDK created by FVM.
+.fvm/flutter_sdk

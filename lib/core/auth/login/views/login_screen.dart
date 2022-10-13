@@ -95,9 +95,9 @@ class LoginButtons extends StatelessWidget {
     return Column(
       children: [
         const SizedBox(height: 70),
-        _FacebookLoginButton(),
+        const _FacebookLoginButton(),
         const SizedBox(height: 12),
-        _GoogleLoginButton(),
+        const _GoogleLoginButton(),
         Row(
           children: [
             Expanded(
@@ -127,7 +127,7 @@ class LoginButtons extends StatelessWidget {
             ),
           ],
         ),
-        _PhoneLoginButton(),
+        const _PhoneLoginButton(),
         const SizedBox(height: 20),
       ],
     );

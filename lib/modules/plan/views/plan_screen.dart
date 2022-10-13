@@ -1,138 +1,167 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:malu/modules/modules.dart';
 import 'package:malu/utils/ui/icons/font_awesome_icons.dart';
+import 'package:malu/widgets/randomizer_grid_widget.dart';
 
 //General Model
 import '../../../models/models.dart';
 
+//Widgets
+import 'package:malu/widgets/vertical_tile_card.dart';
+//import 'day_plan_widget.dart';
+import 'day_plan_widget.dart';
+import 'week_view_calendar_widget.dart';
+
 class PlanScreen extends StatefulWidget {
-  PlanScreen({Key? key}) : super(key: key);
+  const PlanScreen({Key? key}) : super(key: key);
 
   @override
   State<PlanScreen> createState() => _PlanScreenState();
 }
 
 class _PlanScreenState extends State<PlanScreen> {
-  late List<Product> productList;
+  late List<Food> productList;
+  late Map daysInWeek;
 
   @override
   void initState() {
-    // TODO: implement initState
-    productList = Product.generateRandomListWhere(count: 4);
+    productList = Food.generateRandomListWhere(count: 4);
     super.initState();
+
+    // It should not be like this. XD
+    // It's for testing purposes only.
+    daysInWeek = {
+      1: "Monday",
+      2: "Tuesday",
+      3: "Wednesday",
+      4: "Thursday",
+      5: "Friday",
+      6: "Saturday",
+      7: "Sunday"
+    };
   }
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      // Create a grid with 2 columns. If you change the scrollDirection to
-      // horizontal, this produces 2 rows.
-      crossAxisCount: 2,
-      children: List.generate(4, (index) {
-        if (index == 0) {
-          return Card(
-            child: IconButton(
-              icon: const Icon(FontAwesome4.play_circled),
-              onPressed: () {
-                setState(() {
-                  productList = Product.generateRandomListWhere(count: 4);
-                });
-              },
+    return BlocProvider(
+      create: (context) => PlanBloc(),
+      child: BlocBuilder<PlanBloc, PlanState>(builder: (context, state) {
+        if (state.status.isMealPlanUpdated && state.foodList.isNotEmpty) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text(
+                "My Meal Plan",
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              backgroundColor: Colors.white,
+              elevation: 0,
+            ),
+            body: SafeArea(
+              child: Container(
+                margin: const EdgeInsets.symmetric(vertical: 12.0),
+                child: Column(
+                  children: [
+                    const WeekViewCalendar(),
+                    const Divider(
+                      thickness: 1,
+                      indent: 25.0,
+                      endIndent: 25.0,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+
+          // TODO : UPDATE DATABASE WHEN SAVED
+
+        } else if (state.status.doesSelectedDateChanged) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text(
+                "My Meal Plan",
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              backgroundColor: Colors.white,
+              elevation: 0,
+            ),
+            body: SafeArea(
+              child: Container(
+                margin: const EdgeInsets.symmetric(vertical: 12.0),
+                child: Column(
+                  children: [
+                    const WeekViewCalendar(),
+                    const Divider(
+                      thickness: 1,
+                      indent: 25.0,
+                      endIndent: 25.0,
+                    ),
+                    Expanded(
+                      child: RandomizerGrid(
+                        foodList: state.foodList,
+                        listCount: 4,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        } else {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text(
+                "My Meal Plan",
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              backgroundColor: Colors.white,
+              elevation: 0,
+            ),
+            body: SafeArea(
+              child: Container(
+                margin: const EdgeInsets.symmetric(vertical: 12.0),
+                child: Column(
+                  children: [
+                    const WeekViewCalendar(),
+                    const Divider(
+                      thickness: 1,
+                      indent: 25.0,
+                      endIndent: 25.0,
+                    ),
+                    Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: ListView.builder(
+                          itemCount: daysInWeek.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                child:
+                                    DayPlan(dayTitle: daysInWeek[index + 1]));
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           );
         }
-        return VerticalTileCard(
-          product: productList[index],
-        );
       }),
-    );
-  }
-}
-
-class VerticalTileCard extends StatelessWidget {
-  const VerticalTileCard({
-    Key? key,
-    required this.product,
-  }) : super(key: key);
-
-  final Product product;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 7.0),
-        color: Colors.white,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 140,
-                  width: 140,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.asset(
-                      product.imageUrl,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 7),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        product.name,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          //fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        '${product.price}',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      /* Text(
-                              product.description,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                fontSize: 11,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            const SizedBox(height: 7),
-                            _buildIconText(
-                              Icons.star,
-                              Colors.orange[300]!,
-                              '${vendor.score}(${vendor.ratingCount}k)',
-                            ),
-                            const SizedBox(width: 10),
-                            _buildIconText(
-                              Icons.visibility,
-                              Colors.grey,
-                              '${vendor.weeklyOrderCount}K Orders this week',
-                            ), */
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
