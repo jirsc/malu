@@ -47,6 +47,7 @@ dependencies:
   firebase_storage: ^10.2.9
   flow_builder: ^0.0.7
   flutter_bloc: ^8.0.1
+  #flutter_inappwebview: ^5.5.0+1
   flutter_svg: ^1.0.3
   font_awesome_flutter: ^10.2.1
   form_inputs:
@@ -70,6 +71,7 @@ dependencies:
   sqflite_sqlcipher: ^2.1.0
   syncfusion_flutter_calendar: ^20.2.50
   table_calendar: ^3.0.7
+  textfield_tags: ^2.0.2
   very_good_analysis: ^2.3.0
 
 dev_dependencies:

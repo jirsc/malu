@@ -39,7 +39,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         children: [
                           Ads(),
                           const SizedBox(height: 40),
-                          RecommendedVendor(),
+                          RecommendedUlam(),
                         ],
                       ),
                       Positioned(

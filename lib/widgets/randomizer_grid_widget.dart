@@ -47,23 +47,34 @@ class _RandomizerGridState extends State<RandomizerGrid> {
                   ),
                   onPressed: () {
                     setState(() {
-                      itemList = (widget.foodList.toSet().toList()..shuffle())
-                          .take(widget.listCount)
-                          .toList();
+                      itemList = randomizedList();
                     });
                   },
                 ),
-                Text('Randomize'),
+                const Text('Randomize'),
               ],
             ),
           );
         }
-        return VerticalTileCard(
-          imageUrl: itemList[index].imageUrl,
-          text1: itemList[index].name,
-          text2: itemList[index].price.toString(),
-        );
+        return buildVerticalTileCard(itemList, index);
       }),
     );
+  }
+
+  Widget buildVerticalTileCard(List<Food> itemList, int index) {
+    List<String> mealType = ['', 'BREAKFAST', 'LUNCH', 'DINNER'];
+    return VerticalTileCard(
+      imageUrl: itemList[index].imageUrl,
+      text1: mealType[index],
+      text2: itemList[index].name,
+    );
+  }
+
+  List<Food> randomizedList() {
+    List<Food> _list = [];
+    int count = 0;
+    return (widget.foodList.toSet().toList()..shuffle())
+        .take(widget.listCount)
+        .toList();
   }
 }

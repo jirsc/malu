@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:malu/config/config.dart';
 import 'package:malu/modules/modules.dart';
 import 'package:malu/utils/ui/icons/font_awesome_icons.dart';
 import 'package:malu/widgets/randomizer_grid_widget.dart';
@@ -109,6 +110,32 @@ class _PlanScreenState extends State<PlanScreen> {
                       child: RandomizerGrid(
                         foodList: state.foodList,
                         listCount: 4,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(7),
+                                side: BorderSide.none,
+                              ),
+                              primary: theme.primaryColor,
+                              elevation: 0,
+                            ),
+                            onPressed: () {},
+                            child: const Text(
+                              'Save',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],

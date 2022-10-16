@@ -92,7 +92,7 @@ class Food extends Equatable {
   final bool recommended;
 
   const Food({
-    required this.id,
+    this.id = '',
     required this.name,
     required this.price,
     this.imageUrl = '',
@@ -123,7 +123,8 @@ class Food extends Equatable {
 
   Map<String, dynamic> toJson() => _$FoodToJson(this);
 
-  factory Food.fromFirestore(DocumentSnapshot snapshot) {
+  factory Food.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot,
+      SnapshotOptions? options) {
     return Food.fromJson(snapshot.data() as Map<String, dynamic>);
   }
 

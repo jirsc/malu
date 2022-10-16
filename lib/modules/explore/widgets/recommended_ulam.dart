@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:malu/modules/modules.dart';
 import 'package:malu/models/models.dart';
 
-class RecommendedVendor extends StatelessWidget {
+class RecommendedUlam extends StatelessWidget {
   final recommendedList = Vendor.generateRecommendedVendor();
-  RecommendedVendor({Key? key}) : super(key: key);
+  RecommendedUlam({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
