@@ -67,9 +67,9 @@ class _PlanScreenState extends State<PlanScreen> {
               child: Container(
                 margin: const EdgeInsets.symmetric(vertical: 12.0),
                 child: Column(
-                  children: [
-                    const WeekViewCalendar(),
-                    const Divider(
+                  children: const [
+                    WeekViewCalendar(),
+                    Divider(
                       thickness: 1,
                       indent: 25.0,
                       endIndent: 25.0,

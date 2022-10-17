@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:malu/utils/utils.dart';
+import 'package:malu/widgets/vertical_tile_card_with_icon.dart';
 
 import '../models/food.dart';
 import 'vertical_tile_card.dart';
 
 class RandomizerGrid extends StatefulWidget {
-  final List<Food> foodList;
-  final int listCount;
 
   const RandomizerGrid({
     Key? key,
     required this.foodList,
     required this.listCount,
   }) : super(key: key);
+
+  final List<Food> foodList;
+  final int listCount;
 
   @override
   State<RandomizerGrid> createState() => _RandomizerGridState();
@@ -63,10 +65,12 @@ class _RandomizerGridState extends State<RandomizerGrid> {
 
   Widget buildVerticalTileCard(List<Food> itemList, int index) {
     List<String> mealType = ['', 'BREAKFAST', 'LUNCH', 'DINNER'];
-    return VerticalTileCard(
+    return VerticalTileCardWithIcon(
       imageUrl: itemList[index].imageUrl,
-      text1: mealType[index],
-      text2: itemList[index].name,
+      text1: itemList[index].name,
+      text2: mealType[index],
+      icon: const Icon(FontAwesome4.edit),
+      onPressed: () {},
     );
   }
 

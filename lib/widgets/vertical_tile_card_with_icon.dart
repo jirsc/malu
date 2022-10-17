@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 
-class VerticalTileCard extends StatelessWidget {
+typedef _IconButtonCallback = dynamic Function();
 
-  const VerticalTileCard({
+class VerticalTileCardWithIcon extends StatelessWidget {
+
+  const VerticalTileCardWithIcon({
     Key? key,
     required this.imageUrl,
     required this.text1,
     this.text2 = '',
+    required this.icon,
+    required this.onPressed,
   }) : super(key: key);
 
   final String imageUrl;
   final String text1;
   final String text2;
+  final Icon icon;
+  final _IconButtonCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
