@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:malu/constants/app_constants.dart';
 
 class Skeleton extends StatelessWidget {
-  const Skeleton({Key? key, this.height, this.width}) : super(key: key);
+  const Skeleton(
+      {Key? key, this.height, this.width, this.cornerRadius = defaultPadding})
+      : super(key: key);
 
   final double? height, width;
+  final double cornerRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +17,7 @@ class Skeleton extends StatelessWidget {
       padding: const EdgeInsets.all(defaultPadding / 2),
       decoration: BoxDecoration(
           color: Colors.black.withOpacity(0.04),
-          borderRadius:
-              const BorderRadius.all(Radius.circular(defaultPadding))),
+          borderRadius: BorderRadius.all(Radius.circular(cornerRadius))),
     );
   }
 }
