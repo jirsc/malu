@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:malu/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -64,6 +65,7 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
   Widget build(BuildContext context) {
     ///Dapat ilabas itong variable na ito at ipunta sa initState.
     final user = context.select((AppBloc bloc) => bloc.state.user);
+    final firebaseUser = firebase_auth.FirebaseAuth.instance.currentUser!; 
     final textTheme = Theme.of(context).textTheme;
     //_textEditingControllerName.text = user.name!;
 
@@ -91,6 +93,7 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                     );
 
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    //firebaseUser.updatePhotoURL("");
                   },
                 )),
             Container(
@@ -100,7 +103,7 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                 Container(
                   margin: const EdgeInsets.only(left: 5.0),
                   child: Text(
-                      "$userPoints " + (userPoints > 1 ? "Points" : "Point"),
+                      "$userPoints ${userPoints > 1 ? "Points" : "Point"}",
                       style: textTheme.labelMedium),
                 ),
                 Container(

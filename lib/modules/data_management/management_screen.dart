@@ -91,10 +91,10 @@ class _ManagementState extends State<Management> {
 
     await docRef.set(food);
     print(docRef.id);
-    uploadImageToFirebase(docRef);
+    uploadImageToFirebase(docRef.id);
   }
 
-  Future uploadImageToFirebase(DocumentReference documentReference) async {
+  Future uploadImageToFirebase(String documentId) async {
     if (_imageFile != null) {
       String fileName = basename(_imageFile!.path);
       Reference firebaseStorageRef =
@@ -106,10 +106,10 @@ class _ManagementState extends State<Management> {
           );
       final String downloadUrl = await taskSnapshot.ref.getDownloadURL();
       print('eto sa upload image part:');
-      print(documentReference.id);
+      print(documentId);
       await db
           .collection("food")
-          .doc(documentReference.id)
+          .doc(documentId)
           .set({"imageUrl": downloadUrl}, SetOptions(merge: true));
     }
   }
