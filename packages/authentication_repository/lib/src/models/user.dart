@@ -2,6 +2,8 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
+import 'meal_plan.dart';
+
 part 'user.g.dart';
 
 /// {@template user}
@@ -23,7 +25,18 @@ class User extends Equatable {
     this.balance,
     this.pin = '',
     this.favoriteVendor,
+    this.mealPlanList = const [MealPlan.empty],
   });
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return _$UserFromJson(json);
+  }
+
+  factory User.fromFirestore(DocumentSnapshot snapshot) {
+    return User.fromJson(snapshot.data() as Map<String, dynamic>);
+  }
+
+  Map<String, dynamic> toJson() => _$UserToJson(this);
 
   /// The current user's email address.
   final String? email;
@@ -52,6 +65,9 @@ class User extends Equatable {
   /// List of user's favorite vendors.
   final List<dynamic>? favoriteVendor;
 
+  /// List of food in each meal (Breakfast, Lunch, Dinner, etc.)
+  final List<MealPlan> mealPlanList;
+
   /// Empty user which represents an unauthenticated user.
   static const empty = User(id: '');
 
@@ -66,16 +82,6 @@ class User extends Equatable {
   /// Convenience getter to determine whether the current user is empty.
   bool get hasPIN => pin != '';
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return _$UserFromJson(json);
-  }
-
-  Map<String, dynamic> toJson() => _$UserToJson(this);
-
-  factory User.fromFirestore(DocumentSnapshot snapshot) {
-    return User.fromJson(snapshot.data() as Map<String, dynamic>);
-  }
-
   @override
   List<Object?> get props => [
         email,
@@ -85,6 +91,7 @@ class User extends Equatable {
         phoneNumber,
         emailIsVerified,
         balance,
-        favoriteVendor
+        favoriteVendor,
+        mealPlanList,
       ];
 }

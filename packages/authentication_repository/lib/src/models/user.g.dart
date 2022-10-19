@@ -16,6 +16,10 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       balance: json['balance'] as String?,
       pin: json['pin'] as String? ?? '',
       favoriteVendor: json['favoriteVendor'] as List<dynamic>?,
+      mealPlanList: (json['mealPlanList'] as List<dynamic>?)
+              ?.map((e) => MealPlan.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [MealPlan.empty],
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -28,4 +32,5 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'balance': instance.balance,
       'pin': instance.pin,
       'favoriteVendor': instance.favoriteVendor,
+      'mealPlanList': instance.mealPlanList,
     };
