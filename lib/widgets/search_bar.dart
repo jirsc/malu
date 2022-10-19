@@ -5,11 +5,11 @@ import 'package:malu/config/config.dart';
 typedef _SearchEventCallback = void Function(String);
 
 class SearchBar extends StatefulWidget {
+  const SearchBar({Key? key, this.onChanged, this.controller})
+      : super(key: key);
   final _SearchEventCallback? onChanged;
   //final VoidCallback? onChanged();
   final TextEditingController? controller;
-  const SearchBar({Key? key, this.onChanged, this.controller})
-      : super(key: key);
 
   @override
   State<SearchBar> createState() => _SearchBarState();

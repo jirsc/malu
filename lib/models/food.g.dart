@@ -7,7 +7,7 @@ part of 'food.dart';
 // **************************************************************************
 
 Food _$FoodFromJson(Map<String, dynamic> json) => Food(
-      id: json['id'] as String,
+      id: json['id'] as String? ?? '',
       name: json['name'] as String,
       price: (json['price'] as num).toDouble(),
       imageUrl: json['imageUrl'] as String? ?? '',

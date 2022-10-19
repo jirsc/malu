@@ -4,6 +4,7 @@ enum NavbarItem { home, activity, plan, account }
 
 const Color grayColor = Color(0xFF8D8D8E);
 
+/// Default padding is 12.0
 const double defaultPadding = 12.0;
 
 enum EntryType { login, signUp }

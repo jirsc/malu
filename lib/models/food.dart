@@ -79,17 +79,6 @@ enum Cuisines { local, foreign }
 @JsonSerializable()
 class Food extends Equatable {
   /// {@macro product}
-  final String id;
-  final String name;
-  final double price;
-  final String imageUrl;
-  final String description;
-  final List<Map<String, dynamic>> specification;
-  final List<String> category;
-  final List<String> mealType;
-  final double score;
-  final num ratingCount;
-  final bool recommended;
 
   const Food({
     this.id = '',
@@ -104,6 +93,18 @@ class Food extends Equatable {
     this.ratingCount = 0,
     this.recommended = false,
   });
+
+  final String id;
+  final String name;
+  final double price;
+  final String imageUrl;
+  final String description;
+  final List<Map<String, dynamic>> specification;
+  final List<String> category;
+  final List<String> mealType;
+  final double score;
+  final num ratingCount;
+  final bool recommended;
 
   /// Empty product
   static const empty = Food(id: '', name: '', price: 0);
