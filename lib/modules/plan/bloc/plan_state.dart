@@ -22,25 +22,30 @@ class PlanState extends Equatable {
   const PlanState({
     this.status = PlanStatus.initial,
     User? user,
+    String? date,
     List<Food>? foodList,
   })  : user = user ?? User.empty,
+        date = date ?? '',
         foodList = foodList ?? const [];
 
   final PlanStatus status;
   final User user;
+  final String date;
   final List<Food> foodList;
 
   @override
-  List<Object> get props => [status, foodList, user];
+  List<Object> get props => [status, date, foodList, user];
 
   PlanState copyWith({
     PlanStatus? status,
     User? user,
+    String? date,
     List<Food>? foodList,
   }) {
     return PlanState(
       status: status ?? this.status,
       user: user ?? this.user,
+      date: date ?? this.date,
       foodList: foodList ?? this.foodList,
     );
   }

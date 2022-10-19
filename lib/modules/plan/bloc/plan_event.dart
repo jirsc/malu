@@ -7,12 +7,24 @@ abstract class PlanEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class DataLoaded extends PlanEvent {
+  const DataLoaded({
+    required this.user,
+  });
+  final User user;
+
+  @override
+  List<Object> get props => [user];
+}
+
 class SelectedDateChanged extends PlanEvent {
   const SelectedDateChanged({
     required this.user,
+    required this.date,
     required this.foodList,
   });
   final User user;
+  final String date;
   final List<Food> foodList;
 
   @override

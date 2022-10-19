@@ -1,22 +1,29 @@
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:malu/app/bloc/app_bloc.dart';
 import 'package:malu/config/config.dart';
 import 'package:malu/models/food.dart';
 import 'package:malu/modules/plan/plan.dart';
 import 'package:malu/utils/helpers/date_time_helper.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../../../utils/services/firebase_firestore_service.dart';
+
 class WeekViewCalendar extends StatefulWidget {
-  const WeekViewCalendar({Key? key}) : super(key: key);
+  const WeekViewCalendar({Key? key, required this.selectedDay})
+      : super(key: key);
+
+  final DateTime selectedDay;
 
   @override
   State<WeekViewCalendar> createState() => _WeekViewCalendarState();
 }
 
 class _WeekViewCalendarState extends State<WeekViewCalendar> {
+  final FirebaseFirestoreService dbService = FirebaseFirestoreService();
+
   final DateTime _today = DateTime.now();
   late final DateTime _firstDay;
   late final DateTime _lastDay;
@@ -31,7 +38,7 @@ class _WeekViewCalendarState extends State<WeekViewCalendar> {
 
     _firstDay = DateTime(_today.year, _today.month - 12, _today.day);
     _lastDay = DateTime(_today.year, _today.month + 12, _today.day);
-    _selectedDay = _focusedDay;
+    _selectedDay = widget.selectedDay;
 
     _calendarFormat = CalendarFormat.week;
   }
@@ -56,6 +63,7 @@ class _WeekViewCalendarState extends State<WeekViewCalendar> {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.select((AppBloc bloc) => bloc.state.user);
     return TableCalendar(
       focusedDay: _focusedDay,
       firstDay: _firstDay,
@@ -92,7 +100,8 @@ class _WeekViewCalendarState extends State<WeekViewCalendar> {
         });
         print(_selectedDay);
         context.read<PlanBloc>().add(SelectedDateChanged(
-              user: User.empty,
+              user: user,
+              date: "${selectedDay.year}${selectedDay.month}${selectedDay.day}",
               foodList: Food.generateRandomListWhere(count: 4),
             ));
       },

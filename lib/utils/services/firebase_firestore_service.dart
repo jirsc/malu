@@ -7,6 +7,7 @@ final FirebaseFirestore db = FirebaseFirestore.instance;
 class FirebaseFirestoreService {
   CollectionReference vendors = db.collection('vendor');
   CollectionReference users = db.collection('users');
+  CollectionReference foods = db.collection('food');
 
   Future<QuerySnapshot> getCollection(String name) async {
     return db.collection(name).get();
@@ -16,7 +17,6 @@ class FirebaseFirestoreService {
     return users.doc(user.id).get().then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         print('nakapasok na rin sa wakas.');
-        print(documentSnapshot['favoriteVendor']);
         print(documentSnapshot.data());
         return User(
           id: user.id,
@@ -24,7 +24,8 @@ class FirebaseFirestoreService {
           photo: user.photo,
           name: user.name,
           balance: documentSnapshot['balance'],
-          favoriteVendor: documentSnapshot['favoriteVendor'],
+          //favoriteVendor: documentSnapshot['favoriteVendor'],
+          //mealPlanList: await getListOfMealPlan(),
         );
         //return User.fromJson(documentSnapshot.data() as Map<String, dynamic>);
       } else {
@@ -37,28 +38,87 @@ class FirebaseFirestoreService {
     });
   }
 
-  Future<Vendor> getVendor(String id) async {
-    return vendors.doc(id).get().then((DocumentSnapshot documentSnapshot) {
+  Future<Food> getFood(String id) async {
+    return foods.doc(id).get().then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
-        return Vendor.fromJson(documentSnapshot.data() as Map<String, dynamic>);
+        return Food.fromJson(documentSnapshot.data() as Map<String, dynamic>);
       } else {
-        return const Vendor(id: '');
+        return const Food(id: '', name: '', price: 0);
       }
     });
   }
 
-  Future<List<Vendor>> getListOfVendors() async {
-    return vendors.get().then((QuerySnapshot querySnapshot) {
-      return querySnapshot.docs
-          .map((doc) => Vendor.fromJson(doc.data() as Map<String, dynamic>))
-          .toList();
-      /* querySnapshot.docs.forEach((doc) {
+  Future<List<MealPlan>> getListOfMealPlan(String id) async {
+    if (await doesSubCollectionExist(
+        rootCollectionName: 'users',
+        subCollectionName: 'mealPlan',
+        rootCollectionDocId: id)) {
+      return users
+          .doc(id)
+          .collection('mealPlan')
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        return querySnapshot.docs.map((doc) {
+          return MealPlan.fromJson(doc.data() as Map<String, dynamic>);
+        }).toList();
+        /* querySnapshot.docs.forEach((doc) {
         print(doc["first_name"]);
       }); */
+      });
+    } else {
+      return [];
+    }
+  }
+
+  Future<void> insertMealPlan(User user, MealPlan mealPlan) async {
+    users
+        .doc(user.id)
+        .collection('mealPlan')
+        .withConverter(
+          fromFirestore: MealPlan.fromFirestore,
+          toFirestore: (MealPlan mealPlan, options) => mealPlan.toJson(),
+        )
+        .doc(mealPlan.date)
+        .set(mealPlan);
+  }
+
+  Future<bool> doesSubCollectionExist(
+      {required String rootCollectionName,
+      required String subCollectionName,
+      required String rootCollectionDocId}) {
+    return db
+        .collection(rootCollectionName)
+        .doc(rootCollectionDocId)
+        .collection(subCollectionName)
+        .limit(1)
+        .get()
+        .then((value) {
+      return value.docs.isNotEmpty;
     });
   }
 
   Stream<QuerySnapshot> getStreamOfCollection(String name) {
     return db.collection(name).snapshots();
   }
+
+  // Future<Vendor> getVendor(String id) async {
+  //   return vendors.doc(id).get().then((DocumentSnapshot documentSnapshot) {
+  //     if (documentSnapshot.exists) {
+  //       return Vendor.fromJson(documentSnapshot.data() as Map<String, dynamic>);
+  //     } else {
+  //       return const Vendor(id: '');
+  //     }
+  //   });
+  // }
+
+  // Future<List<Vendor>> getListOfVendors() async {
+  //   return vendors.get().then((QuerySnapshot querySnapshot) {
+  //     return querySnapshot.docs
+  //         .map((doc) => Vendor.fromJson(doc.data() as Map<String, dynamic>))
+  //         .toList();
+  //     /* querySnapshot.docs.forEach((doc) {
+  //       print(doc["first_name"]);
+  //     }); */
+  //   });
+  // }
 }
