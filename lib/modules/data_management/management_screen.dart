@@ -254,6 +254,7 @@ class _ManagementState extends State<Management> {
 
   Widget _customTextField(TextEditingController controller, String fieldName) {
     return TextField(
+      controller: controller,
       decoration: InputDecoration(
         contentPadding:
             const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
