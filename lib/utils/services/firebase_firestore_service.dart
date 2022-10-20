@@ -48,6 +48,17 @@ class FirebaseFirestoreService {
     });
   }
 
+  Future<List<Food>> getListOfFoods() async {
+    return foods.get().then((QuerySnapshot querySnapshot) {
+      return querySnapshot.docs
+          .map((doc) => Food.fromJson(doc.data() as Map<String, dynamic>))
+          .toList();
+      /* querySnapshot.docs.forEach((doc) {
+        print(doc["first_name"]);
+      }); */
+    });
+  }
+
   Future<List<MealPlan>> getListOfMealPlan(String id) async {
     if (await doesSubCollectionExist(
         rootCollectionName: 'users',
@@ -100,25 +111,4 @@ class FirebaseFirestoreService {
   Stream<QuerySnapshot> getStreamOfCollection(String name) {
     return db.collection(name).snapshots();
   }
-
-  // Future<Vendor> getVendor(String id) async {
-  //   return vendors.doc(id).get().then((DocumentSnapshot documentSnapshot) {
-  //     if (documentSnapshot.exists) {
-  //       return Vendor.fromJson(documentSnapshot.data() as Map<String, dynamic>);
-  //     } else {
-  //       return const Vendor(id: '');
-  //     }
-  //   });
-  // }
-
-  // Future<List<Vendor>> getListOfVendors() async {
-  //   return vendors.get().then((QuerySnapshot querySnapshot) {
-  //     return querySnapshot.docs
-  //         .map((doc) => Vendor.fromJson(doc.data() as Map<String, dynamic>))
-  //         .toList();
-  //     /* querySnapshot.docs.forEach((doc) {
-  //       print(doc["first_name"]);
-  //     }); */
-  //   });
-  // }
 }

@@ -17,26 +17,26 @@ extension ExploreStatusX on ExploreStatus {
 class ExploreState extends Equatable {
   const ExploreState({
     this.status = ExploreStatus.initial,
-    List<Vendor>? vendors,
+    List<Food>? foods,
     User? user,
-  })  : vendors = vendors ?? const [],
+  })  : foods = foods ?? const [],
         user = user ?? User.empty;
 
   final ExploreStatus status;
-  final List<Vendor> vendors;
+  final List<Food> foods;
   final User user;
 
   @override
-  List<Object> get props => [status, vendors, user];
+  List<Object> get props => [status, foods, user];
 
   ExploreState copyWith({
     ExploreStatus? status,
-    List<Vendor>? vendors,
+    List<Food>? foods,
     User? user,
   }) {
     return ExploreState(
       status: status ?? this.status,
-      vendors: vendors ?? this.vendors,
+      foods: foods ?? this.foods,
       user: user ?? this.user,
     );
   }

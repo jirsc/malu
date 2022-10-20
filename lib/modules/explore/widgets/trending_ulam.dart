@@ -1,22 +1,26 @@
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:malu/modules/explore/views/food_details_screen.dart';
 import 'package:malu/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:malu/models/models.dart';
 import 'package:malu/modules/modules.dart';
 
-class TrendingVendor extends StatefulWidget {
-  const TrendingVendor({Key? key, required this.user}) : super(key: key);
+import '../../../utils/helpers/number_helper.dart';
+
+class TrendingUlam extends StatefulWidget {
+  const TrendingUlam({Key? key, required this.user, required this.foodList})
+      : super(key: key);
 
   final User user;
+  final List<Food>? foodList;
 
   @override
-  State<TrendingVendor> createState() => _TrendingVendorState();
+  State<TrendingUlam> createState() => _TrendingUlamState();
 }
 
-class _TrendingVendorState extends State<TrendingVendor> {
+class _TrendingUlamState extends State<TrendingUlam> {
   final FirebaseFirestoreService dbService = FirebaseFirestoreService();
 
-  final List<Vendor> trendingList = Vendor.generateTrendingVendor();
   bool isAddedToFavorites = false;
 
   @override
@@ -24,20 +28,20 @@ class _TrendingVendorState extends State<TrendingVendor> {
     //var uid = context.read<AuthenticationRepository>().currentUser.id;
     return Column(
       children: [
-        const CategoryTitle('Trending Vendor'),
+        const CategoryTitle('Trending Ulam'),
         ListView.separated(
             padding: const EdgeInsets.all(20),
             primary: false,
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemBuilder: (_, index) {
-              final vendor = trendingList[index];
+              final food = widget.foodList?[index] ?? Food.empty;
               return SizedBox(
                 height: 100,
                 width: MediaQuery.of(context).size.width,
                 child: Row(
                   children: [
-                    Expanded(child: _buildClickableRow(context, vendor)),
+                    Expanded(child: _buildClickableRow(context, food)),
                     /* SizedBox(
                       width: 30,
                       child: _buildClickableHeartIcon(vendor),
@@ -47,17 +51,17 @@ class _TrendingVendorState extends State<TrendingVendor> {
               );
             },
             separatorBuilder: (_, index) => const SizedBox(height: 20),
-            itemCount: trendingList.length),
+            itemCount: widget.foodList!.length),
       ],
     );
   }
 
-  Widget _buildClickableRow(BuildContext context, Vendor vendor) {
+  Widget _buildClickableRow(BuildContext context, Food? food) {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => VendorScreen(vendor: vendor),
+            builder: (context) => FoodDetailsScreen(),
           ),
         );
       },
@@ -70,8 +74,9 @@ class _TrendingVendorState extends State<TrendingVendor> {
                 width: 120,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: Image.asset(
-                    vendor.imageUrl,
+                  child: Image(
+                    image: NetworkImage(
+                        food?.imageUrl ?? "assets/images/no_image.png"),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -84,7 +89,7 @@ class _TrendingVendorState extends State<TrendingVendor> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  vendor.name,
+                  food?.name ?? "Got a null",
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 12,
@@ -93,7 +98,7 @@ class _TrendingVendorState extends State<TrendingVendor> {
                 ),
                 const SizedBox(height: 7),
                 Text(
-                  vendor.description,
+                  food?.description ?? "Got a null",
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 11,
@@ -104,14 +109,14 @@ class _TrendingVendorState extends State<TrendingVendor> {
                 _buildIconText(
                   Icons.star,
                   Colors.orange[300]!,
-                  '${vendor.score}(${vendor.ratingCount}k)',
+                  '${food?.score ?? 'Got a null'}(${numberToCompact(food?.ratingCount ?? 0)})',
                 ),
-                const SizedBox(width: 10),
-                _buildIconText(
-                  Icons.visibility,
-                  Colors.grey,
-                  '${vendor.weeklyOrderCount}K Orders this week',
-                ),
+                // const SizedBox(width: 10),
+                // _buildIconText(
+                //   Icons.visibility,
+                //   Colors.grey,
+                //   '${vendor.weeklyOrderCount}K Orders this week',
+                // ),
               ],
             ),
           ),

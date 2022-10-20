@@ -6,6 +6,7 @@ import 'package:malu/modules/modules.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:io';
 
+import '../../../models/food.dart';
 import '../widgets/explore_screen_skeleton.dart';
 
 class ExploreScreen extends StatefulWidget {
@@ -22,14 +23,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
   Widget build(BuildContext context) {
     var user = context.select((AppBloc bloc) => bloc.state.user);
     return BlocProvider(
-      create: (context) => ExploreBloc(repository: vendorRepository),
+      create: (context) => ExploreBloc(),
       child: Scaffold(
         body: BlocBuilder<ExploreBloc, ExploreState>(
           builder: (context, state) {
             if (state.status.isLoading) {
               return ExploreScreenSkeleton();
             } else if (state.status.isLoaded) {
-              sleep(const Duration(milliseconds: 2000));
               return ListView(
                 children: [
                   Stack(
@@ -38,7 +38,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         children: [
                           Ads(),
                           const SizedBox(height: 40),
-                          RecommendedUlam(),
+                          RecommendedUlam(Food.randomizeList(state.foods)),
                         ],
                       ),
                       const Positioned(
@@ -47,8 +47,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       ),
                     ],
                   ),
-                  TrendingVendor(
+                  TrendingUlam(
                     user: state.user,
+                    foodList: state.foods,
                   ),
                 ],
               );

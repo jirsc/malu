@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:malu/modules/explore/views/food_details_screen.dart';
 import 'package:malu/modules/modules.dart';
 import 'package:malu/models/models.dart';
 
 class RecommendedUlam extends StatelessWidget {
-  final recommendedList = Vendor.generateRecommendedVendor();
-  RecommendedUlam({Key? key}) : super(key: key);
+  const RecommendedUlam(this.foodList, {Key? key}) : super(key: key);
+
+  final List<Food>? foodList;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,8 @@ class RecommendedUlam extends StatelessWidget {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) =>
-                                  VendorScreen(vendor: recommendedList[index]),
+                                  //VendorScreen(vendor: snapshot.data?[index]),
+                                  FoodDetailsScreen(),
                             ),
                           );
                         },
@@ -35,8 +38,10 @@ class RecommendedUlam extends StatelessWidget {
                               Expanded(
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
-                                  child: Image.asset(
-                                    recommendedList[index].imageUrl,
+                                  child: Image(
+                                    image: NetworkImage(
+                                        foodList?[index].imageUrl ??
+                                            "assets/images/no_image.png"),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -45,7 +50,7 @@ class RecommendedUlam extends StatelessWidget {
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 2),
                                 child: Text(
-                                  recommendedList[index].name,
+                                  foodList?[index].name ?? "Got a null",
                                   overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
                                     fontSize: 13,
@@ -53,7 +58,7 @@ class RecommendedUlam extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                recommendedList[index].distance,
+                                'P${foodList?[index].price.toStringAsFixed(2) ?? 'Got a null'}',
                                 style: const TextStyle(
                                   fontSize: 12,
                                   color: Colors.grey,
@@ -69,7 +74,7 @@ class RecommendedUlam extends StatelessWidget {
                         child: _buildIconText(
                           Icons.star,
                           Colors.orange[300]!,
-                          '${recommendedList[index].score}',
+                          '${foodList?[index].score ?? "Got a null"}',
                         ),
                       ),
                     ],
@@ -77,7 +82,7 @@ class RecommendedUlam extends StatelessWidget {
               separatorBuilder: (_, index) => const SizedBox(
                     width: 15,
                   ),
-              itemCount: recommendedList.length),
+              itemCount: 12), //foodList!.length),
         )
       ],
     );
