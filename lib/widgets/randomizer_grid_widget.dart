@@ -3,7 +3,6 @@ import 'package:malu/utils/utils.dart';
 import 'package:malu/widgets/vertical_tile_card_with_icon.dart';
 
 import '../models/food.dart';
-import 'vertical_tile_card.dart';
 
 class RandomizerGrid extends StatefulWidget {
   const RandomizerGrid({
@@ -30,11 +29,14 @@ class _RandomizerGridState extends State<RandomizerGrid> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraint) {
+    return LayoutBuilder(builder: (context, constraints) {
       return GridView.count(
-        // Create a grid with 2 columns. If you change the scrollDirection to
-        // horizontal, this produces 2 rows.
-        crossAxisCount: constraint.maxWidth > 500 ? 3 : 2,
+        clipBehavior: Clip.none,
+        mainAxisSpacing: constraints.maxWidth > 500 ? 7 : 12,
+        //scrollDirection:
+        //  constraints.maxWidth > 500 ? Axis.horizontal : Axis.vertical,
+        // physics: const NeverScrollableScrollPhysics(),
+        crossAxisCount: constraints.maxWidth > 500 ? 4 : 2,
         children: List.generate(widget.listCount, (index) {
           if (index == 0) {
             return Card(
