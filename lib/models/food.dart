@@ -2,6 +2,8 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
+import '../utils/services/firebase_firestore_service.dart';
+
 // To generate the food.g.dart file run:
 // 'flutter pub run build_runner build'
 //  in the project root.
@@ -94,6 +96,17 @@ class Food extends Equatable {
     this.recommended = false,
   });
 
+  factory Food.fromJson(Map<String, dynamic> json) {
+    return _$FoodFromJson(json);
+  }
+
+  factory Food.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot,
+      SnapshotOptions? options) {
+    return Food.fromJson(snapshot.data() as Map<String, dynamic>);
+  }
+
+  Map<String, dynamic> toJson() => _$FoodToJson(this);
+
   final String id;
   final String name;
   final double price;
@@ -117,17 +130,6 @@ class Food extends Equatable {
 
   /// Convenience getter to determine whether the current product is available.
   bool get isRecommended => recommended == true;
-
-  factory Food.fromJson(Map<String, dynamic> json) {
-    return _$FoodFromJson(json);
-  }
-
-  Map<String, dynamic> toJson() => _$FoodToJson(this);
-
-  factory Food.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot,
-      SnapshotOptions? options) {
-    return Food.fromJson(snapshot.data() as Map<String, dynamic>);
-  }
 
   @override
   List<Object?> get props => [
@@ -153,6 +155,19 @@ class Food extends Equatable {
         .toList();
   }
 
+  static List<Food> randomizeList(List<Food>? foodList, {int count = 0}) {
+    // Convert List to Set to remove duplicates
+    // Convert back to list then shuffle items
+    // Get number of items based on variable 'count'
+    if (foodList == null || foodList.isEmpty) {
+      return [];
+    } else {
+      return (foodList.toSet().toList()..shuffle())
+          .take(count == 0 ? foodList.length : count)
+          .toList();
+    }
+  }
+
   static List<Food> listWhere({required FoodCategory category}) {
     switch (category) {
       case FoodCategory.recommended:
@@ -165,6 +180,10 @@ class Food extends Equatable {
         return generateFoodList();
     }
   }
+
+  // static Future<List<Food>> getListOfFood() {
+  //   return FirebaseFirestoreService().getListOfFoods();
+  // }
 
   static List<Food> generateRecommendedFood() {
     return [
