@@ -8,6 +8,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../../app/bloc/app_bloc.dart';
 import '../../../widgets/avatar.dart';
+import '../../../widgets/custom_alert_dialog.dart';
 import '../../../widgets/input_text.dart';
 
 class AccountDetailsScreen extends StatefulWidget {
@@ -427,36 +428,18 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                                 showDialog(
                                     context: context,
                                     builder: (context) {
-                                      return AlertDialog(
-                                        title: const Text("Log out"),
-                                        content: const Text(
-                                            "Are you sure you want to log out?"),
-                                        actions: [
-                                          TextButton(
-                                            child: const Text('Cancel'),
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                          ),
-                                          TextButton(
-                                            child: const Text('Logout'),
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                              // SnackBar snackBar =
-                                              //     const SnackBar(
-                                              //   content: Text(
-                                              //       'Saving of data is not yet available'),
-                                              // );
-
-                                              // ScaffoldMessenger.of(context)
-                                              //     .showSnackBar(snackBar);
-                                              context
-                                                  .read<AppBloc>()
-                                                  .add(AppLogoutRequested());
-                                            },
-                                          ),
-                                        ],
-                                      );
+                                      return CustomAlertDialog(
+                                          title: "Aalis ka na? :(",
+                                          content:
+                                              "Balik ka ah? Magbonding momints pa tayo. <3",
+                                          cancelButtonText: "I'll stay",
+                                          confirmButtonText: 'Logout muna ako',
+                                          onConfirm: () {
+                                            Navigator.pop(context);
+                                            context
+                                                .read<AppBloc>()
+                                                .add(AppLogoutRequested());
+                                          });
                                     });
                               },
                               child: RichText(
