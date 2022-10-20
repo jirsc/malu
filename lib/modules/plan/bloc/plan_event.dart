@@ -21,14 +21,12 @@ class SelectedDateChanged extends PlanEvent {
   const SelectedDateChanged({
     required this.user,
     required this.date,
-    required this.foodList,
   });
   final User user;
   final String date;
-  final List<Food> foodList;
 
   @override
-  List<Object> get props => [user, foodList];
+  List<Object> get props => [user, date];
 }
 
 class MealPlanUpdated extends PlanEvent {

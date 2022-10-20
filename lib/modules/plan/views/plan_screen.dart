@@ -19,13 +19,11 @@ class PlanScreen extends StatefulWidget {
 
 class _PlanScreenState extends State<PlanScreen> {
   final FirebaseFirestoreService dbService = FirebaseFirestoreService();
-  late List<Food> _foodList;
   late Map daysInWeek;
   late String _today;
 
   @override
   void initState() {
-    _foodList = Food.generateRandomListWhere(count: 4);
     _today = formatDateToString(date: DateTime.now(), format: 'yyyyMMdd');
     super.initState();
 
@@ -127,7 +125,10 @@ class _PlanScreenState extends State<PlanScreen> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0,
+                        vertical: 10.0,
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -161,8 +162,9 @@ class _PlanScreenState extends State<PlanScreen> {
         } else if (state.status.isLoading) {
           return PlanScreenSkeleton();
         } else {
-          context.read<PlanBloc>().add(SelectedDateChanged(
-              user: user, date: _today, foodList: _foodList));
+          context
+              .read<PlanBloc>()
+              .add(SelectedDateChanged(user: user, date: _today));
           return Container();
         }
       }),

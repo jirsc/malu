@@ -22,9 +22,14 @@ class PlanBloc extends Bloc<PlanEvent, PlanState> {
     try {
       final user = await dbService.getUser(event.user);
       final mealPlanList = await dbService.getListOfMealPlan(event.user.id);
+      final foodsFromFirestore = await dbService.getListOfFoods();
       final foodList = mealPlanList.isNotEmpty
-          ? await _getFoodListFromMealPlan(event.date, mealPlanList)
-          : event.foodList;
+          ? await _getFoodListFromMealPlan(
+              date: event.date,
+              mealPlanList: mealPlanList,
+              foodList: foodsFromFirestore,
+            )
+          : _getRandomFoodList(foodsFromFirestore);
       emit(
         state.copyWith(
           status: PlanStatus.selectedDateChanged,
@@ -55,17 +60,28 @@ class PlanBloc extends Bloc<PlanEvent, PlanState> {
     }
   }
 
-  Future<List<Food>> _getFoodListFromMealPlan(
-      String date, List<MealPlan> list) async {
-    final mealPlan = list.where((item) => item.date == date);
+  Future<List<Food>> _getFoodListFromMealPlan({
+    required String date,
+    required List<MealPlan> mealPlanList,
+    required List<Food> foodList,
+  }) async {
+    final mealPlan = mealPlanList.where((item) => item.date == date);
     if (mealPlan.isEmpty) {
-      return Food.generateRandomListWhere(count: 4);
+      return Food.randomizeList(foodList, count: 4);
     } else {
       final breakfast =
           await dbService.getFood(mealPlan.first.breakfast.foodId);
       final lunch = await dbService.getFood(mealPlan.first.lunch.foodId);
       final dinner = await dbService.getFood(mealPlan.first.dinner.foodId);
       return [breakfast, lunch, dinner];
+    }
+  }
+
+  List<Food> _getRandomFoodList(List<Food>? foodList) {
+    if (foodList == null || foodList.isEmpty) {
+      return Food.generateRandomListWhere(count: 4);
+    } else {
+      return Food.randomizeList(foodList, count: 4);
     }
   }
 }
