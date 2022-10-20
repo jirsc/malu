@@ -164,49 +164,6 @@ class _PlanScreenState extends State<PlanScreen> {
           context.read<PlanBloc>().add(SelectedDateChanged(
               user: user, date: _today, foodList: _foodList));
           return Container();
-          // return Scaffold(
-          //   appBar: AppBar(
-          //     title: const Text(
-          //       "My Meal Plan",
-          //       style: TextStyle(
-          //         color: Colors.black87,
-          //         fontWeight: FontWeight.bold,
-          //       ),
-          //     ),
-          //     backgroundColor: Colors.white,
-          //     elevation: 0,
-          //   ),
-          //   body: SafeArea(
-          //     child: Container(
-          //       margin: const EdgeInsets.symmetric(vertical: 12.0),
-          //       child: Column(
-          //         children: [
-          //           const WeekViewCalendar(),
-          //           const Divider(
-          //             thickness: 1,
-          //             indent: 25.0,
-          //             endIndent: 25.0,
-          //           ),
-          //           Expanded(
-          //             child: Container(
-          //               margin: const EdgeInsets.symmetric(vertical: 10.0),
-          //               child: ListView.builder(
-          //                 itemCount: daysInWeek.length,
-          //                 itemBuilder: (context, index) {
-          //                   return Container(
-          //                       margin:
-          //                           const EdgeInsets.symmetric(vertical: 8.0),
-          //                       child:
-          //                           DayPlan(dayTitle: daysInWeek[index + 1]));
-          //                 },
-          //               ),
-          //             ),
-          //           ),
-          //         ],
-          //       ),
-          //     ),
-          //   ),
-          // );
         }
       }),
     );

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:malu/utils/ui/icons/font_awesome_icons.dart';
 //import 'package:google_fonts/google_fonts.dart';
 
 final theme = ThemeData(
@@ -15,3 +17,7 @@ final theme = ThemeData(
     ),
   ),
 );
+
+// class CustomIcon extends FontAwesome4 {
+//   CustomIcon({Key? key}) : super(key: key);
+// }
