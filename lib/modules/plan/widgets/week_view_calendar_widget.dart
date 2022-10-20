@@ -38,6 +38,7 @@ class _WeekViewCalendarState extends State<WeekViewCalendar> {
 
     _firstDay = DateTime(_today.year, _today.month - 12, _today.day);
     _lastDay = DateTime(_today.year, _today.month + 12, _today.day);
+    _focusedDay = widget.selectedDay;
     _selectedDay = widget.selectedDay;
 
     _calendarFormat = CalendarFormat.week;
@@ -77,10 +78,17 @@ class _WeekViewCalendarState extends State<WeekViewCalendar> {
               const TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0)),
       startingDayOfWeek: StartingDayOfWeek.monday,
       daysOfWeekStyle: const DaysOfWeekStyle(
-        weekdayStyle: TextStyle(fontWeight: FontWeight.bold),
-        weekendStyle: TextStyle(fontWeight: FontWeight.bold),
+        weekdayStyle: TextStyle(
+          fontWeight: FontWeight.bold,
+          overflow: TextOverflow.visible,
+        ),
+        weekendStyle: TextStyle(
+          fontWeight: FontWeight.bold,
+          overflow: TextOverflow.visible,
+        ),
       ),
       calendarStyle: CalendarStyle(
+        cellPadding: EdgeInsets.symmetric(vertical: 4.0),
         todayDecoration: BoxDecoration(
           color: theme.primaryColorDark,
           shape: BoxShape.circle,
@@ -101,8 +109,8 @@ class _WeekViewCalendarState extends State<WeekViewCalendar> {
         print(_selectedDay);
         context.read<PlanBloc>().add(SelectedDateChanged(
               user: user,
-              date: "${selectedDay.year}${selectedDay.month}${selectedDay.day}",
-              foodList: Food.generateRandomListWhere(count: 4),
+              date:
+                  "${selectedDay.year}${selectedDay.month}${selectedDay.day.toString().padLeft(2, "0")}",
             ));
       },
     );
