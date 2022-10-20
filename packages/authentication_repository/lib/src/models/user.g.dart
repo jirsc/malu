@@ -13,7 +13,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       photo: json['photo'] as String?,
       phoneNumber: json['phoneNumber'] as String?,
       emailIsVerified: json['emailIsVerified'] as bool? ?? false,
-      balance: json['balance'] as String?,
+      balance: (json['balance'] as num?)?.toDouble(),
       pin: json['pin'] as String? ?? '',
       favoriteVendor: json['favoriteVendor'] as List<dynamic>?,
       mealPlanList: (json['mealPlanList'] as List<dynamic>?)

@@ -57,7 +57,7 @@ class User extends Equatable {
   final bool emailIsVerified;
 
   /// Balance of user's wallet.
-  final String? balance;
+  final double? balance;
 
   /// Balance of user's wallet.
   final String pin;
