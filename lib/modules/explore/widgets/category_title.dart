@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CategoryTitle extends StatelessWidget {
-  final String title;
   const CategoryTitle(this.title, {Key? key}) : super(key: key);
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +18,19 @@ class CategoryTitle extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          const Text(
-            'See more',
-            style: TextStyle(
-              color: Colors.grey,
+          TextButton(
+            onPressed: (() {
+              SnackBar snackBar = const SnackBar(
+                content: Text('Let\'s see more food later ah, okay lang?'),
+              );
+
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            }),
+            child: const Text(
+              'See more',
+              style: TextStyle(
+                color: Colors.grey,
+              ),
             ),
           ),
         ],
