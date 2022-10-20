@@ -54,7 +54,7 @@ class _SearchBarState extends State<SearchBar> {
                   }, */
                   onTap: () => widget.controller?.clear(),
                 ),
-          hintText: 'What are you craving for?',
+          hintText: 'Ano ang ulam cravings mo?', //'What are you craving for?',
           hintStyle: TextStyle(
             fontSize: 13,
             color: Colors.grey.shade600,
