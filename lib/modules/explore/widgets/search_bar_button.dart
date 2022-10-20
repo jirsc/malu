@@ -12,8 +12,8 @@ class SearchBarButton extends StatefulWidget {
 
 class _SearchBarButtonState extends State<SearchBarButton>
     with SingleTickerProviderStateMixin {
-  final String string = 'seafood';
-  final List<String> foodList = ['seafood', 'chicken', 'doughnut', 'pizza'];
+  String animationString = 'adobo';
+  final List<String> foodList = ['adobo', 'sinigang', 'sisig', 'chopsuey'];
 
   late AnimationController _animationController;
   late Animation<int> animation;
@@ -42,11 +42,15 @@ class _SearchBarButtonState extends State<SearchBarButton>
         await Future.delayed(const Duration(seconds: 2));
 
         if (!animationControllerDisposed) {
-          _animationController.reverse();
-          /* setState(() {
+          await _animationController.reverse();
+
+          setState(() {
             var item = foodList.removeAt(0);
             foodList.add(item);
-          }); */
+            animationString = foodList.first;
+            animation = IntTween(begin: 0, end: animationString.length)
+                .animate(_animationController);
+          });
         }
       } else if (_animationController.isDismissed) {
         _animationController.forward();
@@ -117,7 +121,7 @@ class _SearchBarButtonState extends State<SearchBarButton>
           size: 25,
         ),
         label: TypingText(
-          string: foodList.first,
+          string: animationString,
           animation: animation,
         ),
       ),

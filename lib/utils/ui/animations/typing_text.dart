@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class TypingText extends AnimatedWidget {
-  final String string;
-
   const TypingText(
       {required this.string, Key? key, required Listenable animation})
       : super(key: key, listenable: animation);
+
+  final String string;
 
   @override
   Widget build(BuildContext context) {
