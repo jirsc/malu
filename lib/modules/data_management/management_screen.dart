@@ -69,8 +69,6 @@ class _ManagementState extends State<Management> {
   }
 
   _insertData() async {
-    print('insert data na tayo');
-
     final food = Food(
       name: _textEditingControllerName.text,
       price: double.tryParse(_textEditingControllerPrice.text) ?? 0,
@@ -78,7 +76,7 @@ class _ManagementState extends State<Management> {
       category: _textfieldTagsControllerCategory.getTags ?? [],
       mealType: _textfieldTagsControllerMealType.getTags ?? [],
       score: double.tryParse(_textEditingControllerScore.text) ?? 0,
-      ratingCount: 5000000,
+      ratingCount: 5000,
       recommended: _isRecommended == 0 ? false : true,
     );
     final docRef = db
@@ -90,7 +88,6 @@ class _ManagementState extends State<Management> {
         .doc();
 
     await docRef.set(food);
-    print(docRef.id);
     uploadImageToFirebase(docRef.id);
   }
 
@@ -105,12 +102,13 @@ class _ManagementState extends State<Management> {
             (value) => print("Done: $value"),
           );
       final String downloadUrl = await taskSnapshot.ref.getDownloadURL();
-      print('eto sa upload image part:');
-      print(documentId);
-      await db
-          .collection("food")
-          .doc(documentId)
-          .set({"imageUrl": downloadUrl}, SetOptions(merge: true));
+      await db.collection("food").doc(documentId).set(
+        {
+          "id": documentId,
+          "imageUrl": downloadUrl,
+        },
+        SetOptions(merge: true),
+      );
     }
   }
 
@@ -262,34 +260,27 @@ class _ManagementState extends State<Management> {
           borderSide: BorderSide(width: 1),
         ),
         enabled: true,
-        errorText:
-            isEmpty(value: controller.text) ? null : '${fieldName}_textError',
+        errorText: isEmpty(value: controller.text)
+            ? '$fieldName Error: Wala laman.'
+            : null,
         //helperText: '${fieldName}_textHelper',
         hintText: 'Input $fieldName',
         labelText: fieldName,
       ),
+      // onChanged: (value) {setState(() {});},
     );
   }
 
   Widget _customChipInput(TextfieldTagsController controller, String label) {
     return TextFieldTags(
       textfieldTagsController: controller,
-      initialTags: const [
-        'enter',
-        'something',
-      ],
+      //initialTags: const ['enter','something',],
       textSeparators: const [' ', ','],
       letterCase: LetterCase.normal,
       validator: (String tag) {
-        print(controller.getTags);
-        print(tag);
-        if (tag == 'php') {
-          return 'No, please just no';
-        } else if (controller.getTags!.contains(tag) &&
+        if (controller.getTags!.contains(tag) &&
             controller.getTags!.isNotEmpty) {
-          print(controller.getTags);
-          print(tag);
-          return 'you already entered that';
+          return 'You already entered that';
         }
         return null;
       },
