@@ -88,7 +88,7 @@ class _WeekViewCalendarState extends State<WeekViewCalendar> {
         ),
       ),
       calendarStyle: CalendarStyle(
-        cellPadding: EdgeInsets.symmetric(vertical: 4.0),
+        cellPadding: const EdgeInsets.symmetric(vertical: 4.0),
         todayDecoration: BoxDecoration(
           color: theme.primaryColorDark,
           shape: BoxShape.circle,
