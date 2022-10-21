@@ -1,8 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-
-import '../utils/services/firebase_firestore_service.dart';
+import 'package:malu/repositories/food_repository.dart';
+import 'package:malu/utils/services/firebase_firestore_service.dart';
 
 // To generate the food.g.dart file run:
 // 'flutter pub run build_runner build'
