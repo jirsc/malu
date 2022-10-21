@@ -1,10 +1,9 @@
 import 'package:malu/app/app.dart';
-import 'package:malu/repositories/repositories.dart';
+import 'package:malu/repositories/food_repository.dart';
 import 'package:malu/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:malu/modules/modules.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'dart:io';
 
 import '../../../models/food.dart';
 import '../widgets/explore_screen_skeleton.dart';
@@ -17,13 +16,13 @@ class ExploreScreen extends StatefulWidget {
 }
 
 class _ExploreScreenState extends State<ExploreScreen> {
-  final vendorRepository = VendorRepository(service: VendorService());
+  final foodRepository = FoodRepository(service: FirebaseFirestoreService());
 
   @override
   Widget build(BuildContext context) {
     var user = context.select((AppBloc bloc) => bloc.state.user);
     return BlocProvider(
-      create: (context) => ExploreBloc(),
+      create: (context) => ExploreBloc(repository: foodRepository),
       child: Scaffold(
         body: BlocBuilder<ExploreBloc, ExploreState>(
           builder: (context, state) {
