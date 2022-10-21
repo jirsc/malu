@@ -82,15 +82,19 @@ class FirebaseFirestoreService {
   }
 
   Future<void> insertMealPlan(User user, MealPlan mealPlan) async {
-    users
+    final docRef = users
         .doc(user.id)
         .collection('mealPlan')
-        .withConverter(
+        .withConverter<MealPlan>(
           fromFirestore: MealPlan.fromFirestore,
-          toFirestore: (MealPlan mealPlan, options) => mealPlan.toJson(),
+          toFirestore: (MealPlan mealPlan, options) => mealPlan.toFirestore(),
         )
-        .doc(mealPlan.date)
-        .set(mealPlan);
+        .doc(mealPlan.date);
+    // final subDocRef = docRef.withConverter(
+    //   fromFirestore: Meal.fromFirestore,
+    //   toFirestore: (Meal mealPlan, options) => mealPlan.toJson(),
+    // );
+    await docRef.set(mealPlan);
   }
 
   Future<bool> doesSubCollectionExist(

@@ -7,7 +7,6 @@ import 'package:malu/modules/modules.dart';
 import 'package:malu/utils/helpers/date_time_helper.dart';
 import 'package:malu/widgets/randomizer_grid_widget.dart';
 
-import '../../../models/models.dart';
 import '../../../utils/services/firebase_firestore_service.dart';
 
 class PlanScreen extends StatefulWidget {
@@ -40,61 +39,14 @@ class _PlanScreenState extends State<PlanScreen> {
     };
   }
 
-  Future<void> _saveMealPlan(
-      User user, String date, List<Food> foodList) async {
-    final breakfast = Meal(
-        foodId: foodList[1].id,
-        foodName: foodList[1].name,
-        foodImageUrl: foodList[1].imageUrl);
-    final lunch = Meal(
-        foodId: foodList[2].id,
-        foodName: foodList[2].name,
-        foodImageUrl: foodList[2].imageUrl);
-    final dinner = Meal(
-        foodId: foodList[3].id,
-        foodName: foodList[3].name,
-        foodImageUrl: foodList[3].imageUrl);
-    final mealPlan = MealPlan(
-        date: date, breakfast: breakfast, lunch: lunch, dinner: dinner);
-    await dbService.insertMealPlan(user, mealPlan);
-  }
-
   @override
   Widget build(BuildContext context) {
     final user = context.select((AppBloc bloc) => bloc.state.user);
     return BlocProvider(
       create: (context) => PlanBloc(),
       child: BlocBuilder<PlanBloc, PlanState>(builder: (context, state) {
-        if (state.status.isMealPlanUpdated && state.foodList.isNotEmpty) {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text(
-                "My Meal Plan",
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              backgroundColor: Colors.white,
-              elevation: 0,
-            ),
-            body: SafeArea(
-              child: Container(
-                margin: const EdgeInsets.symmetric(vertical: 12.0),
-                child: Column(
-                  children: [
-                    WeekViewCalendar(selectedDay: DateTime.parse(state.date)),
-                    const Divider(
-                      thickness: 1,
-                      indent: 25.0,
-                      endIndent: 25.0,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        } else if (state.status.doesSelectedDateChanged) {
+        if (state.status.doesSelectedDateChanged ||
+            state.status.isMealPlanUpdated) {
           return Scaffold(
             appBar: AppBar(
               title: const Text(
@@ -121,6 +73,8 @@ class _PlanScreenState extends State<PlanScreen> {
                     Expanded(
                       child: RandomizerGrid(
                         foodList: state.foodList,
+                        date: state.date,
+                        user: user,
                         listCount: 4,
                       ),
                     ),
@@ -141,8 +95,13 @@ class _PlanScreenState extends State<PlanScreen> {
                               primary: theme.primaryColor,
                               elevation: 0,
                             ),
-                            onPressed: () async => await _saveMealPlan(
-                                user, state.date, state.foodList),
+                            onPressed: () => context.read<PlanBloc>().add(
+                                  MealPlanUpdated(
+                                    user: user,
+                                    date: state.date,
+                                    foodList: state.foodList,
+                                  ),
+                                ),
                             child: const Text(
                               'Save',
                               style: TextStyle(

@@ -44,6 +44,13 @@ class MealPlan extends Equatable {
 
   Map<String, dynamic> toJson() => _$MealPlanToJson(this);
 
+  Map<String, dynamic> toFirestore() => <String, dynamic>{
+        'date': date,
+        'breakfast': breakfast.toJson(),
+        'lunch': lunch.toJson(),
+        'dinner': dinner.toJson(),
+      };
+
   final String date;
   final Meal breakfast;
   final Meal lunch;
