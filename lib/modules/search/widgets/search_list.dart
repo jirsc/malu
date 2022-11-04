@@ -1,13 +1,13 @@
-import 'package:malu/modules/order/views/vendor_screen.dart';
 import 'package:malu/modules/search/widgets/search_filter.dart';
-import 'package:malu/utils/ui/ui.dart';
 import 'package:malu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:malu/models/models.dart';
-import 'package:malu/modules/modules.dart';
+
+import '../../../utils/helpers/number_helper.dart';
+import '../../explore/views/food_details_screen.dart';
 
 class SearchList extends StatelessWidget {
-  final List<Vendor> list;
+  final List<Food> list;
   const SearchList({Key? key, required this.list}) : super(key: key);
 
   @override
@@ -19,14 +19,14 @@ class SearchList extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemBuilder: (_, index) {
-              final vendor = list[index];
+              final food = list[index];
               return Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 height: 100,
                 width: MediaQuery.of(context).size.width,
                 child: Row(
                   children: [
-                    Expanded(child: _buildClickableRow(context, vendor)),
+                    Expanded(child: _buildClickableRow(context, food)),
                   ],
                 ),
               );
@@ -40,12 +40,12 @@ class SearchList extends StatelessWidget {
     );
   }
 
-  Widget _buildClickableRow(BuildContext context, Vendor vendor) {
+  Widget _buildClickableRow(BuildContext context, Food food) {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => VendorScreen(vendor: vendor),
+            builder: (context) => FoodDetailsScreen(),
           ),
         );
       },
@@ -56,7 +56,7 @@ class SearchList extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  vendor.name + ' - address',
+                  food.name + ' - address',
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 14,
@@ -65,7 +65,7 @@ class SearchList extends StatelessWidget {
                 ),
                 const SizedBox(height: 7),
                 Text(
-                  vendor.description,
+                  food.description,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 12,
@@ -76,13 +76,13 @@ class SearchList extends StatelessWidget {
                 _buildIconText(
                   Icons.star,
                   Colors.orange[300]!,
-                  '${vendor.score}(${vendor.ratingCount}k)',
+                  '${food.score}(${numberToCompact(food.ratingCount)})',
                 ),
                 const SizedBox(width: 10),
                 _buildIconText(
                   Icons.visibility,
                   Colors.grey,
-                  '${vendor.weeklyOrderCount}K Orders this week',
+                  '${numberToCompact(food.ratingCount)} votes this week',
                 ),
               ],
             ),
@@ -94,8 +94,8 @@ class SearchList extends StatelessWidget {
                 width: 120,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: Image.asset(
-                    vendor.imageUrl,
+                  child: Image(
+                    image: NetworkImage(food.imageUrl),
                     fit: BoxFit.cover,
                   ),
                 ),

@@ -1,15 +1,15 @@
-part of 'search_vendor_bloc.dart';
+part of 'search_food_bloc.dart';
 
-abstract class SearchVendorEvent extends Equatable {
-  const SearchVendorEvent();
+abstract class SearchFoodEvent extends Equatable {
+  const SearchFoodEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class VendorsDataFetched extends SearchVendorEvent {}
+class FoodDataFetched extends SearchFoodEvent {}
 
-class SearchTextChanged extends SearchVendorEvent {
+class SearchTextChanged extends SearchFoodEvent {
   const SearchTextChanged({
     required this.text,
   });
@@ -19,7 +19,7 @@ class SearchTextChanged extends SearchVendorEvent {
   List<Object> get props => [text];
 }
 
-class SearchDone extends SearchVendorEvent {
+class SearchDone extends SearchFoodEvent {
   const SearchDone({
     required this.text,
   });

@@ -5,9 +5,10 @@ import 'package:malu/config/config.dart';
 typedef _SearchEventCallback = void Function(String);
 
 class SearchBar extends StatefulWidget {
-  const SearchBar({Key? key, this.onChanged, this.controller})
+  const SearchBar({Key? key, this.onChanged, this.controller, this.onSubmitted})
       : super(key: key);
   final _SearchEventCallback? onChanged;
+  final _SearchEventCallback? onSubmitted;
   //final VoidCallback? onChanged();
   final TextEditingController? controller;
 
@@ -61,6 +62,7 @@ class _SearchBarState extends State<SearchBar> {
           ),
         ),
         onChanged: widget.onChanged,
+        onSubmitted: widget.onSubmitted,
       ),
     );
   }

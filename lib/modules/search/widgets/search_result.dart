@@ -1,22 +1,40 @@
-import 'package:malu/models/vendor.dart';
+import 'package:malu/models/food.dart';
 import 'package:malu/modules/modules.dart';
-import 'package:malu/repositories/repositories.dart';
 import 'package:malu/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../repositories/food_repository.dart';
+
+enum SearchResultType {
+  all,
+  none,
+  specific,
+}
+
+extension SearchResultTypeX on SearchResultType {
+  bool get isAll => this == SearchResultType.all;
+  bool get isNone => this == SearchResultType.none;
+  bool get isSpecific => this == SearchResultType.specific;
+}
+
 class SearchResult extends StatefulWidget {
+  const SearchResult({
+    Key? key,
+    required this.searchText,
+    this.searchResultType = SearchResultType.none,
+  }) : super(key: key);
   final String searchText;
-  const SearchResult({Key? key, required this.searchText}) : super(key: key);
+  final SearchResultType searchResultType;
 
   @override
   State<SearchResult> createState() => _SearchResultState();
 }
 
 class _SearchResultState extends State<SearchResult> {
-  List<Vendor> vendors = [Vendor.empty];
+  List<Food> foods = [Food.empty];
   //final textEditingController = TextEditingController();
-  final vendorRepository = VendorRepository(service: VendorService());
+  final foodRepository = FoodRepository(service: FirebaseFirestoreService());
   List<String> suggestionList = ['test'];
 
   @override
@@ -32,9 +50,9 @@ class _SearchResultState extends State<SearchResult> {
   }
 
   /* void _getSuggestionList() {
-    if (vendors.isNotEmpty) {
+    if (foods.isNotEmpty) {
       var text = textEditingController.text;
-      suggestionList = vendors
+      suggestionList = foods
           .where((element) =>
               element.name.toLowerCase().startsWith(text.toLowerCase()))
           .map((e) => e.name)
@@ -44,7 +62,7 @@ class _SearchResultState extends State<SearchResult> {
   } */
 
   Widget _buildSuggestionListView() {
-    return BlocBuilder<SearchVendorBloc, SearchVendorState>(
+    return BlocBuilder<SearchFoodBloc, SearchFoodState>(
       builder: (context, state) {
         return ListView.separated(
           padding: const EdgeInsets.all(20),
@@ -53,17 +71,15 @@ class _SearchResultState extends State<SearchResult> {
           shrinkWrap: true,
           itemCount: suggestionList.length,
           itemBuilder: (context, index) {
-            final vendor = suggestionList[index];
+            final food = suggestionList[index];
             return GestureDetector(
               onTap: () {
                 if (index == suggestionList.length - 1) {
                   context
-                      .read<SearchVendorBloc>()
+                      .read<SearchFoodBloc>()
                       .add(SearchDone(text: widget.searchText));
                 } else {
-                  context
-                      .read<SearchVendorBloc>()
-                      .add(SearchDone(text: vendor));
+                  context.read<SearchFoodBloc>().add(SearchDone(text: food));
                 }
                 /* Navigator.of(context).push(
                   MaterialPageRoute(
@@ -77,7 +93,7 @@ class _SearchResultState extends State<SearchResult> {
                   alignment: Alignment.centerLeft,
                   child: index == suggestionList.length - 1
                       ? Text(
-                          vendor,
+                          food,
                           style: TextStyle(
                             color: Colors.blue.shade700,
                             fontSize: 13,
@@ -86,8 +102,8 @@ class _SearchResultState extends State<SearchResult> {
                       : TextButton.icon(
                           onPressed: () {
                             context
-                                .read<SearchVendorBloc>()
-                                .add(SearchDone(text: vendor));
+                                .read<SearchFoodBloc>()
+                                .add(SearchDone(text: food));
                           },
                           icon: const Icon(
                             FontAwesome4.search,
@@ -95,7 +111,7 @@ class _SearchResultState extends State<SearchResult> {
                             size: 16,
                           ),
                           label: Text(
-                            vendor,
+                            food,
                             style: const TextStyle(
                               color: Colors.black87,
                               fontSize: 13,
@@ -118,40 +134,45 @@ class _SearchResultState extends State<SearchResult> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SearchVendorBloc, SearchVendorState>(
+    return BlocBuilder<SearchFoodBloc, SearchFoodState>(
       builder: (context, state) {
         if (state.status.isSuggesting) {
-          vendors = state.vendors;
+          foods = state.foods;
           suggestionList = state.suggestionList;
           return _buildSuggestionListView();
         } else if (state.status.isLoading) {
+          // TODO: SKELETON LOADING
           return const Center(
             child: CircularProgressIndicator(),
           );
         } else if (state.status.isLoaded) {
-          vendors = state.vendors;
-          context
-              .read<SearchVendorBloc>()
-              .add(const SearchTextChanged(text: ''));
+          foods = state.foods;
+          if (widget.searchResultType.isAll) {
+            context.read<SearchFoodBloc>().add(const SearchDone(text: ''));
+          } else {
+            context
+                .read<SearchFoodBloc>()
+                .add(const SearchTextChanged(text: ''));
+          }
           return Container();
         } else if (state.status.isError) {
           return const Text('Sorry, may error ka');
         } else if (state.status.isDoneSearching) {
-          vendors = state.vendors;
+          foods = state.foods;
           return Column(
             children: [
               SizedBox(height: 57, child: SearchFilter()),
               Expanded(
                 child: ListView(
                   children: [
-                    SearchList(list: vendors),
+                    SearchList(list: foods),
                   ],
                 ),
               ),
             ],
           );
         } else {
-          context.read<SearchVendorBloc>().add(VendorsDataFetched());
+          context.read<SearchFoodBloc>().add(FoodDataFetched());
           return Container();
         }
       },

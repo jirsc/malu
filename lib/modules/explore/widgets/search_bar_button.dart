@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:malu/utils/utils.dart';
-import 'package:malu/config/config.dart';
 import 'package:malu/modules/modules.dart';
 
 class SearchBarButton extends StatefulWidget {
