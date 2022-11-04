@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:malu/modules/modules.dart';
 import 'package:malu/widgets/custom_alert_dialog.dart';
 
 class CategoryTitle extends StatelessWidget {
@@ -27,18 +28,24 @@ class CategoryTitle extends StatelessWidget {
 
               // ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return CustomAlertDialog(
-                        title: "More food.. later po",
-                        content: "Okay lang? Milktea muna tayo. hehe.",
-                        cancelButtonText: 'Ayaw, unless libre mo',
-                        confirmButtonText: 'Sige tara!',
-                        onConfirm: () {
-                          Navigator.pop(context);
-                        });
-                  });
+              // showDialog(
+              //     context: context,
+              //     builder: (context) {
+              //       return CustomAlertDialog(
+              //           title: "More food.. later po",
+              //           content: "Okay lang? Milktea muna tayo. hehe.",
+              //           cancelButtonText: 'Ayaw, unless libre mo',
+              //           confirmButtonText: 'Sige tara!',
+              //           onConfirm: () {
+              //             Navigator.pop(context);
+              //           });
+              //     });
+              Navigator.of(context) /*!*/ .push(
+                MaterialPageRoute<void>(
+                    builder: (_) => const SearchScreen(
+                          searchResultType: SearchResultType.all,
+                        )),
+              );
             }),
             child: const Text(
               'See more',
