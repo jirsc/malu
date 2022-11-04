@@ -36,8 +36,8 @@ class _WeekViewCalendarState extends State<WeekViewCalendar> {
   void initState() {
     super.initState();
 
-    _firstDay = DateTime(_today.year, _today.month - 12, _today.day);
-    _lastDay = DateTime(_today.year, _today.month + 12, _today.day);
+    _firstDay = DateTime(_today.year, _today.month - 3, _today.day);
+    _lastDay = DateTime(_today.year, _today.month + 3, _today.day);
     _focusedDay = widget.selectedDay;
     _selectedDay = widget.selectedDay;
 
