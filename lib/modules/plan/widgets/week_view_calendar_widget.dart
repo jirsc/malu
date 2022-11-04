@@ -37,7 +37,7 @@ class _WeekViewCalendarState extends State<WeekViewCalendar> {
     super.initState();
 
     _firstDay = DateTime(_today.year, _today.month - 3, _today.day);
-    _lastDay = DateTime(_today.year, _today.month + 3, _today.day);
+    _lastDay = DateTime(_today.year, _today.month + 2, _today.day);
     _focusedDay = widget.selectedDay;
     _selectedDay = widget.selectedDay;
 
@@ -46,13 +46,15 @@ class _WeekViewCalendarState extends State<WeekViewCalendar> {
 
   String _calendarTextHeader(DateTime date, dynamic locale) {
     String calendarHeader = DateFormat.yM(locale).format(date);
-    int firstDayInWeek = findFirstDateOfTheWeek(dateTime: date).day;
-    int lastDateInWeek = findLastDateOfTheWeek(dateTime: date).day;
+    String firstDateInWeek = formatDateToString(
+        date: findFirstDateOfTheWeek(dateTime: date), format: 'MMMM d');
+    String lastDateInWeek = formatDateToString(
+        date: findLastDateOfTheWeek(dateTime: date), format: 'MMMM d');
 
     try {
-      if (firstDayInWeek > 0 && lastDateInWeek > 0) {
-        calendarHeader =
-            "${DateFormat.MMMM(locale).format(date)} $firstDayInWeek - ${DateFormat.MMMM(locale).format(date)} $lastDateInWeek";
+      if (findFirstDateOfTheWeek(dateTime: date).day > 0 &&
+          findLastDateOfTheWeek(dateTime: date).day > 0) {
+        calendarHeader = "$firstDateInWeek - $lastDateInWeek";
       }
     } catch (error) {
       if (kDebugMode) print('_calendarHeader $error');
