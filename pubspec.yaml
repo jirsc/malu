@@ -72,6 +72,7 @@ dependencies:
   purchases_flutter: ^4.3.0
 
   shared_preferences: ^2.0.12
+  shimmer: ^2.0.0
   sliver_tools: ^0.2.5
   smooth_page_indicator: ^1.0.0+2
   # sqflite: ^2.0.2

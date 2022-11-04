@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:malu/constants/app_constants.dart';
+import 'package:shimmer/shimmer.dart';
 
 class Skeleton extends StatelessWidget {
   const Skeleton(
@@ -11,13 +12,19 @@ class Skeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: height,
-      width: width,
-      padding: const EdgeInsets.all(defaultPadding / 2),
-      decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.04),
-          borderRadius: BorderRadius.all(Radius.circular(cornerRadius))),
+    return Shimmer.fromColors(
+      baseColor: Colors.grey,
+      highlightColor: Colors.white70,
+      //period: const Duration(seconds: 5),
+      child: Container(
+        height: height,
+        width: width,
+        padding: const EdgeInsets.all(defaultPadding / 2),
+        decoration: BoxDecoration(
+            //color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withOpacity(0.3),
+            borderRadius: BorderRadius.all(Radius.circular(cornerRadius))),
+      ),
     );
   }
 }
