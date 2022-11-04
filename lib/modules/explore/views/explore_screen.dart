@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:malu/app/app.dart';
 import 'package:malu/repositories/food_repository.dart';
 import 'package:malu/utils/utils.dart';
@@ -29,6 +31,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
             if (state.status.isLoading) {
               return ExploreScreenSkeleton();
             } else if (state.status.isLoaded) {
+              //sleep(const Duration(seconds: 4));
               return ListView(
                 children: [
                   Stack(
@@ -48,7 +51,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   ),
                   TrendingUlam(
                     user: state.user,
-                    foodList: state.foods,
+                    foodList: Food.randomizeList(state.foods),
                   ),
                 ],
               );
