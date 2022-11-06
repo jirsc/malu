@@ -3,6 +3,7 @@ import 'package:malu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:malu/models/models.dart';
 
+import '../../../constants/app_constants.dart';
 import '../../../utils/helpers/number_helper.dart';
 import '../../explore/views/food_details_screen.dart';
 
@@ -32,9 +33,16 @@ class SearchList extends StatelessWidget {
               );
             },
             separatorBuilder: (_, index) => Container(
-                margin: const EdgeInsets.symmetric(vertical: 12),
-                height: 7,
-                child: const Skeleton()),
+                  margin: const EdgeInsets.symmetric(vertical: 12),
+                  height: 7,
+                  child: Container(
+                    padding: const EdgeInsets.all(defaultPadding / 2),
+                    decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.04),
+                        borderRadius: const BorderRadius.all(
+                            Radius.circular(defaultPadding))),
+                  ),
+                ),
             itemCount: list.length),
       ],
     );
